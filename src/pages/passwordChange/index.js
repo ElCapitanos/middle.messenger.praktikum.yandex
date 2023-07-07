@@ -28,4 +28,4 @@ const newPasswordCopy = password({placeHolderText: placeholderForCopyPassword, n
 
 const result = passwordChange({buttonChange: btn1, buttonBack: btn2, link: lnk, title: h1, ava: face, oldPassword: oldPassword, newPassword: newPassword, newPasswordCopy: newPasswordCopy });
 
-root.innerHTML = result;
+if (window.location.pathname === '/passwordChange') {root.innerHTML = result};

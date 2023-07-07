@@ -19,6 +19,6 @@ const inputText = input({inputType: 'text', placeHolderText: 'логин', input
 const psw = password({placeHolderText: 'пароль', name: 'password'});
 const result = auth({button: btn, link: lnk, title: h1, input: inputText, password: psw });
 
-root.innerHTML = result;
+if (window.location.pathname === '/' || window.location.pathname ==='/auth') {root.innerHTML = result};
 
 

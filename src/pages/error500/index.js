@@ -15,6 +15,6 @@ const h2 = subtitle({text: 'Уже принимаем меры'});
 const lnk = link({url: `/`, title: `На главную`});
 const result = error({link: lnk, title: h1, subtitle: h2 });
 
-root.innerHTML = result;
+if (window.location.pathname === 'error500') {root.innerHTML = result};
 
 

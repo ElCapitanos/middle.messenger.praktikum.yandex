@@ -26,4 +26,4 @@ const psw = password({placeHolderText: 'пароль', name: 'password'});
 const psw2 = password({placeHolderText: placeholderForPassword, name: 'passwordCopy'});
 const result = registration({button: btn, link: lnk, title: h1, inputName: inputName, inputName2: inputName2, login: login, phone: phone, email: email, password: psw, password2: psw2, });
 
-root.innerHTML = result;
+if (window.location.pathname === '/registration') {root.innerHTML = result};

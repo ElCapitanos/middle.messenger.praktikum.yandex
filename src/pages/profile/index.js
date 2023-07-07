@@ -33,4 +33,4 @@ const email = input({inputType: 'email', placeHolderText: placeholderForEmail, i
 const user = input({inputType: 'text', placeHolderText: placeholderForUsername , inputName: 'display_name'});
 const result = profile({button: btn, link: lnk, title: h1, firstName: inputName, secondName: inputName2, login: login, phone: phone, email: email, ava: face, username: user});
 
-root.innerHTML = result;
+if (window.location.pathname === '/profile') {root.innerHTML = result};
