@@ -5,16 +5,23 @@
 Ссылка с netlify: https://incandescent-selkie-c45a3b.netlify.app
 
 Запуск сервера: npm run start
+
 Запуск сборки в режиме dev: npm run dev
+
 Сборка проекта: npm run build
 
 ## Страницы: 
 
 Авторизация - / 
+
 Ошибка 500 - /error500
+
 Смена пароля (пока непонятно, откуда туда можно зайти) - /passwordChange
+
 Редактирование профиля - /profile 
+
 Регистрация - /registration 
+
 404 - всё остальное
 
 ***
