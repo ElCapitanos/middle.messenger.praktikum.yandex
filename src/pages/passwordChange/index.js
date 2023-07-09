@@ -17,8 +17,8 @@ const placeholderForOldPassword = 'старый' + `\u00A0` + 'пароль';
 const placeholderForNewPassword = 'новый' + `\u00A0` + 'пароль';
 const placeholderForCopyPassword = 'новый' + `\u00A0` + 'пароль' + `\u00A0` + '(еще' + `\u00A0` + 'раз)';
 
-const btn1 = button({label: 'Сохранить изменения', url: `/chating`});
-const btn2 = button({label: 'Отмена', url: `/profile`});
+const btn1 = button({label: 'Сохранить изменения', url: `/chating`, btnType: 'button'});
+const btn2 = button({label: 'Отмена', url: `/profile`, btnType: 'button'});
 const h1 = title({text: 'Смена пароля'});
 const face = ava({class: "ava"})
 const lnk = link({url: `/`, title: `Удалить аккаунт`});

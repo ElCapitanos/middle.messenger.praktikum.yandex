@@ -12,5 +12,3 @@ const lnk = link({url: `/`, title: `На главную`});
 const result = error({link: lnk, title: h1 });
 
 if (window.location.pathname !== '/' && window.location.pathname !=='/auth' && window.location.pathname !=='/error500' && window.location.pathname !=='/profile' && window.location.pathname !=='/chating' && window.location.pathname !=='/passwordChange' && window.location.pathname !=='/registration') {root.innerHTML = result};
-
-

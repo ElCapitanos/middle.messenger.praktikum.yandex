@@ -14,7 +14,7 @@ const root = document.querySelector('#app');
 
 const placeholderForPassword = 'пароль' + `\u00A0` + '(еще' + `\u00A0` + 'раз)'
 
-const btn = button({label: 'Зарегистрироваться', url: `/chating`});
+const btn = button({label: 'Зарегистрироваться', url: `/chating`, btnType: 'submit'});
 const h1 = title({text: 'Регистрация'});
 const lnk = link({url: `/chating`, title: `Войти`});
 const inputName = input({inputType: 'text', placeHolderText: 'имя', inputName: 'first_name'});
