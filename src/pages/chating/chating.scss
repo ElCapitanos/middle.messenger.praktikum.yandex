@@ -1,3 +1,4 @@
+@import "./../../style/var.scss";
 * {
     box-sizing: border-box;
 }
@@ -6,13 +7,13 @@
     flex-direction: row;
     width: 100%;
     height: 100vh;
-    background-color: rgba(0,0,0,.05);
+    background-color: $grey05;
 }
 .chat__list {
     width: 30%;
     display: flex;
     flex-direction: column;
-    border-right: 1px solid rgba(0,0,0,.2);
+    border-right: 1px solid $grey2;
     height: 100vh;
     padding: 16px;
 }
@@ -20,7 +21,7 @@
     width: 100%;
     display: flex;
     font-size: 12px;
-    color: rgba(0,0,0, .5);
+    color: $grey5;
     justify-content: flex-end;
     margin: 12px auto;
     transition: .4s linear;
@@ -46,8 +47,8 @@
     user-select: none;
     padding: 0 30px 0 14px;
     height: 36px;
-    border: solid 1px grey;
-    background-color: rgba(0, 0, 0, 0.1);
+    border: solid 1px $grey808080;
+    background-color: $grey1;
     border-radius: 6px;
     font-size: 14px;
     line-height: 36px;
@@ -66,18 +67,18 @@
         right: 3px;
     }
     &::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.6);
+        background: $grey6;
         border: 1px solid #fff;
         border-radius: 3px;
     }
     &::-webkit-scrollbar-thumb:hover {
-        background: rgba(0, 0, 0, 0.4);
+        background: $grey4;
     }
     &::-webkit-scrollbar-thumb:active {
-        background: rgba(0, 0, 0, 0.6);
+        background: $grey6;
     }
     &::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.1);
+        background: $grey1;
         border: 5px none;
         border-radius: 2px;
     }
@@ -85,15 +86,15 @@
 .chat__card {
     width: 100%;
     height: 120px;
-    border: solid 1px rgba(0,0,0,.7);
+    border: solid 1px $grey7;
     border-radius: 6px;
     margin-bottom: 12px;
     padding: 12px;
     display: flex;
-    background-color: rgba(0,0,0,.02);
+    background-color: $grey02;
 }
 .chat__card_active {
-    background-color: rgba(0,0,0,.15);
+    background-color: $grey15;
 }
 .chat__card-ava {
     margin: 12px 28px 0 0 ;
@@ -122,7 +123,7 @@
 }
 .chat__card-time {
     font-size: 12px;
-    color: rgba(0,0,0, .4);
+    color: $grey4;
 }
 .chat__card-queu {
     position: relative;
@@ -131,9 +132,9 @@
     width: 24px;
     height: 24px;
     line-height: 24px;
-    background-color: #2815FF;
+    background-color: $blue;
     border-radius: 12px;
-    color: #fff;
+    color: $white;
     margin-left: auto;
     font-size: 12px;
 }
@@ -155,7 +156,7 @@
     padding: 16px;
     width: 100%;
     height: 100px;
-    border-bottom: solid 1px rgba(0,0,0,.2)
+    border-bottom: solid 1px $grey2
 }
 .main__ava {
     margin-right: 30px;
@@ -180,26 +181,26 @@
         right: 3px;
     }
     &::-webkit-scrollbar-thumb {
-        background: rgba(0, 0, 0, 0.6);
-        border: 1px solid #fff;
+        background: $grey6;
+        border: 1px solid $white;
         border-radius: 3px;
     }
     &::-webkit-scrollbar-thumb:hover {
-        background: rgba(0, 0, 0, 0.4);
+        background: $grey4;
     }
     &::-webkit-scrollbar-thumb:active {
-        background: rgba(0, 0, 0, 0.6);
+        background: $grey6;
     }
     &::-webkit-scrollbar-track {
-        background: rgba(0, 0, 0, 0.1);
+        background: $grey1;
         border: 5px none;
         border-radius: 2px;
     }
 }
 .main__date {
     display: flex;
-    background-color: rgba(0,0,0,.1);
-    border: solid 1px rgba(0,0,0,.5);
+    background-color: $grey1;
+    border: solid 1px $grey5;
     border-radius: 6px;
     width: fit-content;
     margin: 0 auto 20px;
@@ -208,7 +209,7 @@
 .main__text {
     max-width: 50%;
     width: fit-content;
-    background-color: rgba(0,0,0,.1);
+    background-color: $grey1;
     padding: 10px;
     padding-bottom: 20px;
     font-size: 12px;
@@ -224,7 +225,7 @@
     display: flex;
     flex-direction: row;
     width: 100%;
-    border-top: solid 1px rgba(0,0,0,.2);
+    border-top: solid 1px $grey2;
     height: 74px;
     margin-top: auto;
     padding: 16px;
@@ -244,7 +245,7 @@
     line-height: 16px;
     font-size: 12px;
     border-radius: 6px;
-    border: solid 1px rgba(0,0,0, .1);
+    border: solid 1px $grey1;
     width: 100%;
     background-color: transparent;
 }
@@ -255,9 +256,9 @@
 .main__footer-container {
     display: flex;
     width: 100%;
-    border: solid 1px rgba(0,0,0, .1);
+    border: solid 1px $grey1;
     border-radius: 6px;
-    background-color: rgba(0,0,0,.1);
+    background-color: $grey1;
     padding: 6px 0;
 }
 .main__time {

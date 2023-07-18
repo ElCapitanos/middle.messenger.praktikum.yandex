@@ -10,6 +10,8 @@
     "start": "npm run build && node ./server.cjs"
   },
   "devDependencies": {
+    "ts-node": "^10.9.1",
+    "typescript": "^5.1.6",
     "vite": "^4.3.9"
   },
   "dependencies": {

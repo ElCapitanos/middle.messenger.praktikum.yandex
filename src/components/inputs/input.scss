@@ -1,9 +1,10 @@
+@import "./../../style/var.scss";
 .input {
     display: flex;
     user-select: none;
     width: 310px;
     height: 60px;
-    border: solid 1px #808080;
+    border: solid 1px $grey808080;
     border-radius: 6px;
     margin: 0 auto 45px;
     padding: 0 20px;
