@@ -3,17 +3,19 @@
     width: 310px;
     height: 60px;
     font-size: 20px;
-    background-color: #2815FF;
-    border: solid 1px #2815FF;
+    background-color: #2815ff;
+    border: solid 1px #2815ff;
     border-radius: 6px;
     color: #fff;
     transition: .4s linear;
     margin: 0 auto 30px;
     cursor: pointer;
+
     &:hover {
-        color: #2815FF;
+        color: #2815ff;
         background-color: #fff;
     }
+
     & > a {
         text-decoration: none;
         color: inherit;

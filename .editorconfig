@@ -1,0 +1,12 @@
+root = true
+
+[*]
+indent_size = 4
+indent_style = space
+end_of_line = crlf
+charset = utf-8
+
+[*.min.*, normalize.css, /dist/*, /node_modules/*, /static/*, static/*]
+indent_style = ignore
+trim_trailing_whitespace = false
+insert_final_newline = ignore
