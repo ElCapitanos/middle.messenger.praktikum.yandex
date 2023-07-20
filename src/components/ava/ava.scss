@@ -10,9 +10,11 @@
     background-repeat: no-repeat;
     cursor: pointer;
     transition: .4s linear;
+
     &:hover > .ava__text {
         opacity: 1;
     }
+
     &:hover {
         opacity: .9;
     }

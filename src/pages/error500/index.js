@@ -7,12 +7,11 @@ import '../../components/link/link.scss';
 import '../../components/title/title.scss';
 import '../../components/subtitle/subtitle.scss';
 
-
 const root = document.querySelector('#app');
 
-const h1 = title({text: 'Ошибка 500'});
-const h2 = subtitle({text: 'Уже принимаем меры'});
-const lnk = link({url: `/`, title: `На главную`});
-const result = error({link: lnk, title: h1, subtitle: h2 });
+const h1 = title({ text: 'Ошибка 500' });
+const h2 = subtitle({ text: 'Уже принимаем меры' });
+const lnk = link({ url: '/', title: 'На главную' });
+const result = error({ link: lnk, title: h1, subtitle: h2 });
 
-if (window.location.pathname === 'error500') {root.innerHTML = result};
+if (window.location.pathname === 'error500') { root.innerHTML = result; }

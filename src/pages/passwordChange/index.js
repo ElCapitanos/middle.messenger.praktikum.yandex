@@ -13,19 +13,21 @@ import '../../components/ava/ava.scss';
 
 const root = document.querySelector('#app');
 
-const placeholderForOldPassword = 'старый' + `\u00A0` + 'пароль';
-const placeholderForNewPassword = 'новый' + `\u00A0` + 'пароль';
-const placeholderForCopyPassword = 'новый' + `\u00A0` + 'пароль' + `\u00A0` + '(еще' + `\u00A0` + 'раз)';
+const placeholderForOldPassword = 'старый\u00A0пароль';
+const placeholderForNewPassword = 'новый\u00A0пароль';
+const placeholderForCopyPassword = 'новый\u00A0пароль\u00A0(еще\u00A0раз)';
 
-const btn1 = button({label: 'Сохранить изменения', url: `/chating`, btnType: 'button'});
-const btn2 = button({label: 'Отмена', url: `/profile`, btnType: 'button'});
-const h1 = title({text: 'Смена пароля'});
-const face = ava({class: "ava"})
-const lnk = link({url: `/`, title: `Удалить аккаунт`});
-const oldPassword = password({placeHolderText: placeholderForOldPassword, name: 'password-old'});
-const newPassword = password({placeHolderText: placeholderForNewPassword, name: 'password'});
-const newPasswordCopy = password({placeHolderText: placeholderForCopyPassword, name: 'password-copy'});
+const btn1 = button({ label: 'Сохранить изменения', url: '/chating', btnType: 'button' });
+const btn2 = button({ label: 'Отмена', url: '/profile', btnType: 'button' });
+const h1 = title({ text: 'Смена пароля' });
+const face = ava({ class: 'ava' });
+const lnk = link({ url: '/', title: 'Удалить аккаунт' });
+const oldPassword = password({ placeHolderText: placeholderForOldPassword, name: 'password-old' });
+const newPassword = password({ placeHolderText: placeholderForNewPassword, name: 'password' });
+const newPasswordCopy = password({ placeHolderText: placeholderForCopyPassword, name: 'password-copy' });
 
-const result = passwordChange({buttonChange: btn1, buttonBack: btn2, link: lnk, title: h1, ava: face, oldPassword: oldPassword, newPassword: newPassword, newPasswordCopy: newPasswordCopy });
+const result = passwordChange({
+  buttonChange: btn1, buttonBack: btn2, link: lnk, title: h1, ava: face, oldPassword, newPassword, newPasswordCopy,
+});
 
-if (window.location.pathname === '/passwordChange') {root.innerHTML = result};
+if (window.location.pathname === '/passwordChange') { root.innerHTML = result; }
