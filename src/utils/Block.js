@@ -1,5 +1,3 @@
-import EventBus from "./EventBus";
-
 class Block {
     static EVENTS = {
       INIT: "init",
@@ -17,7 +15,7 @@ class Block {
      *
      * @returns {void}
      */
-    constructor(tagName = "div", props = {}) {
+    constructor(tagName = "template", props = {}) {
       const eventBus = new EventBus();
       this._meta = {
         tagName,
@@ -111,7 +109,6 @@ class Block {
     }
    
     _createDocumentElement(tagName) {
-      // Можно сделать метод, который через фрагменты в цикле создает сразу несколько блоков
       return document.createElement(tagName);
     }
    
