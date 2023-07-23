@@ -1,4 +1,5 @@
-class Block {
+import EventBus from './EventBus'
+export default class Block {
     static EVENTS = {
       INIT: "init",
       FLOW_CDM: "flow:component-did-mount",
@@ -120,3 +121,4 @@ class Block {
       this.getContent().style.display = "none";
     }
   }
+  

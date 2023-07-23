@@ -12,7 +12,7 @@ import '../../components/inputs/input.scss';
 
 const root = document.querySelector('#app');
 
-const btn = button({ label: 'Войти', url: '/', btnType: 'submit' });
+const btn = button({ label: 'Войти', url: '/', btnType: 'submit', class: 'btn' });
 const h1 = title({ text: 'Вход' });
 const lnk = link({ url: '/registration', title: 'Зарегистрироваться' });
 const inputText = input({ inputType: 'text', placeHolderText: 'логин', inputName: 'login' });

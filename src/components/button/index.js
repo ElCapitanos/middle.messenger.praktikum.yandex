@@ -1,5 +1,5 @@
-import btn from './components/button/button.hbs'
-import Block from './utils/Block';
+import btn from './button.hbs'
+import Block from '../../utils/Block';
 class Button extends Block {
     constructor(props) {
       super("div", props);
@@ -19,13 +19,13 @@ class Button extends Block {
             class: "btn",
             type: 'submit',
             url: '/registration',
-            label: 'Войти'
+            label: 'Ого-го'
   });
   
   render("#app", button);
 
-  setTimeout(() => {
-    button.setProps({
-      label: 'Не входить!',
-    });
-  }, 3000);
+//   setTimeout(() => {
+//     button.setProps({
+//       label: 'Не входить!',
+//     });
+//   }, 3000);

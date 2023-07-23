@@ -1,16 +1,30 @@
-<html>
-<head>
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" type="text/css" href="style/normalize.css" />
     <link rel="stylesheet" href="style/style.scss" />
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
- </head>
+    <title>ЯПрактикум-Миддл</title>
+  </head>
+  <body>
+    <main id="app"></main>
 
-<body>
-  <main id="app"></main>
-    <script type="text/jsx" src="./utils/EventBus.js"></script>
-    <script type="text/jsx" src="./utils/Block.js"></script>
-    <script type="text/jsx" src="./index.js"></script>
-</body>
+    <!-- <script src="./index.js" type="module"></script> -->
+
+    <script src="./components/button/index.js" type="module"></script>
+    <script src="./components/inputs/index.js" type="module"></script>
+    <script src="./components/ava/index.js" type="module"></script>
+
+
+
+
+    <!-- <script src="pages/auth/index.js" type="module"></script>
+    <script src="pages/chating/index.js" type="module"></script>
+    <script src="pages/error500/index.js" type="module"></script>
+    <script src="pages/error404/index.js" type="module"></script>
+    <script src="pages/passwordChange/index.js" type="module"></script>
+    <script src="pages/profile/index.js" type="module"></script>
+    <script src="pages/registration/index.js" type="module"></script> -->
+  </body>
 </html>
