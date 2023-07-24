@@ -1,17 +1,28 @@
-import error from './error500.hbs';
-import link from '../../components/link/link.hbs';
-import title from '../../components/title/title.hbs';
-import subtitle from '../../components/subtitle/subtitle.hbs';
-import './error500.scss';
-import '../../components/link/link.scss';
-import '../../components/title/title.scss';
-import '../../components/subtitle/subtitle.scss';
+import Title from '../../components/title/index';
+import Link from '../../components/link/index';
+import Subtitle from '../../components/subtitle/index';
 
-const root = document.querySelector('#app');
+function render(temp, arrBlock) {
+    arrBlock.forEach((item) => {
+        temp.appendChild(item.getContent());
+    })
+    return temp;
+};
 
-const h1 = title({ text: 'Ошибка 500' });
-const h2 = subtitle({ text: 'Уже принимаем меры' });
-const lnk = link({ url: '/', title: 'На главную' });
-const result = error({ link: lnk, title: h1, subtitle: h2 });
+const template = document.getElementById('app');
 
-if (window.location.pathname === 'error500') { root.innerHTML = result; }
+const link = new Link({
+    url: '/chating',
+    title: 'На главную'
+});
+const title = new Title({
+    text: 'Ошибка 500'
+});
+const subtitle = new Subtitle({
+    text: 'Уже принимаем меры'
+});
+  const result = [title, subtitle, link]
+
+if (window.location.pathname === '/error500') { 
+    render(template, result)
+}

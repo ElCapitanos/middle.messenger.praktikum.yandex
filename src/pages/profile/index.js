@@ -1,37 +1,74 @@
-import profile from './profile.hbs';
-import button from '../../components/button/button.hbs';
-import link from '../../components/link/link.hbs';
-import title from '../../components/title/title.hbs';
-import input from '../../components/inputs/input.hbs';
-import ava from '../../components/ava/ava.hbs';
-import './profile.scss';
-import '../../components/button/button.scss';
-import '../../components/link/link.scss';
-import '../../components/title/title.scss';
-import '../../components/inputs/input.scss';
-import '../../components/ava/ava.scss';
+import Button from '../../components/button/index';
+import Title from '../../components/title/index';
+import Input from '../../components/inputs/index';
+import Link from '../../components/link/index';
+import Ava from '../../components/ava/index';
 
-const root = document.querySelector('#app');
+function render(temp, arrBlock) {
+    arrBlock.forEach((item) => {
+        temp.appendChild(item.getContent());
+    })
+    return temp;
+};
 
-const placeholderForFirstName = 'сменить\u00A0имя';
-const placeholderForSecondName = 'сменить\u00A0фамилию';
-const placeholderForLogin = 'сменить\u00A0логин';
-const placeholderForPhone = 'сменить\u00A0телефон';
-const placeholderForEmail = 'сменить\u00A0e-mail';
-const placeholderForUsername = 'сменить\u00A0имя\u00A0в\u00A0чате';
+const template = document.getElementById("app");
 
-const btn = button({ label: 'Сохранить изменения', url: '/chating' });
-const h1 = title({ text: 'Профиль' });
-const face = ava({ class: 'ava' });
-const lnk = link({ url: '/', title: 'Удалить аккаунт' });
-const inputName = input({ inputType: 'text', placeHolderText: placeholderForFirstName, inputName: 'first_name' });
-const inputName2 = input({ inputType: 'text', placeHolderText: placeholderForSecondName, inputName: 'second_name' });
-const login = input({ inputType: 'text', placeHolderText: placeholderForLogin, inputName: 'login' });
-const phone = input({ inputType: 'tel', placeHolderText: placeholderForPhone, inputName: 'phone' });
-const email = input({ inputType: 'email', placeHolderText: placeholderForEmail, inputName: 'email' });
-const user = input({ inputType: 'text', placeHolderText: placeholderForUsername, inputName: 'display_name' });
-const result = profile({
-  button: btn, link: lnk, title: h1, firstName: inputName, secondName: inputName2, login, phone, email, ava: face, username: user,
+const ava = new Ava({
+    class: "ava"
+});
+const inputName = new Input({
+    inputType: "text", 
+    inputName: "first_name", 
+    placeHolderText: "сменить\u00A0имя",
+    inputId: "profileName"
+});
+const inputSecondName = new Input({
+    inputType: "text", 
+    inputName: "second_name", 
+    placeHolderText: "сменить\u00A0фамилию",
+    inputId: "profileSecondName"
+});
+const inputLogin = new Input({
+    inputType: "text", 
+    inputName: "login", 
+    placeHolderText: "сменить\u00A0логин",
+    inputId: "profileLogin"
+});
+const inputPhone = new Input({
+    inputType: "tel", 
+    inputName: "phone", 
+    placeHolderText: "сменить\u00A0телефон",
+    inputId: "rprofilePhone"
+});
+const inputMail = new Input({
+    inputType: "email", 
+    inputName: "email", 
+    placeHolderText: "сменить\u00A0e-mail",
+    inputId: "profileMail"
+});
+const inputUser = new Input({
+    inputType: "text", 
+    inputName: "display_name", 
+    placeHolderText: "сменить\u00A0имя\u00A0в\u00A0чате",
+    inputId: "profileUser"
+});
+const title = new Title({
+    text: "Профиль"
+});
+const button = new Button({
+    class: "btn",
+    type: "submit",
+    url: "/chating",
+    label: "Сохранить изменения",
+    id: "profileBtn"
+  });
+const link = new Link({
+    url: '/',
+    title: 'Удалить аккаунт'
 });
 
-if (window.location.pathname === '/profile') { root.innerHTML = result; }
+const result = [title, ava, inputName, inputSecondName, inputLogin, inputPhone, inputMail, inputUser, button, link];
+
+if (window.location.pathname === "/profile") { 
+    render(template, result)
+}

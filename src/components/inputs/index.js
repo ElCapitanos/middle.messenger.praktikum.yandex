@@ -1,30 +1,21 @@
 import input from './input.hbs';
+import password from './inputPassword.hbs';
 import Block from './../../utils/Block';
-class Input extends Block {
+export default class Input extends Block {
     constructor(props) {
-      super("div", props);
+        super("div", props);
     }
     render() {
-      return input({ 
-        type: this.props.type, 
-        name: this.props.name, 
-        class: this.props.class, 
-        placeHolderText: this.props.placeHolderText
-        });
+        return this.props.inputType !== 'password' ? input({
+        inputType: this.props.inputType, 
+        inputName: this.props.inputName, 
+        placeHolderText: this.props.placeHolderText,
+        inputId: this.props.inputId
+    }) : password({
+        inputType: this.props.inputType, 
+        inputName: this.props.inputName, 
+        placeHolderText: this.props.placeHolderText,
+        inputId: this.props.inputId
+    });
     }
-  }
-  
-  function render(query, block) {
-    const root = document.querySelector(query);
-    root.appendChild(block.getContent());
-    return root;
-  }
-  
-  const newInput = new Input({
-    type: 'text',
-    name: 'name',
-    class: 'input',
-    placeHolderText: 'Введите\u00A0имя'
-  });
-  
-  render("#app", newInput);
+}

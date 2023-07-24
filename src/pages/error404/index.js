@@ -1,14 +1,25 @@
-import error from './error404.hbs';
-import link from '../../components/link/link.hbs';
-import title from '../../components/title/title.hbs';
-import './error404.scss';
-import '../../components/link/link.scss';
-import '../../components/title/title.scss';
+import Title from '../../components/title/index';
+import Link from '../../components/link/index';
 
-const root = document.querySelector('#app');
+function render(temp, arrBlock) {
+    arrBlock.forEach((item) => {
+        temp.appendChild(item.getContent());
+    })
+    return temp;
+};
 
-const h1 = title({ text: 'Страница не найдена 404' });
-const lnk = link({ url: '/', title: 'На главную' });
-const result = error({ link: lnk, title: h1 });
+const template = document.getElementById('app');
 
-if (window.location.pathname !== '/' && window.location.pathname !== '/auth' && window.location.pathname !== '/error500' && window.location.pathname !== '/profile' && window.location.pathname !== '/chating' && window.location.pathname !== '/passwordChange' && window.location.pathname !== '/registration') { root.innerHTML = result; }
+const link = new Link({
+    url: '/chating',
+    title: 'На главную'
+});
+const title = new Title({
+    text: 'Страница не найдена 404'
+});
+
+const result = [title, link]
+
+if (window.location.pathname !== '/' && window.location.pathname !== '/auth' && window.location.pathname !== '/error500' && window.location.pathname !== '/profile' && window.location.pathname !== '/chating' && window.location.pathname !== '/password-change' && window.location.pathname !== '/registration') { 
+    render(template, result)
+}

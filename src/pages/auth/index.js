@@ -1,24 +1,46 @@
-import auth from './auth.hbs';
-import button from '../../components/button/button.hbs';
-import link from '../../components/link/link.hbs';
-import title from '../../components/title/title.hbs';
-import input from '../../components/inputs/input.hbs';
-import password from '../../components/inputs/inputPassword.hbs';
-import './auth.scss';
-import '../../components/button/button.scss';
-import '../../components/link/link.scss';
-import '../../components/title/title.scss';
-import '../../components/inputs/input.scss';
+import Button from '../../components/button/index';
+import Title from '../../components/title/index';
+import Link from '../../components/link/index';
+import Input from '../../components/inputs/index';
 
-const root = document.querySelector('#app');
+function render(temp, arrBlock) {
+    arrBlock.forEach((item) => {
+        temp.appendChild(item.getContent());
+    })
+    return temp;
+};
 
-const btn = button({ label: 'Войти', url: '/', btnType: 'submit', class: 'btn' });
-const h1 = title({ text: 'Вход' });
-const lnk = link({ url: '/registration', title: 'Зарегистрироваться' });
-const inputText = input({ inputType: 'text', placeHolderText: 'логин', inputName: 'login' });
-const psw = password({ placeHolderText: 'пароль', name: 'password' });
-const result = auth({
-  button: btn, link: lnk, title: h1, input: inputText, password: psw,
+const template = document.getElementById('app');
+
+const input = new Input({
+    inputType: 'text', 
+    inputName: 'login', 
+    placeHolderText: 'логин',
+    inputId: 'enterLogin'
 });
+const password = new Input({
+    inputType: 'password', 
+    inputName: 'password', 
+    placeHolderText: 'пароль',
+    inputId: 'enterPassword'
+});
+const link = new Link({
+    url: '/registration',
+    title: 'Зарегистрироваться'
+});
+const title = new Title({
+    text: 'Вход'
+});
+const button = new Button({
+    class: "btn",
+    type: 'submit',
+    url: '/chating',
+    label: 'Войти',
+    id: 'enterBtn'
+  });
 
-if (window.location.pathname === '/' || window.location.pathname === '/auth') { root.innerHTML = result; }
+  const result = [title, input, password, button, link]
+
+if (window.location.pathname === '/' || window.location.pathname === '/auth') { 
+    render(template, result)
+}

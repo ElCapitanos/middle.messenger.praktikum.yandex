@@ -1,13 +1,14 @@
 @import './../../style/var.scss';
 .link {
+    display: block;
     color: $blue;
     font-size: 20px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
     transition: .4s linear;
-
+    margin-bottom: 50px;
     &:hover{
-        transform: scale(1.1);
+        font-size: 21px;
     }
 }

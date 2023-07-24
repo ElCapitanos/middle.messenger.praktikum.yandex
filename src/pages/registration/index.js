@@ -1,31 +1,76 @@
-import registration from './registration.hbs';
-import button from '../../components/button/button.hbs';
-import link from '../../components/link/link.hbs';
-import title from '../../components/title/title.hbs';
-import input from '../../components/inputs/input.hbs';
-import password from '../../components/inputs/inputPassword.hbs';
-import './registration.scss';
-import '../../components/button/button.scss';
-import '../../components/link/link.scss';
-import '../../components/title/title.scss';
-import '../../components/inputs/input.scss';
+import Button from '../../components/button/index';
+import Title from '../../components/title/index';
+import Input from '../../components/inputs/index';
+import Link from '../../components/link/index';
 
-const root = document.querySelector('#app');
+function render(temp, arrBlock) {
+    arrBlock.forEach((item) => {
+        temp.appendChild(item.getContent());
+    })
+    return temp;
+};
 
-const placeholderForPassword = 'пароль\u00A0(еще\u00A0раз)';
+const template = document.getElementById("app");
 
-const btn = button({ label: 'Зарегистрироваться', url: '/chating', btnType: 'submit' });
-const h1 = title({ text: 'Регистрация' });
-const lnk = link({ url: '/chating', title: 'Войти' });
-const inputName = input({ inputType: 'text', placeHolderText: 'имя', inputName: 'first_name' });
-const inputName2 = input({ inputType: 'text', placeHolderText: 'фамилия', inputName: 'second_name' });
-const login = input({ inputType: 'text', placeHolderText: 'логин', inputName: 'login' });
-const phone = input({ inputType: 'tel', placeHolderText: 'телефон', inputName: 'phone' });
-const email = input({ inputType: 'email', placeHolderText: 'e-mail', inputName: 'email' });
-const psw = password({ placeHolderText: 'пароль', name: 'password' });
-const psw2 = password({ placeHolderText: placeholderForPassword, name: 'passwordCopy' });
-const result = registration({
-  button: btn, link: lnk, title: h1, inputName, inputName2, login, phone, email, password: psw, password2: psw2,
+const inputName = new Input({
+    inputType: "text", 
+    inputName: "first_name", 
+    placeHolderText: "имя",
+    inputId: "regName"
+});
+const inputSecondName = new Input({
+    inputType: "text", 
+    inputName: "second_name", 
+    placeHolderText: "фамилия",
+    inputId: "regSecondName"
+});
+const inputLogin = new Input({
+    inputType: "text", 
+    inputName: "login", 
+    placeHolderText: "логин",
+    inputId: "regLogin"
+});
+const inputPhone = new Input({
+    inputType: "tel", 
+    inputName: "phone", 
+    placeHolderText: "телефон",
+    inputId: "regPhone"
+});
+const inputMail = new Input({
+    inputType: "email", 
+    inputName: "email", 
+    placeHolderText: "e-mail",
+    inputId: "regMail"
+});
+const password = new Input({
+    inputType: "password", 
+    inputName: "password", 
+    placeHolderText: "пароль",
+    inputId: "regPassword"
+});
+const passwordCopy = new Input({
+    inputType: "password", 
+    inputName: "passwordCopy", 
+    placeHolderText: "пароль\u00A0(еще\u00A0раз)",
+    inputId: "regPasswordCopy"
+});
+const title = new Title({
+    text: "Регистрация"
+});
+const button = new Button({
+    class: "btn",
+    type: "submit",
+    url: "/chating",
+    label: "Зарегистрироваться",
+    id: "regBtn"
+  });
+const link = new Link({
+    url: '/chating',
+    title: 'Войти'
 });
 
-if (window.location.pathname === '/registration') { root.innerHTML = result; }
+const result = [title, inputName, inputSecondName, inputLogin, inputPhone, inputMail, password, passwordCopy, button, link];
+
+if (window.location.pathname === "/registration") { 
+    render(template, result)
+}

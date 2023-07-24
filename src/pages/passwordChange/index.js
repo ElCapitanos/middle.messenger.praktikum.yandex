@@ -1,33 +1,64 @@
-import passwordChange from './passwordChange.hbs';
-import button from '../../components/button/button.hbs';
-import link from '../../components/link/link.hbs';
-import title from '../../components/title/title.hbs';
-import password from '../../components/inputs/inputPassword.hbs';
-import ava from '../../components/ava/ava.hbs';
-import './passwordChange.scss';
-import '../../components/button/button.scss';
-import '../../components/link/link.scss';
-import '../../components/title/title.scss';
-import '../../components/inputs/input.scss';
-import '../../components/ava/ava.scss';
+import Button from '../../components/button/index';
+import Title from '../../components/title/index';
+import Input from '../../components/inputs/index';
+import Link from '../../components/link/index';
+import Ava from '../../components/ava/index';
 
-const root = document.querySelector('#app');
+function render(temp, arrBlock) {
+    arrBlock.forEach((item) => {
+        temp.appendChild(item.getContent());
+    })
+    return temp;
+};
 
-const placeholderForOldPassword = 'старый\u00A0пароль';
-const placeholderForNewPassword = 'новый\u00A0пароль';
-const placeholderForCopyPassword = 'новый\u00A0пароль\u00A0(еще\u00A0раз)';
+const template = document.getElementById("app");
 
-const btn1 = button({ label: 'Сохранить изменения', url: '/chating', btnType: 'button' });
-const btn2 = button({ label: 'Отмена', url: '/profile', btnType: 'button' });
-const h1 = title({ text: 'Смена пароля' });
-const face = ava({ class: 'ava' });
-const lnk = link({ url: '/', title: 'Удалить аккаунт' });
-const oldPassword = password({ placeHolderText: placeholderForOldPassword, name: 'password-old' });
-const newPassword = password({ placeHolderText: placeholderForNewPassword, name: 'password' });
-const newPasswordCopy = password({ placeHolderText: placeholderForCopyPassword, name: 'password-copy' });
-
-const result = passwordChange({
-  buttonChange: btn1, buttonBack: btn2, link: lnk, title: h1, ava: face, oldPassword, newPassword, newPasswordCopy,
+const ava = new Ava({
+    class: "ava"
+});
+const inputOldPsw = new Input({
+    inputType: "password", 
+    inputName: "password-old", 
+    placeHolderText: "старый\u00A0пароль",
+    inputId: "oldPsw"
+});
+const inputNewPsw = new Input({
+    inputType: "password", 
+    inputName: "password", 
+    placeHolderText: "новый\u00A0пароль",
+    inputId: "newPsw"
+});
+const inputNewPswCopy = new Input({
+    inputType: "password", 
+    inputName: "password", 
+    placeHolderText: "новый\u00A0пароль\u00A0(еще\u00A0раз)",
+    inputId: "newPswCopy"
 });
 
-if (window.location.pathname === '/passwordChange') { root.innerHTML = result; }
+const title = new Title({
+    text: "Смена пароля"
+});
+const buttonSave = new Button({
+    class: "btn",
+    type: "submit",
+    url: "/chating",
+    label: "Сохранить изменения",
+    id: "saveBtn"
+  });
+const buttonCancel = new Button({
+    class: "btn",
+    type: "submit",
+    url: "/",
+    label: "Отмена",
+    id: "cancelBtn"
+  });
+const link = new Link({
+    url: '/',
+    title: 'Удалить аккаунт'
+});
+
+const result = [title, ava, inputOldPsw, inputNewPsw, inputNewPswCopy, buttonSave, buttonCancel, link];
+
+if (window.location.pathname === "/password-change") { 
+    render(template, result)
+}
