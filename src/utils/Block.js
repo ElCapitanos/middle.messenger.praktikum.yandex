@@ -78,10 +78,17 @@ export default class Block {
     get element() {
       return this._element;
     }
-   
+    _addEvents() {
+        const {events = {}} = this.props;
+    
+        Object.keys(events).forEach(eventName => {
+          this._element.addEventListener(eventName, events[eventName]);
+        });
+      }
     _render() {
       const block = this.render();
       this._element.innerHTML = block;
+      this._addEvents();
     }
    
     render() {}

@@ -17,20 +17,20 @@ const ava = new Ava({
     class: "ava"
 });
 const inputOldPsw = new Input({
-    inputType: "password", 
-    inputName: "password-old", 
+    inputType: "password",
+    inputName: "password-old",
     placeHolderText: "старый\u00A0пароль",
     inputId: "oldPsw"
 });
 const inputNewPsw = new Input({
-    inputType: "password", 
-    inputName: "password", 
+    inputType: "password",
+    inputName: "password",
     placeHolderText: "новый\u00A0пароль",
     inputId: "newPsw"
 });
 const inputNewPswCopy = new Input({
-    inputType: "password", 
-    inputName: "password", 
+    inputType: "password",
+    inputName: "password",
     placeHolderText: "новый\u00A0пароль\u00A0(еще\u00A0раз)",
     inputId: "newPswCopy"
 });
@@ -43,15 +43,25 @@ const buttonSave = new Button({
     type: "submit",
     url: "/chating",
     label: "Сохранить изменения",
-    id: "saveBtn"
-  });
+    id: "saveBtn",
+    // events: {
+    //     click: event => {
+    //         console.log(event.target);
+    //     },
+    // },
+});
 const buttonCancel = new Button({
     class: "btn",
     type: "submit",
     url: "/",
     label: "Отмена",
-    id: "cancelBtn"
-  });
+    id: "cancelBtn",
+    // events: {
+    //     click: event => {
+    //         console.log(event.target);
+    //     },
+    // },
+});
 const link = new Link({
     url: '/',
     title: 'Удалить аккаунт'
@@ -59,6 +69,6 @@ const link = new Link({
 
 const result = [title, ava, inputOldPsw, inputNewPsw, inputNewPswCopy, buttonSave, buttonCancel, link];
 
-if (window.location.pathname === "/password-change") { 
+if (window.location.pathname === "/password-change") {
     render(template, result)
 }

@@ -13,14 +13,14 @@ function render(temp, arrBlock) {
 const template = document.getElementById('app');
 
 const input = new Input({
-    inputType: 'text', 
-    inputName: 'login', 
+    inputType: 'text',
+    inputName: 'login',
     placeHolderText: 'логин',
     inputId: 'enterLogin'
 });
 const password = new Input({
-    inputType: 'password', 
-    inputName: 'password', 
+    inputType: 'password',
+    inputName: 'password',
     placeHolderText: 'пароль',
     inputId: 'enterPassword'
 });
@@ -36,11 +36,16 @@ const button = new Button({
     type: 'submit',
     url: '/chating',
     label: 'Войти',
-    id: 'enterBtn'
-  });
+    id: 'enterBtn',
+    // events: {
+    //     click: event => {
+    //         console.log(event.target);
+    //     },
+    // },
+});
 
-  const result = [title, input, password, button, link]
+const result = [title, input, password, button, link]
 
-if (window.location.pathname === '/' || window.location.pathname === '/auth') { 
+if (window.location.pathname === '/' || window.location.pathname === '/auth') {
     render(template, result)
 }

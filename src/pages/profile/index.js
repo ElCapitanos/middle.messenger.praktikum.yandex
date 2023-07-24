@@ -60,7 +60,12 @@ const button = new Button({
     type: "submit",
     url: "/chating",
     label: "Сохранить изменения",
-    id: "profileBtn"
+    id: "profileBtn",
+    // events: {
+    //     click: event => {
+    //         console.log(event.target);
+    //     },
+    // },
   });
 const link = new Link({
     url: '/',
