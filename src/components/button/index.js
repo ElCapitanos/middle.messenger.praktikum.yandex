@@ -11,6 +11,7 @@ export default class Button extends Block {
             url: this.props.url,
             btnType: this.props.type,
             id: this.props.id,
+            disabled: this.props.disabled
         });
     }
 }

@@ -6,30 +6,14 @@ export default class Card extends Block {
         super("div", props);
     }
     render() {
-        return card();
+        return card({
+            name: this.props.name,
+            date: this.props.date,
+            ava: this.props.ava ? this.props.ava : 'https://t4.ftcdn.net/jpg/04/08/24/43/360_F_408244382_Ex6k7k8XYzTbiXLNJgIL8gssebpLLBZQ.jpg',
+            amount: this.props.amount,
+            text: this.props.text,
+            queu: this.props.amount ? 'display:block;' : 'display:none;',
+            active: this.props.active ? 'background-color:rgba(0,0,0,.15);' : ''
+    });
     }
 }
-
-// function render(temp, arrBlock) {
-//     // if (temp) {
-//         arrBlock.forEach((item) => {
-//             temp.appendChild(item.getContent());
-//         })
-//         // return temp;
-//     // }
-// };
-// const root = document.querySelector('#app');
-// console.log('/////', root)
-
-// currentUsers.currentUsers.forEach((user) => {
-//     const card = new Card({
-//         // ava: user.avaSrc,
-//         // name: user.name,
-//         // message: user.lastText,
-//         // date: user.lastDate,
-//         // amount: user.messageAmount ? user.messageAmount : null
-//     })
-    // const result = [card];
-    // render(root, result)
-// })
-

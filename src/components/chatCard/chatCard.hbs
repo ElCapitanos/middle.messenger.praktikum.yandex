@@ -1,12 +1,12 @@
-<div class="chat__card">
-    <div class="chat__card-ava"></div>
+<div class="chat__card" style={{ active }}>
+    <img src={{ ava }} class="chat__card-ava ava_small"/>
     <div class="chat__card-center-block">
-        <div class="chat__card-name">Гомер</div>
-        <div class="chat__card-text">М-м-м-м... пончики</div>
+        <div class="chat__card-name">{{ name }}</div>
+        <div class="chat__card-text">{{ text }}</div>
     </div>
     <div class="chat__card-right-block">
-        <div class="chat__card-time">20.02.2023</div>
-        <div class="chat__card-queu">2</div>
+        <div class="chat__card-time">{{ date }}</div>
+        <div class="chat__card-queu" style={{ queu }}>{{ amount }}</div>
         <span class="chat__card-trash" title="Удалить чат">&#128465;</span>
     </div>
 </div>
