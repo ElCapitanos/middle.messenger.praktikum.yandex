@@ -1,0 +1,34 @@
+.main__text_left {
+    max-width: 50%;
+    width: fit-content;
+    background-color: $grey1;
+    padding: 10px;
+    padding-bottom: 20px;
+    font-size: 12px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    text-align: left;
+    position: relative;
+}
+
+.main__text_right {
+    max-width: 50%;
+    width: fit-content;
+    background-color: $grey1;
+    padding: 10px;
+    padding-bottom: 20px;
+    font-size: 12px;
+    border-radius: 6px;
+    margin-bottom: 4px;
+    text-align: left;
+    position: relative;
+    margin-left: auto;
+}
+
+.main__time {
+    position: absolute;
+    font-size: 10px;
+    opacity: .4;
+    bottom: 6px;
+    right: 6px;
+}

@@ -7,6 +7,7 @@ import Error from '../../components/error';
 import errorMsg from '../../data/errorMsg';
 import showError from '../../helpers/showError';
 import validations from "../../helpers/validation";
+import Message from "../../components/message/index"
 
 function render(temp, arrBlock) {
     if (temp) {
@@ -20,7 +21,7 @@ function render(temp, arrBlock) {
 const errorMessage = new Error({
     message: errorMsg.messages.message,
     errorId: "errorMessage",
-    errorStyle: "font-size:24px;"
+    errorStyle: "position:absolute;bottom:20px;"
 });
 
 const root = document.querySelector('#app');
@@ -31,15 +32,33 @@ if (window.location.pathname === '/chating') { root.innerHTML = result; }
 const avatarTemplateHeader = root.querySelector('.main__ava');
 const nameTemplateHeader = root.querySelector('.main__name');
 const cardsTemplate = root.querySelector('.chat__cards');
-const errorTemplate = root.querySelector('.main__chat')
+const messageTemplate = root.querySelector('.main__chat')
 
 const resultCards = [];
+const messageCards = [];
 let activeItemAva = '';
 let activeItemName = '';
 users.currentUsers.forEach((item) => {
     if (item.active) {
         activeItemAva = item.avaSrc;
         activeItemName = item.name;
+        item.messages.forEach((msg) => {
+            if (msg.own) {
+                const newMsg = new Message({
+                    text: msg.own,
+                    time: msg.time,
+                    class: 'main__text_right'
+                })
+                messageCards.push(newMsg)
+            } else {
+                const newMsg = new Message({
+                    text: msg.else,
+                    time: msg.time,
+                    class: 'main__text_left'
+                })
+                messageCards.push(newMsg)
+            }
+        })
     };
     const card = new Card({
         name: item.name,
@@ -65,7 +84,8 @@ const errorText = [errorMessage]
 render(avatarTemplateHeader, resultAvatar);
 render(nameTemplateHeader, resultName);
 render(cardsTemplate, resultCards);
-render(errorTemplate, errorText);
+render(messageTemplate, errorText);
+render(messageTemplate, messageCards);
 
 
 function validator(field, value) {

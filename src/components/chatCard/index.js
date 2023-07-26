@@ -1,4 +1,3 @@
-// import currentUsers from './../../data/users';
 import card from './chatCard.hbs'
 import Block from '../../utils/Block';
 export default class Card extends Block {

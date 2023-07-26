@@ -162,33 +162,6 @@
     }
 }
 
-.main__date {
-    display: flex;
-    background-color: $grey1;
-    border: solid 1px $grey5;
-    border-radius: 6px;
-    width: fit-content;
-    margin: 0 auto 20px;
-    padding: 8px;
-}
-
-.main__text {
-    max-width: 50%;
-    width: fit-content;
-    background-color: $grey1;
-    padding: 10px;
-    padding-bottom: 20px;
-    font-size: 12px;
-    border-radius: 6px;
-    margin-bottom: 4px;
-    text-align: left;
-    position: relative;
-}
-
-.main__text_right {
-    margin-left: auto;
-}
-
 .main__footer {
     display: flex;
     flex-direction: row;
@@ -232,12 +205,4 @@
     border-radius: 6px;
     background-color: $grey1;
     padding: 6px 0;
-}
-
-.main__time {
-    position: absolute;
-    font-size: 10px;
-    opacity: .4;
-    bottom: 6px;
-    right: 6px;
 }
