@@ -2,7 +2,11 @@ import Ava from '../../components/ava/index';
 import chating from './chating.hbs';
 import Card from './../../components/chatCard/index';
 import users from './../../data/users';
-import Subtitle from './../../components/subtitle/index'
+import Subtitle from './../../components/subtitle/index';
+import Error from '../../components/error';
+import errorMsg from '../../data/errorMsg';
+import showError from '../../helpers/showError';
+import validations from "../../helpers/validation";
 
 function render(temp, arrBlock) {
     if (temp) {
@@ -13,6 +17,11 @@ function render(temp, arrBlock) {
     }
 };
 
+const errorMessage = new Error({
+    message: errorMsg.messages.message,
+    errorId: "errorMessage",
+    errorStyle: "font-size:24px;"
+});
 
 const root = document.querySelector('#app');
 const result = chating();
@@ -21,7 +30,8 @@ if (window.location.pathname === '/chating') { root.innerHTML = result; }
 
 const avatarTemplateHeader = root.querySelector('.main__ava');
 const nameTemplateHeader = root.querySelector('.main__name');
-const cardsTemplate = root.querySelector('.chat__cards')
+const cardsTemplate = root.querySelector('.chat__cards');
+const errorTemplate = root.querySelector('.main__chat')
 
 const resultCards = [];
 let activeItemAva = '';
@@ -48,8 +58,26 @@ const avatar = new Ava({
 const subtitle = new Subtitle({
     text: activeItemName
 });
+
 const resultName = [subtitle];
 const resultAvatar = [avatar];
+const errorText = [errorMessage]
 render(avatarTemplateHeader, resultAvatar);
 render(nameTemplateHeader, resultName);
 render(cardsTemplate, resultCards);
+render(errorTemplate, errorText);
+
+
+function validator(field, value) {
+    if (field === "message") {
+        return !validations.validations.message(value);
+    }
+};
+if (document.querySelector('.main__input-text')) {
+    document.querySelector('.main__input-text').addEventListener("blur", (e) => {
+        showError.showError("message", "errorMessage", e, validator);
+    })
+}
+if (document.querySelector('.main__input-text')) {
+    document.querySelector('.main__input-text').removeEventListener("blur", () => { })
+}

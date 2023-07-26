@@ -5,6 +5,6 @@ export default class Error extends Block {
       super("div", props);
     }
     render() {
-      return error({ message: this.props.message, errorId: this.props.errorId });
+      return error({ message: this.props.message, errorId: this.props.errorId, errorStyle: this.props.errorStyle });
     }
   }

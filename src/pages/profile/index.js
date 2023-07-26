@@ -6,6 +6,7 @@ import Ava from "../../components/ava/index";
 import Error from "../../components/error/index";
 import errorMsg from "../../data/errorMsg";
 import validations from "../../helpers/validation";
+import showError from "../../helpers/showError";
 
 function render(temp, arrBlock) {
     arrBlock.forEach((item) => {
@@ -128,27 +129,36 @@ function validator(field, value) {
         return !validations.validations.mail(value);
     } else if (field === "phone") {
         return !validations.validations.phone(value);
-    } else if (field === "message") {
-        return !validations.validations.message(value);
-    } else if (field === "password") {
-        return !validations.validations.password(value);
-    }
+    } 
 }
-function showError(field, errorElement, e) {
-    e.target.name === field && validator(field, e.target.value)
-        ? (document.getElementById(errorElement).style.opacity = 1)
-        : (document.getElementById(errorElement).style.opacity = 0);
-}
+
+
+const currentFormProfile = {
+    'first_name': '',
+    'second_name': '',
+    'login': '',
+    'phone': '',
+    'email': '',
+    'display_name': '',
+};
+
 template.querySelectorAll("input").forEach((item) => {
     item.addEventListener("blur", (e) => {
-        showError("first_name", "errorName", e);
-        showError("second_name", "errorSecondName", e);
-        showError("login", "errorLogin", e);
-        showError("phone", "errorPhone", e);
-        showError("email", "errorMail", e);
-        showError("display_name", "errorUser", e);
+        currentFormProfile.first_name = document.getElementById('profileName')?.value;
+        currentFormProfile.second_name = document.getElementById('profileSecondName')?.value;
+        currentFormProfile.login = document.getElementById('profileLogin')?.value;
+        currentFormProfile.phone = document.getElementById('rprofilePhone')?.value;
+        currentFormProfile.email = document.getElementById('profileMail')?.value;
+        currentFormProfile.display_name = document.getElementById('profileUser')?.value;
+        showError.showError("first_name", "errorName", e, validator);
+        showError.showError("second_name", "errorSecondName", e, validator);
+        showError.showError("login", "errorLogin", e, validator);
+        showError.showError("phone", "errorPhone", e, validator);
+        showError.showError("email", "errorMail", e, validator);
+        showError.showError("display_name", "errorUser", e, validator);
+        if (window.location.pathname === "/profile") {console.log('Текущие значения в форме: ', currentFormProfile)};
     });
 });
 template.querySelectorAll("input").forEach((item) => {
-    item.removeEventListener("blur", null);
-});
+    item.removeEventListener("blur", () => {});
+})

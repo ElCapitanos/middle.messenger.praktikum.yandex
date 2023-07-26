@@ -2,6 +2,10 @@ import Button from '../../components/button/index';
 import Title from '../../components/title/index';
 import Input from '../../components/inputs/index';
 import Link from '../../components/link/index';
+import Error from '../../components/error';
+import errorMsg from '../../data/errorMsg';
+import validations from '../../helpers/validation';
+import showError from '../../helpers/showError';
 
 function render(temp, arrBlock) {
     arrBlock.forEach((item) => {
@@ -46,13 +50,41 @@ const password = new Input({
     inputType: "password",
     inputName: "password",
     placeHolderText: "пароль",
-    inputId: "regPassword"
+    inputId: "password"
 });
 const passwordCopy = new Input({
     inputType: "password",
     inputName: "passwordCopy",
     placeHolderText: "пароль\u00A0(еще\u00A0раз)",
-    inputId: "regPasswordCopy"
+    inputId: "passwordCopy"
+});
+const errorName = new Error({
+    message: errorMsg.messages.name,
+    errorId: "errorName",
+});
+const errorSecondName = new Error({
+    message: errorMsg.messages.name,
+    errorId: "errorSecondName",
+});
+const errorLogin = new Error({
+    message: errorMsg.messages.login,
+    errorId: "errorLogin",
+});
+const errorPhone = new Error({
+    message: errorMsg.messages.phone,
+    errorId: "errorPhone",
+});
+const errorMail = new Error({
+    message: errorMsg.messages.mail,
+    errorId: "errorMail",
+});
+const errorPassword = new Error({
+    message: errorMsg.messages.password,
+    errorId: "errorPassword",
+});
+const errorPasswordCopy = new Error({
+    message: errorMsg.messages.passwordCopy,
+    errorId: "errorPasswordCopy",
 });
 const title = new Title({
     text: "Регистрация"
@@ -63,19 +95,67 @@ const button = new Button({
     url: "/chating",
     label: "Зарегистрироваться",
     id: "regBtn",
-    // events: {
-    //     click: event => {
-    //         console.log(event.target);
-    //     },
-    // },
 });
 const link = new Link({
     url: '/chating',
     title: 'Войти'
 });
 
-const result = [title, inputName, inputSecondName, inputLogin, inputPhone, inputMail, password, passwordCopy, button, link];
+const result = [title, inputName, errorName, inputSecondName, errorSecondName, inputLogin, errorLogin, inputPhone, errorPhone, inputMail, errorMail, password, errorPassword, passwordCopy, errorPasswordCopy, button, link];
 
 if (window.location.pathname === "/registration") {
     render(template, result)
 }
+
+function validator(field, value) {
+    if (
+        field === "first_name" ||
+        field === "second_name" ||
+        field === "display_name"
+    ) {
+        return !validations.validations.name(value);
+    } else if (field === "login") {
+        return !validations.validations.login(value);
+    } else if (field === "email") {
+        return !validations.validations.mail(value);
+    } else if (field === "phone") {
+        return !validations.validations.phone(value);
+    } else if (field === "password") {
+        return !validations.validations.password(value);
+    } else if (field === "passwordCopy") {
+        return value != document.getElementById('password').value;
+    }
+};
+
+const currentFormReg = {
+    'first_name': '',
+    'second_name': '',
+    'login': '',
+    'phone': '',
+    'email': '',
+    'password': '',
+    'passwordCopy': '',
+};
+
+template.querySelectorAll("input").forEach((item) => {
+    item.addEventListener("blur", (e) => {
+        currentFormReg.first_name = document.getElementById('regName')?.value;
+        currentFormReg.second_name = document.getElementById('regSecondName')?.value;
+        currentFormReg.login = document.getElementById('regLogin')?.value;
+        currentFormReg.phone = document.getElementById('regPhone')?.value;
+        currentFormReg.email = document.getElementById('regMail')?.value;
+        currentFormReg.password = document.getElementById('password')?.value;
+        currentFormReg.passwordCopy = document.getElementById('passwordCopy')?.value;
+        showError.showError("first_name", "errorName", e, validator);
+        showError.showError("second_name", "errorSecondName", e, validator);
+        showError.showError("login", "errorLogin", e, validator);
+        showError.showError("phone", "errorPhone", e, validator);
+        showError.showError("email", "errorMail", e, validator);
+        showError.showError("password", "errorPassword", e, validator);
+        showError.showError("passwordCopy", "errorPasswordCopy", e, validator);
+        if (window.location.pathname === "/registration") {console.log('Текущие значения в форме: ', currentFormReg)};
+    });
+});
+template.querySelectorAll("input").forEach((item) => {
+    item.removeEventListener("blur", () => {});
+});

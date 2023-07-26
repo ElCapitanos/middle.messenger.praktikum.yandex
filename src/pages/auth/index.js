@@ -2,6 +2,10 @@ import Button from '../../components/button/index';
 import Title from '../../components/title/index';
 import Link from '../../components/link/index';
 import Input from '../../components/inputs/index';
+import Error from '../../components/error';
+import errorMsg from '../../data/errorMsg';
+import validations from '../../helpers/validation';
+import showError from '../../helpers/showError';
 
 function render(temp, arrBlock) {
     arrBlock.forEach((item) => {
@@ -18,11 +22,19 @@ const input = new Input({
     placeHolderText: 'логин',
     inputId: 'enterLogin'
 });
+const errorLogin = new Error({
+    message: errorMsg.messages.login,
+    errorId: "errorLogin",
+});
 const password = new Input({
     inputType: 'password',
     inputName: 'password',
     placeHolderText: 'пароль',
     inputId: 'enterPassword'
+});
+const errorPassword = new Error({
+    message: errorMsg.messages.password,
+    errorId: "errorPassword",
 });
 const link = new Link({
     url: '/registration',
@@ -37,15 +49,36 @@ const button = new Button({
     url: '/chating',
     label: 'Войти',
     id: 'enterBtn',
-    // events: {
-    //     click: event => {
-    //         console.log(event.target);
-    //     },
-    // },
 });
 
-const result = [title, input, password, button, link]
+const result = [title, input, errorLogin, password, errorPassword, button, link]
 
 if (window.location.pathname === '/' || window.location.pathname === '/auth') {
     render(template, result)
+};
+
+function validator(field, value) {
+    if (field === "login") {
+        return !validations.validations.login(value);
+    } else if (field === "password") {
+        return !validations.validations.password(value);
+    } 
+};
+
+const currentFormAuth = {
+    'login': '',
+    'password': '',
 }
+
+template.querySelectorAll("input").forEach((item) => {
+    item.addEventListener("blur", (e) => {
+        currentFormAuth.login = document.getElementById('enterLogin')?.value;
+        currentFormAuth.password = document.getElementById('enterPassword')?.value;
+        showError.showError("login", "errorLogin", e, validator);
+        showError.showError("password", "errorPassword", e, validator);
+        if (window.location.pathname === '/' || window.location.pathname === '/auth') {console.log('Текущие значения в форме: ', currentFormAuth)};
+    });
+});
+template.querySelectorAll("input").forEach((item) => {
+    item.removeEventListener("blur", () => {});
+});
