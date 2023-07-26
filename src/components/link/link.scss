@@ -1,0 +1,11 @@
+.link {
+    color: #2815FF;
+    font-size: 20px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: .4s linear;
+    &:hover{
+        transform: scale(1.1);
+    }
+}
