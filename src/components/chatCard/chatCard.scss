@@ -1,0 +1,67 @@
+.chat__card {
+    width: 100%;
+    height: 120px;
+    border: solid 1px $grey7;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    padding: 12px;
+    display: flex;
+    background-color: $grey02;
+}
+
+.chat__card-ava {
+    margin: 12px 28px 0 0 ;
+    width: 70px;
+}
+
+.chat__card-center-block {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+
+}
+
+.chat__card-name {
+    font-size: 18px;
+    font-weight: 700;
+    text-align: left;
+    margin-bottom: 20px;
+}
+
+.chat__card-text {
+    text-align: left;
+}
+
+.chat__card-right-block {
+    text-align: right;
+    margin-right: auto;
+    width: calc(50% - 70px);
+    position: relative;
+}
+
+.chat__card-time {
+    font-size: 12px;
+    color: $grey4;
+}
+
+.chat__card-queu {
+    position: relative;
+    top: 25%;
+    text-align: center;
+    width: 24px;
+    height: 24px;
+    line-height: 24px;
+    background-color: $blue;
+    border-radius: 12px;
+    color: $white;
+    margin-left: auto;
+    font-size: 12px;
+}
+
+.chat__card-trash {
+    position: absolute;
+    bottom: -8px;
+    right: -6px;
+    font-size: 20px;
+    cursor: pointer;
+}

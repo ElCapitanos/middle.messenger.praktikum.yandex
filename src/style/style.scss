@@ -1,5 +1,17 @@
+@import './../components/ava/ava.scss';
+@import './../components/button/button.scss';
+@import './../components/inputs/input.scss';
+@import './../components/link/link.scss';
+@import './../components/subtitle/subtitle.scss';
+@import './../components/title/title.scss';
+@import './../pages/chating/chating.scss';
+@import './../components/chatCard/chatCard.scss';
+@import './../components/error/error.scss';
+@import './../components/message/message.scss';
+@import './var.scss';
+
 @font-face {
-  font-family: 'Calibri';
+  font-family: Calibri;
   src: url('../static/fonts/calibri/Calibri-LightItalic.eot');
   src: local('Calibri Light Italic'), local('Calibri-LightItalic'),
       url('../static/fonts/calibri/Calibri-LightItalic.eot?#iefix') format('embedded-opentype'),
@@ -11,7 +23,7 @@
 }
 
 @font-face {
-  font-family: 'Calibri';
+  font-family: Calibri;
   src: url('../static/fonts/calibri/Calibri-Italic.eot');
   src: local('Calibri Italic'), local('Calibri-Italic'),
       url('../static/fonts/calibri/Calibri-Italic.eot?#iefix') format('embedded-opentype'),
@@ -23,7 +35,7 @@
 }
 
 @font-face {
-  font-family: 'Calibri';
+  font-family: Calibri;
   src: url('../static/fonts/calibri/Calibri-Light.eot');
   src: local('Calibri Light'), local('Calibri-Light'),
       url('../static/fonts/calibri/Calibri-Light.eot?#iefix') format('embedded-opentype'),
@@ -35,7 +47,7 @@
 }
 
 @font-face {
-  font-family: 'Calibri';
+  font-family: Calibri;
   src: url('../static/fonts/calibri/Calibri-Bold.eot');
   src: local('Calibri Bold'), local('Calibri-Bold'),
       url('../static/fonts/calibri/Calibri-Bold.eot?#iefix') format('embedded-opentype'),
@@ -47,7 +59,7 @@
 }
 
 @font-face {
-  font-family: 'Calibri';
+  font-family: Calibri;
   src: url('../static/fonts/calibri/Calibri.eot');
   src: local('Calibri'),
       url('../static/fonts/calibri/Calibri.eot?#iefix') format('embedded-opentype'),
@@ -59,7 +71,7 @@
 }
 
 @font-face {
-  font-family: 'Calibri';
+  font-family: Calibri;
   src: url('../static/fonts/calibri/Calibri-BoldItalic.eot');
   src: local('Calibri Bold Italic'), local('Calibri-BoldItalic'),
       url('../static/fonts/calibri/Calibri-BoldItalic.eot?#iefix') format('embedded-opentype'),
@@ -73,9 +85,10 @@
 * {
   box-sizing: border-box;
 }
+
 #app {
   max-width: 1440px;
   margin: 0 auto;
   text-align: center;
-  font-family: Calibri;
+  font-family: Calibri, sans-serif;
 }
