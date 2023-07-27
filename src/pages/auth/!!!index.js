@@ -2,7 +2,7 @@ import Button from '../../components/button/index';
 import Title from '../../components/title/index';
 import Link from '../../components/link/index';
 import Input from '../../components/inputs/index';
-import Error from '../../components/error';
+import Error from '../../components/error/index';
 import errorMsg from '../../data/errorMsg';
 import validations from '../../helpers/validation';
 import showError from '../../helpers/showError';

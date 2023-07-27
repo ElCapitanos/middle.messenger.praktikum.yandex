@@ -1,10 +1,10 @@
-import Ava from '../../components/ava/index';
+import Ava from '../../components/ava/index.ts';
 import chating from './chating.hbs';
-import Card from '../../components/chatCard/index';
-import users from '../../data/users';
+import Card from '../../components/chatCard/index.ts';
+import users from '../../data/users.ts';
 import Subtitle from '../../components/subtitle/index';
-import Error from '../../components/error';
-import errorMsg from '../../data/errorMsg';
+import Error from '../../components/error/index.ts';
+import errorMsg from '../../data/errorMsg.ts';
 import showError from '../../helpers/showError';
 import validations from '../../helpers/validation';
 import Message from '../../components/message/index';
@@ -100,4 +100,4 @@ if (document.querySelector('.main__input-text')) {
     document.querySelector('.main__input-text').removeEventListener('blur', () => { });
 }
 
-document.getElementById('mainChat').scrollTop = document.getElementById('mainChat').scrollHeight;
+document.getElementById('mainChat') ? document.getElementById('mainChat').scrollTop = document.getElementById('mainChat').scrollHeight : null;

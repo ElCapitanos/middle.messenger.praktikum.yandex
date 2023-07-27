@@ -1,9 +1,9 @@
-import Button from '../../components/button/index';
+import Button from '../../components/button/index.ts';
 import Title from '../../components/title/index';
 import Input from '../../components/inputs/index';
 import Link from '../../components/link/index';
-import Ava from '../../components/ava/index';
-import Error from '../../components/error/index';
+import Ava from '../../components/ava/index.ts';
+import Error from '../../components/error/index.ts';
 import errorMsg from '../../data/errorMsg';
 import validations from '../../helpers/validation';
 import showError from '../../helpers/showError';
@@ -14,7 +14,7 @@ function render(temp, arrBlock) {
     });
     return temp;
 }
-
+console.log('////', showError)
 const formProfile = document.createElement('form');
 formProfile.id = 'formProfile';
 const linksProfile = document.createElement('div');
@@ -156,12 +156,12 @@ templateFormProfile.querySelectorAll('input').forEach((item) => {
         currentFormProfile.phone = document.getElementById('rprofilePhone')?.value;
         currentFormProfile.email = document.getElementById('profileMail')?.value;
         currentFormProfile.display_name = document.getElementById('profileUser')?.value;
-        showError.showError('first_name', 'errorName', e, validator);
-        showError.showError('second_name', 'errorSecondName', e, validator);
-        showError.showError('login', 'errorLogin', e, validator);
-        showError.showError('phone', 'errorPhone', e, validator);
-        showError.showError('email', 'errorMail', e, validator);
-        showError.showError('display_name', 'errorUser', e, validator);
+        showError('first_name', 'errorName', e, validator);
+        showError('second_name', 'errorSecondName', e, validator);
+        showError('login', 'errorLogin', e, validator);
+        showError('phone', 'errorPhone', e, validator);
+        showError('email', 'errorMail', e, validator);
+        showError('display_name', 'errorUser', e, validator);
         if (window.location.pathname === '/profile') { console.log('Текущие значения в форме: ', currentFormProfile); }
     });
 });

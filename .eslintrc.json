@@ -1,8 +1,10 @@
 {
-    "extends": "airbnb",
+    "extends": ["airbnb", "airbnb-typescript", "eslint:recommended", "plugin:react/recommended"],
     "env": {
         "browser": true,
-        "node": true
+        "node": true,    
+        "es6": true,
+        "jest": true
     },
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -10,7 +12,8 @@
             "jsx": true
         },
         "ecmaVersion": 12,
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": "./tsconfig.json"
     },
     "plugins": [
         "@typescript-eslint"
@@ -28,6 +31,7 @@
             "always",
             {
                 "pattern": {
+                    "": "never",
                     "jsx": "never",
                     "tsx": "never",
                     "ts": "never",
@@ -37,34 +41,24 @@
         ],
         "max-len": [
             2,
-            2500
+            500
         ],
         "indent": [
-            "error",
-            4
+            "off"
         ],
         "linebreak-style": [
             0,
             "error",
             "windows"
         ],
-        "comma-dangle": [
-            "error",
-            {
-                "arrays": "never",
-                "objects": "never",
-                "imports": "never",
-                "exports": "never",
-                "functions": "never"
-            }
-        ],
+        "comma-dangle": ["error", "never"],
         "no-underscore-dangle": [
             "error",
             {
                 "allowAfterThis": true
             }
         ],
-        "class-methods-use-this": "error",
+        "class-methods-use-this": ["error", { "enforceForClassFields": false }],
         "no-unused-vars": [
             "error"
         ],
