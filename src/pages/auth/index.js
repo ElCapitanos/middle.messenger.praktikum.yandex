@@ -15,7 +15,10 @@ function render(temp, arrBlock) {
 }
 
 const form = document.createElement("form");
-const template = document.getElementById("app").appendChild(form);
+form.id = "authForm";
+const links = document.createElement("div")
+const templateForm = document.getElementById("app").appendChild(form);
+const templateLinks = document.getElementById("app").appendChild(links)
 
 const input = new Input({
     inputType: "text",
@@ -46,24 +49,23 @@ const title = new Title({
 });
 const button = new Button({
     class: "btn",
-    type: "submit",
-    // url: '/chating',
+    type: "button",
+    url: '/chating',
     label: "Войти",
     id: "enterBtn",
 });
 
-const result = [
+const resultForm = [
     title,
     input,
     errorLogin,
     password,
     errorPassword,
-    button,
-    link,
 ];
-
+const resultLinks = [button, link]
 if (window.location.pathname === "/" || window.location.pathname === "/auth") {
-    render(template, result);
+    render(templateForm, resultForm);
+    render(templateLinks, resultLinks)
 }
 
 function validator(field, value) {
@@ -79,7 +81,7 @@ const currentFormAuth = {
     password: "",
 };
 
-template.querySelectorAll("input").forEach((item) => {
+templateForm.querySelectorAll("input").forEach((item) => {
     item.addEventListener("blur", (e) => {
         currentFormAuth.login = document.getElementById("enterLogin")?.value;
         currentFormAuth.password =
@@ -94,15 +96,15 @@ template.querySelectorAll("input").forEach((item) => {
         }
     });
 });
-template.querySelectorAll("input").forEach((item) => {
-    item.removeEventListener("blur", () => {});
+templateForm.querySelectorAll("input").forEach((item) => {
+    item.removeEventListener("blur", () => { });
 });
 
-document.querySelector("form")?.addEventListener("click", (e) => {
+document.getElementById("authForm")?.addEventListener("click", (e) => {
     // по клику генерируется submit
     e.preventDefault();
     e.stopPropagation();
-    template.querySelectorAll("input").forEach((item) => {
+    templateForm.querySelectorAll("input").forEach((item) => {
         if (validator(item.name, item.value) && item.name === "password") {
             document.getElementById("errorPassword").style.opacity = 1;
         }

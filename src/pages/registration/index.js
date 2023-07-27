@@ -14,7 +14,11 @@ function render(temp, arrBlock) {
     return temp;
 };
 
-const template = document.getElementById("app");
+const formReg = document.createElement("form");
+formReg.id = 'formReg';
+const linksReg = document.createElement("div");
+const templateRegForm = document.getElementById("app").appendChild(formReg);
+const templateRegLinks = document.getElementById("app").appendChild(linksReg);
 
 const inputName = new Input({
     inputType: "text",
@@ -91,7 +95,7 @@ const title = new Title({
 });
 const button = new Button({
     class: "btn",
-    type: "submit",
+    type: "button",
     url: "/chating",
     label: "Зарегистрироваться",
     id: "regBtn",
@@ -101,10 +105,12 @@ const link = new Link({
     title: 'Войти'
 });
 
-const result = [title, inputName, errorName, inputSecondName, errorSecondName, inputLogin, errorLogin, inputPhone, errorPhone, inputMail, errorMail, password, errorPassword, passwordCopy, errorPasswordCopy, button, link];
+const resultFormReg = [title, inputName, errorName, inputSecondName, errorSecondName, inputLogin, errorLogin, inputPhone, errorPhone, inputMail, errorMail, password, errorPassword, passwordCopy, errorPasswordCopy];
+const resultLinksReg = [button, link]
 
 if (window.location.pathname === "/registration") {
-    render(template, result)
+    render(templateRegForm, resultFormReg)
+    render(templateRegLinks, resultLinksReg)
 }
 
 function validator(field, value) {
@@ -137,7 +143,7 @@ const currentFormReg = {
     'passwordCopy': '',
 };
 
-template.querySelectorAll("input").forEach((item) => {
+templateRegForm.querySelectorAll("input").forEach((item) => {
     item.addEventListener("blur", (e) => {
         currentFormReg.first_name = document.getElementById('regName')?.value;
         currentFormReg.second_name = document.getElementById('regSecondName')?.value;
@@ -153,9 +159,35 @@ template.querySelectorAll("input").forEach((item) => {
         showError.showError("email", "errorMail", e, validator);
         showError.showError("password", "errorPassword", e, validator);
         showError.showError("passwordCopy", "errorPasswordCopy", e, validator);
-        if (window.location.pathname === "/registration") {console.log('Текущие значения в форме: ', currentFormReg)};
+        if (window.location.pathname === "/registration") { console.log('Текущие значения в форме: ', currentFormReg) };
     });
 });
-template.querySelectorAll("input").forEach((item) => {
-    item.removeEventListener("blur", () => {});
+templateRegForm.querySelectorAll("input").forEach((item) => {
+    item.removeEventListener("blur", () => { });
+});
+
+document.getElementById("formReg").addEventListener("click", (e) => {
+    // по клику генерируется submit
+    e.preventDefault();
+    e.stopPropagation();
+    templateRegForm.querySelectorAll("input").forEach((item) => {
+        if (validator(item.name, item.value) && item.name === "first_name" || validator(item.name, item.value) && item.name === "second_name") {
+            document.getElementById("errorName").style.opacity = 1;
+        }
+        if (validator(item.name, item.value) && item.name === "login") {
+            document.getElementById("errorLogin").style.opacity = 1;
+        }
+        if (validator(item.name, item.value) && item.name === "phone") {
+            document.getElementById("errorPhone").style.opacity = 1;
+        }
+        if (validator(item.name, item.value) && item.name === "email") {
+            document.getElementById("errorMail").style.opacity = 1;
+        }
+        if (validator(item.name, item.value) && item.name === "password") {
+            document.getElementById("errorPassword").style.opacity = 1;
+        }
+        if (validator(item.name, item.value) && item.name === "passwordCopy") {
+            document.getElementById("errorPasswordCopy").style.opacity = 1;
+        }
+    });
 });

@@ -15,9 +15,11 @@ function render(temp, arrBlock) {
     return temp;
 }
 
-const form = document.createElement("form");
-form.id = "passwordForm";
-const template = document.getElementById("app").appendChild(form);
+const formPsw = document.createElement("form");
+formPsw.id = "passwordForm";
+const templatePasswordForm = document.getElementById("app").appendChild(formPsw);
+const passwordLinks = document.createElement("div"); 
+const templatePasswordLinks = document.getElementById("app").appendChild(passwordLinks);
 
 const ava = new Ava({
     class: "ava",
@@ -57,8 +59,8 @@ const title = new Title({
 });
 const buttonSave = new Button({
     class: "btn",
-    type: "submit",
-    // url: "/chating",
+    type: "button",
+    url: "/chating",
     label: "Сохранить изменения",
     id: "saveBtn",
 });
@@ -74,7 +76,7 @@ const link = new Link({
     title: "Удалить аккаунт",
 });
 
-const result = [
+const resultForm = [
     title,
     ava,
     inputOldPsw,
@@ -83,14 +85,13 @@ const result = [
     errorPasswordCopy,
     inputNewPswCopy,
     errorPasswordNewCopy,
-    buttonSave,
-    buttonCancel,
-    link,
 ];
 
+const resultLinks = [buttonSave, buttonCancel, link]
+
 if (window.location.pathname === "/password-change") {
-    console.log("/**/*/*", template);
-    render(template, result);
+    render(templatePasswordForm, resultForm);
+    render(templatePasswordLinks, resultLinks);
 }
 
 function validator(field, value) {
@@ -108,7 +109,7 @@ const currentFormPasswordChange = {
     passwordCopy: "",
     passwordNewCopy: "",
 };
-template.querySelectorAll("input").forEach((item) => {
+templatePasswordForm.querySelectorAll("input").forEach((item) => {
     item.addEventListener("blur", (e) => {
         currentFormPasswordChange.password =
             document.getElementById("password")?.value;
@@ -132,7 +133,7 @@ template.querySelectorAll("input").forEach((item) => {
         }
     });
 });
-template.querySelectorAll("input").forEach((item) => {
+templatePasswordForm.querySelectorAll("input").forEach((item) => {
     item.removeEventListener("blur", () => {});
 });
 
@@ -140,7 +141,7 @@ document.getElementById("passwordForm").addEventListener("click", (e) => {
     // по клику генерируется submit
     e.preventDefault();
     e.stopPropagation();
-    template.querySelectorAll("input").forEach((item) => {
+    templatePasswordForm.querySelectorAll("input").forEach((item) => {
         if (validator(item.name, item.value) && item.name === "password") {
             document.getElementById("errorPassword").style.opacity = 1;
         }

@@ -101,3 +101,5 @@ if (document.querySelector('.main__input-text')) {
 if (document.querySelector('.main__input-text')) {
     document.querySelector('.main__input-text').removeEventListener("blur", () => { })
 }
+
+document.getElementById('mainChat').scrollTop = document.getElementById('mainChat').scrollHeight;

@@ -1,6 +1,6 @@
 {
     "extends": "airbnb",
-      "env": {
+    "env": {
         "browser": true,
         "node": true
     },
@@ -18,7 +18,9 @@
     "rules": {
         "import/no-extraneous-dependencies": [
             "error",
-            {"devDependencies": true}
+            {
+                "devDependencies": true
+            }
         ],
         "import/extensions": [
             "error",
@@ -32,32 +34,71 @@
                 }
             }
         ],
-        "max-len": [2, 400],
-        "indent": ["error", 4],
-        "linebreak-style": [0,"error", "windows"],
-        "comma-dangle": ["error", {
-            "arrays": "never",
-            "objects": "never",
-            "imports": "never",
-            "exports": "never",
-            "functions": "never"
-        }],
-        "no-underscore-dangle": ["error", { "allowAfterThis": true }],
+        "max-len": [
+            2,
+            400
+        ],
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            0,
+            "error",
+            "windows"
+        ],
+        "comma-dangle": [
+            "error",
+            {
+                "arrays": "never",
+                "objects": "never",
+                "imports": "never",
+                "exports": "never",
+                "functions": "never"
+            }
+        ],
+        "no-underscore-dangle": [
+            "error",
+            {
+                "allowAfterThis": true
+            }
+        ],
         "class-methods-use-this": "error",
-        "no-unused-vars": ["error"],
-        "max-params": [2, 3]
+        "no-unused-vars": [
+            "error"
+        ],
+        "max-params": [
+            2,
+            3
+        ]
     },
     "settings": {
-        "import/no-extraneous-dependencies": ["error", {"projectDependencies": false}],
-        "no-unused-vars": ["error"],
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "projectDependencies": false
+            }
+        ],
+        "no-unused-vars": [
+            "error"
+        ],
         "prefer-arrow-callback": "error",
-        "arrow-parens": ["error", "always"],
-        "padded-blocks": ["error", "never"],
-        "eol-last": ["error", "never"],
+        "arrow-parens": [
+            "error",
+            "always"
+        ],
+        "padded-blocks": [
+            "error",
+            "never"
+        ],
+        "eol-last": [
+            "error",
+            "never"
+        ],
         "import/resolver": {
             "typescript": {
                 "alwaysTryTypes": true
             }
         }
     }
-  }
+}
