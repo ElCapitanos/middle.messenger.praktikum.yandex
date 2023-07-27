@@ -8,9 +8,9 @@ export default class Message extends Block {
   }
 
   render() {
-    return message({
-      class: this.props.class,
-      text: this.props.text,
+    return message({//@ts-ignore
+      class: this.props.class,//@ts-ignore
+      text: this.props.text,//@ts-ignore
       time: this.props.time
     });
   }

@@ -8,12 +8,12 @@ export default class Button extends Block {
   }
 
   render() {
-    return btn({
-      class: this.props.class,
-      label: this.props.label,
-      url: this.props.url,
-      btnType: this.props.type,
-      id: this.props.id,
+    return btn({//@ts-ignore
+      class: this.props.class,//@ts-ignore
+      label: this.props.label,//@ts-ignore
+      url: this.props.url,//@ts-ignore
+      btnType: this.props.type,//@ts-ignore
+      id: this.props.id,//@ts-ignore
       disabled: this.props.disabled
     });
   }

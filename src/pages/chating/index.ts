@@ -1,17 +1,17 @@
-import Ava from '../../components/ava/index.ts';
+import Ava from '../../components/ava/index';
 import chating from './chating.hbs';
-import Card from '../../components/chatCard/index.ts';
-import users from '../../data/users.ts';
+import Card from '../../components/chatCard/index';
+import users from '../../data/users';
 import Subtitle from '../../components/subtitle/index';
-import Error from '../../components/error/index.ts';
-import errorMsg from '../../data/errorMsg.ts';
+import Error from '../../components/error/index';
+import errorMsg from '../../data/errorMsg';
 import showError from '../../helpers/showError';
 import validations from '../../helpers/validation';
 import Message from '../../components/message/index';
 
-function render(temp, arrBlock) {
+function render(temp:HTMLElement, arrBlock:any) {
     if (temp) {
-        arrBlock.forEach((item) => {
+        arrBlock.forEach((item:any) => {
             temp.appendChild(item.getContent());
         });
         return temp;
@@ -25,25 +25,25 @@ const errorMessage = new Error({
     errorStyle: 'position:absolute;bottom:20px;'
 });
 
-const root = document.querySelector('#app');
+const root:HTMLElement | any = document.querySelector('#app');
 const result = chating();
 
 if (window.location.pathname === '/chating') { root.innerHTML = result; }
 
-const avatarTemplateHeader = root.querySelector('.main__ava');
-const nameTemplateHeader = root.querySelector('.main__name');
-const cardsTemplate = root.querySelector('.chat__cards');
-const messageTemplate = root.querySelector('.main__chat');
+const avatarTemplateHeader:HTMLElement | any  = root?.querySelector('.main__ava');
+const nameTemplateHeader:HTMLElement | any  = root?.querySelector('.main__name');
+const cardsTemplate:HTMLElement | any = root?.querySelector('.chat__cards');
+const messageTemplate:HTMLElement | any = root?.querySelector('.main__chat');
 
-const resultCards = [];
-const messageCards = [];
+const resultCards:Array<any> = [];
+const messageCards:Array<any> = [];
 let activeItemAva = '';
 let activeItemName = '';
 users.currentUsers.forEach((item) => {
     if (item.active) {
         activeItemAva = item.avaSrc;
         activeItemName = item.name;
-        item.messages.forEach((msg) => {
+        item.messages?.forEach((msg) => {
             if (msg.own) {
                 const newMsg = new Message({
                     text: msg.own,
@@ -79,25 +79,25 @@ const subtitle = new Subtitle({
     text: activeItemName
 });
 
-const resultName = [subtitle];
-const resultAvatar = [avatar];
-const errorText = [errorMessage];
+const resultName:Array<any> = [subtitle];
+const resultAvatar:Array<any> = [avatar];
+const errorText:Array<any> = [errorMessage];
 render(avatarTemplateHeader, resultAvatar);
 render(nameTemplateHeader, resultName);
 render(cardsTemplate, resultCards);
 render(messageTemplate, errorText);
 render(messageTemplate, messageCards);
 
-function validator(field, value) {
+function validator(field:string, value:string) {
     return field === 'message' ? !validations.validations.message(value) : null;
 }
 if (document.querySelector('.main__input-text')) {
-    document.querySelector('.main__input-text').addEventListener('blur', (e) => {
-        showError.showError('message', 'errorMessage', e, validator);
+    document.querySelector('.main__input-text')?.addEventListener('blur', (e) => {
+        showError('message', 'errorMessage', e, validator);
     });
 }
 if (document.querySelector('.main__input-text')) {
-    document.querySelector('.main__input-text').removeEventListener('blur', () => { });
+    document.querySelector('.main__input-text')?.removeEventListener('blur', () => { });
 }
-
-document.getElementById('mainChat') ? document.getElementById('mainChat').scrollTop = document.getElementById('mainChat').scrollHeight : null;
+// @ts-ignore
+document.getElementById('mainChat') ? document.getElementById('mainChat').scrollTop = document.getElementById('mainChat')?.scrollHeight : null;

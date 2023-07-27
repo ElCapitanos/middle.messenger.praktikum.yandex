@@ -1,15 +1,15 @@
-import Button from '../../components/button/index.ts';
+import Button from '../../components/button/index';
 import Title from '../../components/title/index';
 import Input from '../../components/inputs/index';
 import Link from '../../components/link/index';
-import Ava from '../../components/ava/index.ts';
-import Error from '../../components/error/index.ts';
+import Ava from '../../components/ava/index';
+import Error from '../../components/error/index';
 import errorMsg from '../../data/errorMsg';
 import validations from '../../helpers/validation';
 import showError from '../../helpers/showError';
 
-function render(temp, arrBlock) {
-    arrBlock.forEach((item) => {
+function render(temp:HTMLElement, arrBlock:any) {
+    arrBlock.forEach((item:any) => {
         temp.appendChild(item.getContent());
     });
     return temp;
@@ -17,9 +17,9 @@ function render(temp, arrBlock) {
 
 const formPsw = document.createElement('form');
 formPsw.id = 'passwordForm';
-const templatePasswordForm = document.getElementById('app').appendChild(formPsw);
-const passwordLinks = document.createElement('div');
-const templatePasswordLinks = document.getElementById('app').appendChild(passwordLinks);
+const templatePasswordForm:HTMLElement | any = document.getElementById('app')?.appendChild(formPsw);
+const passwordLinks:HTMLElement | any = document.createElement('div');
+const templatePasswordLinks:HTMLElement | any = document.getElementById('app')?.appendChild(passwordLinks);
 
 const ava = new Ava({
     class: 'ava'
@@ -76,7 +76,7 @@ const link = new Link({
     title: 'Удалить аккаунт'
 });
 
-const resultForm = [
+const resultForm:Array<any> = [
     title,
     ava,
     inputOldPsw,
@@ -87,7 +87,7 @@ const resultForm = [
     errorPasswordNewCopy
 ];
 
-const resultLinks = [buttonSave, buttonCancel, link];
+const resultLinks:Array<any> = [buttonSave, buttonCancel, link];
 
 if (window.location.pathname === '/password-change') {
     render(templatePasswordForm, resultForm);
@@ -115,9 +115,9 @@ templatePasswordForm.querySelectorAll('input').forEach((item) => {
         currentFormPasswordChange.password = document.getElementById('password')?.value;
         currentFormPasswordChange.passwordCopy = document.getElementById('passwordCopy')?.value;
         currentFormPasswordChange.passwordNewCopy = document.getElementById('passwordNewCopy')?.value;
-        showError.showError('password', 'errorPassword', e, validator);
-        showError.showError('passwordCopy', 'errorPasswordCopy', e, validator);
-        showError.showError(
+        showError('password', 'errorPassword', e, validator);
+        showError('passwordCopy', 'errorPasswordCopy', e, validator);
+        showError(
             'passwordNewCopy',
             'errorPasswordNewCopy',
             e,

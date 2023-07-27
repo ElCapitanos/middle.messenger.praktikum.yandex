@@ -7,7 +7,7 @@ export default class Link extends Block {
     super('div', props);
   }
 
-  render() {
+  render() {//@ts-ignore
     return link({ url: this.props.url, title: this.props.title });
   }
 }

@@ -8,20 +8,20 @@ export default class Input extends Block {
     super('div', props);
   }
 
-  render() {
+  render() {//@ts-ignore
     return this.props.inputType !== 'password'
-      ? input({
-        inputType: this.props.inputType,
-        inputName: this.props.inputName,
-        placeHolderText: this.props.placeHolderText,
-        inputId: this.props.inputId,
+      ? input({//@ts-ignore
+        inputType: this.props.inputType,//@ts-ignore
+        inputName: this.props.inputName,//@ts-ignore
+        placeHolderText: this.props.placeHolderText,//@ts-ignore
+        inputId: this.props.inputId,//@ts-ignore
         events: this.props.events
       })
-      : password({
-        inputType: this.props.inputType,
-        inputName: this.props.inputName,
-        placeHolderText: this.props.placeHolderText,
-        inputId: this.props.inputId,
+      : password({//@ts-ignore
+        inputType: this.props.inputType,//@ts-ignore
+        inputName: this.props.inputName,//@ts-ignore
+        placeHolderText: this.props.placeHolderText,//@ts-ignore
+        inputId: this.props.inputId,//@ts-ignore
         events: this.props.events
       });
   }

@@ -7,7 +7,7 @@ export default class Subtitle extends Block {
     super('div', props);
   }
 
-  render() {
+  render() {//@ts-ignore
     return subtitle({ text: this.props.text });
   }
 }

@@ -17,8 +17,8 @@ function render(temp:HTMLElement, arrBlock:any) {
 const form:HTMLElement = document.createElement('form');
 form.id = 'authForm';
 const links:HTMLElement = document.createElement('div');
-const templateForm:HTMLElement = document.getElementById('app').appendChild(form);
-const templateLinks:HTMLElement = document.getElementById('app').appendChild(links);
+const templateForm:HTMLElement | any = document.getElementById('app')?.appendChild(form);
+const templateLinks:HTMLElement | any = document.getElementById('app')?.appendChild(links);
 
 const input = new Input({
   inputType: 'text',
@@ -77,12 +77,12 @@ const currentFormAuth = {
   password: ''
 };
 
-templateForm.querySelectorAll('input').forEach((item) => {
-  item.addEventListener('blur', (e) => {
-    currentFormAuth.login = document.getElementById('enterLogin')?.value;
+templateForm.querySelectorAll('input').forEach((item:any) => {
+  item.addEventListener('blur', (e:any) => {//@ts-ignore
+    currentFormAuth.login = document.getElementById('enterLogin')?.value;//@ts-ignore
     currentFormAuth.password = document.getElementById('enterPassword')?.value;
-    showError.showError('login', 'errorLogin', e, validator);
-    showError.showError('password', 'errorPassword', e, validator);
+    showError('login', 'errorLogin', e, validator);
+    showError('password', 'errorPassword', e, validator);
     if (
       window.location.pathname === '/'
       || window.location.pathname === '/auth'
@@ -91,7 +91,7 @@ templateForm.querySelectorAll('input').forEach((item) => {
     }
   });
 });
-templateForm.querySelectorAll('input').forEach((item) => {
+templateForm.querySelectorAll('input').forEach((item:any) => {
   item.removeEventListener('blur', () => { });
 });
 
@@ -99,11 +99,11 @@ document.getElementById('authForm')?.addEventListener('click', (e) => {
   // по клику генерируется submit
   e.preventDefault();
   e.stopPropagation();
-  templateForm.querySelectorAll('input').forEach((item) => {
-    if (validator(item.name, item.value) && item.name === 'password') {
+  templateForm.querySelectorAll('input').forEach((item:any) => {
+    if (validator(item.name, item.value) && item.name === 'password') {//@ts-ignore
       document.getElementById('errorPassword').style.opacity = 1;
     }
-    if (validator(item.name, item.value) && item.name === 'login') {
+    if (validator(item.name, item.value) && item.name === 'login') {//@ts-ignore
       document.getElementById('errorLogin').style.opacity = 1;
     }
   });

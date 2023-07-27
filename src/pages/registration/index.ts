@@ -1,24 +1,25 @@
-import Button from '../../components/button/index.ts';
+import Button from '../../components/button/index';
 import Title from '../../components/title/index';
 import Input from '../../components/inputs/index';
 import Link from '../../components/link/index';
-import Error from '../../components/error/index.ts';
+import Error from '../../components/error/index';
 import errorMsg from '../../data/errorMsg';
 import validations from '../../helpers/validation';
 import showError from '../../helpers/showError';
+import { StringObject } from '../../helpers/constTypes'
 
-function render(temp, arrBlock) {
-    arrBlock.forEach((item) => {
+function render(temp:HTMLElement, arrBlock:any) {
+    arrBlock.forEach((item:any) => {
         temp.appendChild(item.getContent());
     });
     return temp;
 }
 
-const formReg = document.createElement('form');
+const formReg:HTMLElement | any  = document.createElement('form');
 formReg.id = 'formReg';
-const linksReg = document.createElement('div');
-const templateRegForm = document.getElementById('app').appendChild(formReg);
-const templateRegLinks = document.getElementById('app').appendChild(linksReg);
+const linksReg:HTMLElement | any = document.createElement('div');
+const templateRegForm:HTMLElement | any  = document.getElementById('app')?.appendChild(formReg);
+const templateRegLinks:HTMLElement | any = document.getElementById('app')?.appendChild(linksReg);
 
 const inputName = new Input({
     inputType: 'text',
@@ -105,15 +106,15 @@ const link = new Link({
     title: 'Войти'
 });
 
-const resultFormReg = [title, inputName, errorName, inputSecondName, errorSecondName, inputLogin, errorLogin, inputPhone, errorPhone, inputMail, errorMail, password, errorPassword, passwordCopy, errorPasswordCopy];
-const resultLinksReg = [button, link];
+const resultFormReg:Array<any> = [title, inputName, errorName, inputSecondName, errorSecondName, inputLogin, errorLogin, inputPhone, errorPhone, inputMail, errorMail, password, errorPassword, passwordCopy, errorPasswordCopy];
+const resultLinksReg:Array<any> = [button, link];
 
 if (window.location.pathname === '/registration') {
     render(templateRegForm, resultFormReg);
     render(templateRegLinks, resultLinksReg);
 }
 
-function validator(field, value) {
+function validator(field:string, value:string) {
     if (
         field === 'first_name'
         || field === 'second_name'
@@ -128,13 +129,13 @@ function validator(field, value) {
         return !validations.validations.phone(value);
     } if (field === 'password') {
         return !validations.validations.password(value);
-    } if (field === 'passwordCopy') {
-        return value !== document.getElementById('password').value;
+    } if (field === 'passwordCopy') {//@ts-ignore
+        return value !== document.getElementById('password')?.value;
     }
     return null; // для EsLint
 }
 
-const currentFormReg = {
+const currentFormReg:StringObject = {
     first_name: '',
     second_name: '',
     login: '',
@@ -144,52 +145,52 @@ const currentFormReg = {
     passwordCopy: ''
 };
 
-templateRegForm.querySelectorAll('input').forEach((item) => {
-    item.addEventListener('blur', (e) => {
-        currentFormReg.first_name = document.getElementById('regName')?.value;
-        currentFormReg.second_name = document.getElementById('regSecondName')?.value;
-        currentFormReg.login = document.getElementById('regLogin')?.value;
-        currentFormReg.phone = document.getElementById('regPhone')?.value;
-        currentFormReg.email = document.getElementById('regMail')?.value;
-        currentFormReg.password = document.getElementById('password')?.value;
+templateRegForm.querySelectorAll('input').forEach((item:any) => {
+    item.addEventListener('blur', (e:any) => {//@ts-ignore
+        currentFormReg.first_name = document.getElementById('regName')?.value;//@ts-ignore
+        currentFormReg.second_name = document.getElementById('regSecondName')?.value;//@ts-ignore
+        currentFormReg.login = document.getElementById('regLogin')?.value;//@ts-ignore
+        currentFormReg.phone = document.getElementById('regPhone')?.value;//@ts-ignore
+        currentFormReg.email = document.getElementById('regMail')?.value;//@ts-ignore
+        currentFormReg.password = document.getElementById('password')?.value;//@ts-ignore
         currentFormReg.passwordCopy = document.getElementById('passwordCopy')?.value;
-        showError.showError('first_name', 'errorName', e, validator);
-        showError.showError('second_name', 'errorSecondName', e, validator);
-        showError.showError('login', 'errorLogin', e, validator);
-        showError.showError('phone', 'errorPhone', e, validator);
-        showError.showError('email', 'errorMail', e, validator);
-        showError.showError('password', 'errorPassword', e, validator);
-        showError.showError('passwordCopy', 'errorPasswordCopy', e, validator);
+        showError('first_name', 'errorName', e, validator);
+        showError('second_name', 'errorSecondName', e, validator);
+        showError('login', 'errorLogin', e, validator);
+        showError('phone', 'errorPhone', e, validator);
+        showError('email', 'errorMail', e, validator);
+        showError('password', 'errorPassword', e, validator);
+        showError('passwordCopy', 'errorPasswordCopy', e, validator);
         if (window.location.pathname === '/registration') {
             console.log('Текущие значения в форме: ', currentFormReg);
         }
     });
 });
-templateRegForm.querySelectorAll('input').forEach((item) => {
+templateRegForm.querySelectorAll('input').forEach((item:any) => {
     item.removeEventListener('blur', () => { });
 });
 
-document.getElementById('formReg').addEventListener('click', (e) => {
+document.getElementById('formReg')?.addEventListener('click', (e) => {
     // по клику генерируется submit
     e.preventDefault();
     e.stopPropagation();
-    templateRegForm.querySelectorAll('input').forEach((item) => {
-        if ((validator(item.name, item.value) && item.name === 'first_name') || (validator(item.name, item.value) && item.name === 'second_name')) {
+    templateRegForm.querySelectorAll('input').forEach((item:any) => {
+        if ((validator(item.name, item.value) && item.name === 'first_name') || (validator(item.name, item.value) && item.name === 'second_name')) {//@ts-ignore
             document.getElementById('errorName').style.opacity = 1;
         }
-        if (validator(item.name, item.value) && item.name === 'login') {
+        if (validator(item.name, item.value) && item.name === 'login') {//@ts-ignore
             document.getElementById('errorLogin').style.opacity = 1;
         }
-        if (validator(item.name, item.value) && item.name === 'phone') {
+        if (validator(item.name, item.value) && item.name === 'phone') {//@ts-ignore
             document.getElementById('errorPhone').style.opacity = 1;
         }
-        if (validator(item.name, item.value) && item.name === 'email') {
+        if (validator(item.name, item.value) && item.name === 'email') {//@ts-ignore
             document.getElementById('errorMail').style.opacity = 1;
         }
-        if (validator(item.name, item.value) && item.name === 'password') {
+        if (validator(item.name, item.value) && item.name === 'password') {//@ts-ignore
             document.getElementById('errorPassword').style.opacity = 1;
         }
-        if (validator(item.name, item.value) && item.name === 'passwordCopy') {
+        if (validator(item.name, item.value) && item.name === 'passwordCopy') {//@ts-ignore
             document.getElementById('errorPasswordCopy').style.opacity = 1;
         }
     });

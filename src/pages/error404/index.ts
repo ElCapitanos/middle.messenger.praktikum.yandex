@@ -1,14 +1,14 @@
 import Title from '../../components/title/index';
 import Link from '../../components/link/index';
 
-function render(temp, arrBlock) {
-    arrBlock.forEach((item) => {
+function render(temp:HTMLElement, arrBlock:any) {
+    arrBlock.forEach((item:any) => {
         temp.appendChild(item.getContent());
     });
     return temp;
 }
 
-const template = document.getElementById('app');
+const template:HTMLElement | any  = document.getElementById('app');
 
 const link = new Link({
     url: '/chating',

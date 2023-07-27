@@ -7,7 +7,7 @@ export default class Title extends Block {
     super('div', props);
   }
 
-  render() {
+  render() {//@ts-ignore
     return title({ text: this.props.text });
   }
 }

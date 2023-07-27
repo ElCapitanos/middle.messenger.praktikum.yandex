@@ -1,25 +1,25 @@
-import Button from '../../components/button/index.ts';
+import Button from '../../components/button/index';
 import Title from '../../components/title/index';
 import Input from '../../components/inputs/index';
 import Link from '../../components/link/index';
-import Ava from '../../components/ava/index.ts';
-import Error from '../../components/error/index.ts';
+import Ava from '../../components/ava/index';
+import Error from '../../components/error/index';
 import errorMsg from '../../data/errorMsg';
 import validations from '../../helpers/validation';
 import showError from '../../helpers/showError';
+import { StringObject } from '../../helpers/constTypes'
 
-function render(temp, arrBlock) {
-    arrBlock.forEach((item) => {
+function render(temp:HTMLElement, arrBlock:any) {
+    arrBlock.forEach((item:any) => {
         temp.appendChild(item.getContent());
     });
     return temp;
 }
-console.log('////', showError)
-const formProfile = document.createElement('form');
+const formProfile:HTMLElement | any = document.createElement('form');
 formProfile.id = 'formProfile';
-const linksProfile = document.createElement('div');
-const templateFormProfile = document.getElementById('app').appendChild(formProfile);
-const templateLinksProfile = document.getElementById('app').appendChild(linksProfile);
+const linksProfile:HTMLElement | any = document.createElement('div');
+const templateFormProfile:HTMLElement | any = document.getElementById('app')?.appendChild(formProfile);
+const templateLinksProfile:HTMLElement | any = document.getElementById('app')?.appendChild(linksProfile);
 
 const ava = new Ava({
     class: 'ava'
@@ -99,7 +99,7 @@ const link = new Link({
     title: 'Удалить аккаунт'
 });
 
-const resultFormProfile = [
+const resultFormProfile:Array<any> = [
     title,
     ava,
     inputName,
@@ -116,13 +116,13 @@ const resultFormProfile = [
     errorUser
 ];
 
-const resultLinksProfile = [button, link];
+const resultLinksProfile:Array<any> = [button, link];
 
 if (window.location.pathname === '/profile') {
     render(templateFormProfile, resultFormProfile);
     render(templateLinksProfile, resultLinksProfile);
 }
-function validator(field, value) {
+function validator(field:string, value:string) {
     if (
         field === 'first_name'
         || field === 'second_name'
@@ -139,7 +139,7 @@ function validator(field, value) {
     return null; // для EsLint
 }
 
-const currentFormProfile = {
+const currentFormProfile:StringObject = {
     first_name: '',
     second_name: '',
     login: '',
@@ -148,13 +148,14 @@ const currentFormProfile = {
     display_name: ''
 };
 
-templateFormProfile.querySelectorAll('input').forEach((item) => {
-    item.addEventListener('blur', (e) => {
-        currentFormProfile.first_name = document.getElementById('profileName')?.value;
-        currentFormProfile.second_name = document.getElementById('profileSecondName')?.value;
-        currentFormProfile.login = document.getElementById('profileLogin')?.value;
-        currentFormProfile.phone = document.getElementById('rprofilePhone')?.value;
-        currentFormProfile.email = document.getElementById('profileMail')?.value;
+templateFormProfile.querySelectorAll('input').forEach((item:any) => {
+    item.addEventListener('blur', (e:any) => {
+        //@ts-ignore
+        currentFormProfile.first_name = document.getElementById('profileName')?.value;//@ts-ignore
+        currentFormProfile.second_name = document.getElementById('profileSecondName')?.value;//@ts-ignore
+        currentFormProfile.login = document.getElementById('profileLogin')?.value;//@ts-ignore
+        currentFormProfile.phone = document.getElementById('rprofilePhone')?.value;//@ts-ignore
+        currentFormProfile.email = document.getElementById('profileMail')?.value;//@ts-ignore
         currentFormProfile.display_name = document.getElementById('profileUser')?.value;
         showError('first_name', 'errorName', e, validator);
         showError('second_name', 'errorSecondName', e, validator);
@@ -165,28 +166,28 @@ templateFormProfile.querySelectorAll('input').forEach((item) => {
         if (window.location.pathname === '/profile') { console.log('Текущие значения в форме: ', currentFormProfile); }
     });
 });
-templateFormProfile.querySelectorAll('input').forEach((item) => {
+templateFormProfile.querySelectorAll('input').forEach((item:any) => {
     item.removeEventListener('blur', () => { });
 });
 
-document.getElementById('formProfile').addEventListener('click', (e) => {
+document.getElementById('formProfile')?.addEventListener('click', (e) => {
     // по клику генерируется submit
     e.preventDefault();
     e.stopPropagation();
-    templateFormProfile.querySelectorAll('input').forEach((item) => {
-        if ((validator(item.name, item.value) && item.name === 'first_name') || (validator(item.name, item.value) && item.name === 'second_name')) {
+    templateFormProfile.querySelectorAll('input').forEach((item:any) => {
+        if ((validator(item.name, item.value) && item.name === 'first_name') || (validator(item.name, item.value) && item.name === 'second_name')) {//@ts-ignore
             document.getElementById('errorName').style.opacity = 1;
         }
-        if (validator(item.name, item.value) && item.name === 'login') {
+        if (validator(item.name, item.value) && item.name === 'login') {//@ts-ignore
             document.getElementById('errorLogin').style.opacity = 1;
         }
-        if (validator(item.name, item.value) && item.name === 'phone') {
+        if (validator(item.name, item.value) && item.name === 'phone') {//@ts-ignore
             document.getElementById('errorPhone').style.opacity = 1;
         }
-        if (validator(item.name, item.value) && item.name === 'email') {
+        if (validator(item.name, item.value) && item.name === 'email') {//@ts-ignore
             document.getElementById('errorMail').style.opacity = 1;
         }
-        if (validator(item.name, item.value) && item.name === 'display_name') {
+        if (validator(item.name, item.value) && item.name === 'display_name') {//@ts-ignore
             document.getElementById('errorUser').style.opacity = 1;
         }
     });

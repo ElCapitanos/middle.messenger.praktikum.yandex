@@ -17,16 +17,16 @@ export type PropsForComponent = {
   label?: string,
   url?: string,
   btnType?: string,
-  message: string,
-  errorId: string,
-  errorStyle: string,
-  inputName: string,
-  placeHolderText: string,
-  inputType: string,
-  inputId: string,
-  events: object,
-  title: string,
-  time: string 
+  message?: string,
+  errorId?: string,
+  errorStyle?: string,
+  inputName?: string,
+  placeHolderText?: string,
+  inputType?: string,
+  inputId?: string,
+  events?: object,
+  title?: string,
+  time?: string 
 };
 export type Options = {
   timeout?: number;

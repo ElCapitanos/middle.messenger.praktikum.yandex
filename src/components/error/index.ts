@@ -7,7 +7,7 @@ export default class Error extends Block {
     super('div', props);
   }
 
-  render() {
+  render() {//@ts-ignore
     return error({ message: this.props.message, errorId: this.props.errorId, errorStyle: this.props.errorStyle });
   }
 }
