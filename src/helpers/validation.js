@@ -4,7 +4,7 @@ const validations = {
     name: (value) => /^[A-ZА-Я]/.test(value) && /^[A-Za-zА-Яа-я/-]{0,}$/.test(value),
     mail: (value) => /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,5}$/.test(value),
     phone: (value) => /^\+?\d{10,15}$/.test(value),
-    message: (value) => !!value.trim(),
-  };
-  
-  export default { validations }
+    message: (value) => !!value.trim()
+};
+
+export default { validations };

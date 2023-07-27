@@ -2,7 +2,7 @@ const METHODS = {
     GET: 'GET',
     POST: 'POST',
     PUT: 'PUT',
-    DELETE: 'DELETE',
+    DELETE: 'DELETE'
 };
 
 function queryStringify(data) {
@@ -11,33 +11,22 @@ function queryStringify(data) {
     }
 
     const keys = Object.keys(data);
-    return keys.reduce((result, key, index) => {
-        return `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`;
-    }, '?');
+    return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`, '?');
 }
 
 class HTTPTransport {
-    get = (url, options = {}) => {
+    get = (url, options = {}) => this.request(url, { ...options, method: METHODS.GET }, options.timeout);
 
-        return this.request(url, { ...options, method: METHODS.GET }, options.timeout);
-    };
+    post = (url, options = {}) => this.request(url, { ...options, method: METHODS.POST }, options.timeout);
 
-    post = (url, options = {}) => {
-        return this.request(url, { ...options, method: METHODS.POST }, options.timeout);
-    };
+    put = (url, options = {}) => this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
 
-    put = (url, options = {}) => {
-        return this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
-    };
-
-    delete = (url, options = {}) => {
-        return this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
-    };
+    delete = (url, options = {}) => this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
 
     request = (url, options = {}, timeout = 5000) => {
         const { headers = {}, method, data } = options;
 
-        return new Promise(function (resolve, reject) {
+        return new Promise((resolve, reject) => {
             if (!method) {
                 reject('error');
                 return;
@@ -48,10 +37,10 @@ class HTTPTransport {
                 method,
                 method === METHODS.GET && !!data
                     ? `${url}${queryStringify(data)}`
-                    : url,
+                    : url
             );
 
-            Object.keys(headers).forEach(key => {
+            Object.keys(headers).forEach((key) => {
                 xhr.setRequestHeader(key, headers[key]);
             });
 

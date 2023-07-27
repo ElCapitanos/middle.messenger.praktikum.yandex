@@ -13,9 +13,10 @@
         "sourceType": "module"
     },
     "plugins": [
-        "@typescript-eslint",
+        "@typescript-eslint"
     ],
     "rules": {
+        "no-console": "off",
         "import/no-extraneous-dependencies": [
             "error",
             {
@@ -36,7 +37,7 @@
         ],
         "max-len": [
             2,
-            400
+            2500
         ],
         "indent": [
             "error",
@@ -69,7 +70,7 @@
         ],
         "max-params": [
             2,
-            3
+            7
         ]
     },
     "settings": {

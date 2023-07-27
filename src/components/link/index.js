@@ -1,10 +1,12 @@
-import link from './link.hbs'
+import link from './link.hbs';
 import Block from '../../utils/Block';
+
 export default class Link extends Block {
     constructor(props) {
-      super("div", props);
+        super('div', props);
     }
+
     render() {
-      return link({ url: this.props.url, title: this.props.title });
+        return link({ url: this.props.url, title: this.props.title });
     }
-  }
+}

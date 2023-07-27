@@ -5,9 +5,9 @@ import Subtitle from '../../components/subtitle/index';
 function render(temp, arrBlock) {
     arrBlock.forEach((item) => {
         temp.appendChild(item.getContent());
-    })
+    });
     return temp;
-};
+}
 
 const template = document.getElementById('app');
 
@@ -21,8 +21,8 @@ const title = new Title({
 const subtitle = new Subtitle({
     text: 'Уже принимаем меры'
 });
-  const result = [title, subtitle, link]
+const result = [title, subtitle, link];
 
-if (window.location.pathname === '/error500') { 
-    render(template, result)
+if (window.location.pathname === '/error500') {
+    render(template, result);
 }

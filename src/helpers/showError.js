@@ -6,4 +6,4 @@ function showError(field, errorElement, e, validator) {
     }
 }
 
-export default { showError }
+export default { showError };

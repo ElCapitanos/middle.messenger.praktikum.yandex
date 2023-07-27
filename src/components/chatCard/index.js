@@ -1,9 +1,11 @@
-import card from './chatCard.hbs'
+import card from './chatCard.hbs';
 import Block from '../../utils/Block';
+
 export default class Card extends Block {
     constructor(props) {
-        super("div", props);
+        super('div', props);
     }
+
     render() {
         return card({
             name: this.props.name,
@@ -13,6 +15,6 @@ export default class Card extends Block {
             text: this.props.text,
             queu: this.props.amount ? 'display:block;' : 'display:none;',
             active: this.props.active ? 'background-color:rgba(0,0,0,.15);' : ''
-    });
+        });
     }
 }

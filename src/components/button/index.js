@@ -1,9 +1,11 @@
-import btn from './button.hbs'
+import btn from './button.hbs';
 import Block from '../../utils/Block';
+
 export default class Button extends Block {
     constructor(props) {
-        super("div", props);
+        super('div', props);
     }
+
     render() {
         return btn({
             class: this.props.class,
