@@ -175,8 +175,11 @@ document.getElementById('formReg')?.addEventListener('click', (e) => {
     e.preventDefault();
     e.stopPropagation();
     templateRegForm.querySelectorAll('input').forEach((item:any) => {
-        if ((validator(item.name, item.value) && item.name === 'first_name') || (validator(item.name, item.value) && item.name === 'second_name')) {//@ts-ignore
+        if ((validator(item.name, item.value) && item.name === 'first_name')) {//@ts-ignore
             document.getElementById('errorName').style.opacity = 1;
+        }
+        if ((validator(item.name, item.value) && item.name === 'second_name')) {//@ts-ignore
+            document.getElementById('errorSecondName').style.opacity = 1;
         }
         if (validator(item.name, item.value) && item.name === 'login') {//@ts-ignore
             document.getElementById('errorLogin').style.opacity = 1;
