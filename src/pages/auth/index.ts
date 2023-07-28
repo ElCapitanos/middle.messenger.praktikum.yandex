@@ -24,7 +24,12 @@ const input = new Input({
   inputType: 'text',
   inputName: 'login',
   placeHolderText: 'логин',
-  inputId: 'enterLogin'
+  inputId: 'enterLogin',
+  events: {
+    focus: (event:any) => {
+      console.log('!!!!', event);
+    }
+  }
 });
 const errorLogin = new Error({
   message: errorMsg.messages.login,
