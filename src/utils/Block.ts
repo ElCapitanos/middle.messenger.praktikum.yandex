@@ -85,6 +85,14 @@ export default class Block {
     return this._element;
   }
 
+  _removeEvents() {
+    const { events = {} } = this.props;
+
+    Object.keys(events).forEach((eventName) => {
+      this._element.removeEventListener(eventName, events[eventName]);
+    });
+  }
+
   _addEvents() {
     const { events = {} } = this.props;
 
@@ -95,6 +103,8 @@ export default class Block {
 
   _render() {
     const block = this.render();
+    this._removeEvents();
+    this._element.innerHTML = '';
     this._element.innerHTML = block;
     this._addEvents();
   }
@@ -105,7 +115,7 @@ export default class Block {
     return this.element;
   }
 
-  _makePropsProxy(props: propsForComponent) {
+  _makePropsProxy(props:PropsForComponent) {
     const self = this;
 
     return new Proxy(props, {

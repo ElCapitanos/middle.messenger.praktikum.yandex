@@ -25,4 +25,12 @@ export default class Input extends Block {
         events: this.props.events
       });
   }
+
+  _addEvents() {
+    const { events = { } } = this.props;
+    this._element?.querySelectorAll('input').forEach((item:any) => {
+      for (let e in events)
+      item.addEventListener(e, events[e]);
+    });
+  }
 }

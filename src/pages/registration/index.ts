@@ -15,53 +15,94 @@ function render(temp:HTMLElement, arrBlock:any) {
     return temp;
 }
 
-const formReg:HTMLElement | any  = document.createElement('form');
+const formReg:HTMLElement | any = document.createElement('form');
 formReg.id = 'formReg';
-const linksReg:HTMLElement | any = document.createElement('div');
-const templateRegForm:HTMLElement | any  = document.getElementById('app')?.appendChild(formReg);
-const templateRegLinks:HTMLElement | any = document.getElementById('app')?.appendChild(linksReg);
+
+const templateRegForm:HTMLElement | any = document.getElementById('app')?.appendChild(formReg);
 
 const inputName = new Input({
     inputType: 'text',
     inputName: 'first_name',
     placeHolderText: 'имя',
-    inputId: 'regName'
+    inputId: 'regName',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+      }
 });
 const inputSecondName = new Input({
     inputType: 'text',
     inputName: 'second_name',
     placeHolderText: 'фамилия',
-    inputId: 'regSecondName'
+    inputId: 'regSecondName',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+      }
 });
 const inputLogin = new Input({
     inputType: 'text',
     inputName: 'login',
     placeHolderText: 'логин',
-    inputId: 'regLogin'
+    inputId: 'regLogin',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+      }
 });
 const inputPhone = new Input({
     inputType: 'tel',
     inputName: 'phone',
     placeHolderText: 'телефон',
-    inputId: 'regPhone'
+    inputId: 'regPhone',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+      }
 });
 const inputMail = new Input({
     inputType: 'email',
     inputName: 'email',
     placeHolderText: 'e-mail',
-    inputId: 'regMail'
+    inputId: 'regMail',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+      }
 });
 const password = new Input({
     inputType: 'password',
     inputName: 'password',
     placeHolderText: 'пароль',
-    inputId: 'password'
+    inputId: 'password',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+      }
 });
 const passwordCopy = new Input({
     inputType: 'password',
     inputName: 'passwordCopy',
     placeHolderText: 'пароль\u00A0(еще\u00A0раз)',
-    inputId: 'passwordCopy'
+    inputId: 'passwordCopy',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+      }
 });
 const errorName = new Error({
     message: errorMsg.messages.name,
@@ -96,22 +137,24 @@ const title = new Title({
 });
 const button = new Button({
     class: 'btn',
-    type: 'button',
-    url: '/chating',
+    type: 'submit',
     label: 'Зарегистрироваться',
-    id: 'regBtn'
+    id: 'regBtn',
+    events: {
+      click: (e:any) => {
+        onSubmit(e);
+      },
+    }
 });
 const link = new Link({
     url: '/chating',
     title: 'Войти'
 });
 
-const resultFormReg:Array<any> = [title, inputName, errorName, inputSecondName, errorSecondName, inputLogin, errorLogin, inputPhone, errorPhone, inputMail, errorMail, password, errorPassword, passwordCopy, errorPasswordCopy];
-const resultLinksReg:Array<any> = [button, link];
+const resultFormReg:Array<any> = [title, inputName, errorName, inputSecondName, errorSecondName, inputLogin, errorLogin, inputPhone, errorPhone, inputMail, errorMail, password, errorPassword, passwordCopy, errorPasswordCopy, button, link];
 
 if (window.location.pathname === '/registration') {
     render(templateRegForm, resultFormReg);
-    render(templateRegLinks, resultLinksReg);
 }
 
 function validator(field:string, value:string) {
@@ -145,8 +188,7 @@ const currentFormReg:StringObject = {
     passwordCopy: ''
 };
 
-templateRegForm.querySelectorAll('input').forEach((item:any) => {
-    item.addEventListener('blur', (e:any) => {//@ts-ignore
+function onBlur(e:any) {
         currentFormReg.first_name = document.getElementById('regName')?.value;//@ts-ignore
         currentFormReg.second_name = document.getElementById('regSecondName')?.value;//@ts-ignore
         currentFormReg.login = document.getElementById('regLogin')?.value;//@ts-ignore
@@ -164,14 +206,13 @@ templateRegForm.querySelectorAll('input').forEach((item:any) => {
         if (window.location.pathname === '/registration') {
             console.log('Текущие значения в форме: ', currentFormReg);
         }
-    });
-});
+    }
+
 templateRegForm.querySelectorAll('input').forEach((item:any) => {
     item.removeEventListener('blur', () => { });
 });
 
-document.getElementById('formReg')?.addEventListener('click', (e) => {
-    // по клику генерируется submit
+function onSubmit(e:any) {// по клику генерируется submit
     e.preventDefault();
     e.stopPropagation();
     templateRegForm.querySelectorAll('input').forEach((item:any) => {
@@ -196,5 +237,5 @@ document.getElementById('formReg')?.addEventListener('click', (e) => {
         if (validator(item.name, item.value) && item.name === 'passwordCopy') {//@ts-ignore
             document.getElementById('errorPasswordCopy').style.opacity = 1;
         }
-    });
-});
+})
+}

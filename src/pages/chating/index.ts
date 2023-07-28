@@ -30,8 +30,8 @@ const result = chating();
 
 if (window.location.pathname === '/chating') { root.innerHTML = result; }
 
-const avatarTemplateHeader:HTMLElement | any  = root?.querySelector('.main__ava');
-const nameTemplateHeader:HTMLElement | any  = root?.querySelector('.main__name');
+const avatarTemplateHeader:HTMLElement | any = root?.querySelector('.main__ava');
+const nameTemplateHeader:HTMLElement | any = root?.querySelector('.main__name');
 const cardsTemplate:HTMLElement | any = root?.querySelector('.chat__cards');
 const messageTemplate:HTMLElement | any = root?.querySelector('.main__chat');
 
