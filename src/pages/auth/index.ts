@@ -92,7 +92,7 @@ const currentFormAuth = {
   password: ''
 };
 
-function onBlur(e:any) {
+function onBlur(e:any) {//@ts-ignore
   currentFormAuth.login = document.getElementById('enterLogin')?.value;//@ts-ignore
   currentFormAuth.password = document.getElementById('enterPassword')?.value;
   showError('login', 'errorLogin', e, validator);

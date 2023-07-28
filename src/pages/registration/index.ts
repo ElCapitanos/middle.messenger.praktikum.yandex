@@ -188,8 +188,6 @@ const currentFormReg:StringObject = {
     passwordCopy: ''
 };
 
-// templateRegForm.querySelectorAll('input').forEach((item:any) => {
-//     item.addEventListener('blur', (e:any) => {//@ts-ignore
 function onBlur(e:any) {
         currentFormReg.first_name = document.getElementById('regName')?.value;//@ts-ignore
         currentFormReg.second_name = document.getElementById('regSecondName')?.value;//@ts-ignore
@@ -209,8 +207,7 @@ function onBlur(e:any) {
             console.log('Текущие значения в форме: ', currentFormReg);
         }
     }
-//     });
-// });
+
 templateRegForm.querySelectorAll('input').forEach((item:any) => {
     item.removeEventListener('blur', () => { });
 });

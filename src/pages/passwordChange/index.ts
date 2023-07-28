@@ -113,13 +113,13 @@ const resultForm:Array<any> = [
 if (window.location.pathname === '/password-change') {
     render(templatePasswordForm, resultForm);
 }
-
+//@ts-ignore
 function validator(field, value) {
     if (field === 'password') {
         return !validations.validations.password(value);
-    } if (field === 'passwordCopy') {
+    } if (field === 'passwordCopy') {//@ts-ignore
         return value !== document.getElementById('password').value;
-    } if (field === 'passwordNewCopy') {
+    } if (field === 'passwordNewCopy') {//@ts-ignore
         return value !== document.getElementById('passwordCopy').value;
     }
     return null; // для EsLint )
@@ -131,9 +131,9 @@ const currentFormPasswordChange = {
     passwordNewCopy: ''
 };
 
-    function onBlur(e:any) {
-        currentFormPasswordChange.password = document.getElementById('password')?.value;
-        currentFormPasswordChange.passwordCopy = document.getElementById('passwordCopy')?.value;
+    function onBlur(e:any) {//@ts-ignore
+        currentFormPasswordChange.password = document.getElementById('password')?.value;//@ts-ignore
+        currentFormPasswordChange.passwordCopy = document.getElementById('passwordCopy')?.value;//@ts-ignore
         currentFormPasswordChange.passwordNewCopy = document.getElementById('passwordNewCopy')?.value;
         showError('password', 'errorPassword', e, validator);
         showError('passwordCopy', 'errorPasswordCopy', e, validator);
@@ -151,7 +151,7 @@ const currentFormPasswordChange = {
         }
     }
 
-templatePasswordForm.querySelectorAll('input').forEach((item) => {
+templatePasswordForm.querySelectorAll('input').forEach((item:any) => {
     item.removeEventListener('blur', () => { });
 });
 
@@ -159,17 +159,17 @@ templatePasswordForm.querySelectorAll('input').forEach((item) => {
 function onSubmit(e:any) { // по клику генерируется submit
     e.preventDefault();
     e.stopPropagation();
-    templatePasswordForm.querySelectorAll('input').forEach((item) => {
-        if (validator(item.name, item.value) && item.name === 'password') {
+    templatePasswordForm.querySelectorAll('input').forEach((item:any) => {
+        if (validator(item.name, item.value) && item.name === 'password') {//@ts-ignore
             document.getElementById('errorPassword').style.opacity = 1;
         }
-        if (validator(item.name, item.value) && item.name === 'passwordCopy') {
+        if (validator(item.name, item.value) && item.name === 'passwordCopy') {//@ts-ignore
             document.getElementById('errorPasswordCopy').style.opacity = 1;
         }
         if (
             validator(item.name, item.value)
             && item.name === 'passwordNewCopy'
-        ) {
+        ) {//@ts-ignore
             document.getElementById('errorPasswordNewCopy').style.opacity = 1;
         }
     });

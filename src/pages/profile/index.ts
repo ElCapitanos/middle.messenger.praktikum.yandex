@@ -185,8 +185,6 @@ const currentFormProfile:StringObject = {
     display_name: ''
 };
 
-// templateFormProfile.querySelectorAll('input').forEach((item:any) => {
-//     item.addEventListener('blur', (e:any) => {
         //@ts-ignore
         function onBlur(e:any) {
         currentFormProfile.first_name = document.getElementById('profileName')?.value;//@ts-ignore
@@ -203,8 +201,7 @@ const currentFormProfile:StringObject = {
         showError('display_name', 'errorUser', e, validator);
         if (window.location.pathname === '/profile') { console.log('Текущие значения в форме: ', currentFormProfile); }
         }
-//     });
-// });
+
 templateFormProfile.querySelectorAll('input').forEach((item:any) => {
     item.removeEventListener('blur', () => { });
 });
