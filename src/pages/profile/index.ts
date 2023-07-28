@@ -17,9 +17,7 @@ function render(temp:HTMLElement, arrBlock:any) {
 }
 const formProfile:HTMLElement | any = document.createElement('form');
 formProfile.id = 'formProfile';
-const linksProfile:HTMLElement | any = document.createElement('div');
 const templateFormProfile:HTMLElement | any = document.getElementById('app')?.appendChild(formProfile);
-const templateLinksProfile:HTMLElement | any = document.getElementById('app')?.appendChild(linksProfile);
 
 const ava = new Ava({
     class: 'ava'
@@ -52,47 +50,87 @@ const inputName = new Input({
     inputType: 'text',
     inputName: 'first_name',
     placeHolderText: 'сменить\u00A0имя',
-    inputId: 'profileName'
+    inputId: 'profileName',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+    }
 });
 const inputSecondName = new Input({
     inputType: 'text',
     inputName: 'second_name',
     placeHolderText: 'сменить\u00A0фамилию',
-    inputId: 'profileSecondName'
+    inputId: 'profileSecondName',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+    }
 });
 const inputLogin = new Input({
     inputType: 'text',
     inputName: 'login',
     placeHolderText: 'сменить\u00A0логин',
-    inputId: 'profileLogin'
+    inputId: 'profileLogin',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+    }
 });
 const inputPhone = new Input({
     inputType: 'tel',
     inputName: 'phone',
     placeHolderText: 'сменить\u00A0телефон',
-    inputId: 'rprofilePhone'
+    inputId: 'rprofilePhone',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+    }
 });
 const inputMail = new Input({
     inputType: 'email',
     inputName: 'email',
     placeHolderText: 'сменить\u00A0e-mail',
-    inputId: 'profileMail'
+    inputId: 'profileMail',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+    }
 });
 const inputUser = new Input({
     inputType: 'text',
     inputName: 'display_name',
     placeHolderText: 'сменить\u00A0имя\u00A0в\u00A0чате',
-    inputId: 'profileUser'
+    inputId: 'profileUser',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+    }
 });
 const title = new Title({
     text: 'Профиль'
 });
 const button = new Button({
     class: 'btn',
-    type: 'button',
-    url: '/chating',
+    type: 'submit',
     label: 'Сохранить изменения',
-    id: 'profileBtn'
+    id: 'profileBtn',
+    events: {
+        click: (e:any) => {
+          onSubmit(e);
+        },
+    }
 });
 const link = new Link({
     url: '/',
@@ -113,14 +151,13 @@ const resultFormProfile:Array<any> = [
     inputMail,
     errorMail,
     inputUser,
-    errorUser
+    errorUser,
+    button, 
+    link
 ];
-
-const resultLinksProfile:Array<any> = [button, link];
 
 if (window.location.pathname === '/profile') {
     render(templateFormProfile, resultFormProfile);
-    render(templateLinksProfile, resultLinksProfile);
 }
 function validator(field:string, value:string) {
     if (
@@ -148,9 +185,10 @@ const currentFormProfile:StringObject = {
     display_name: ''
 };
 
-templateFormProfile.querySelectorAll('input').forEach((item:any) => {
-    item.addEventListener('blur', (e:any) => {
+// templateFormProfile.querySelectorAll('input').forEach((item:any) => {
+//     item.addEventListener('blur', (e:any) => {
         //@ts-ignore
+        function onBlur(e:any) {
         currentFormProfile.first_name = document.getElementById('profileName')?.value;//@ts-ignore
         currentFormProfile.second_name = document.getElementById('profileSecondName')?.value;//@ts-ignore
         currentFormProfile.login = document.getElementById('profileLogin')?.value;//@ts-ignore
@@ -164,14 +202,14 @@ templateFormProfile.querySelectorAll('input').forEach((item:any) => {
         showError('email', 'errorMail', e, validator);
         showError('display_name', 'errorUser', e, validator);
         if (window.location.pathname === '/profile') { console.log('Текущие значения в форме: ', currentFormProfile); }
-    });
-});
+        }
+//     });
+// });
 templateFormProfile.querySelectorAll('input').forEach((item:any) => {
     item.removeEventListener('blur', () => { });
 });
 
-document.getElementById('formProfile')?.addEventListener('click', (e) => {
-    // по клику генерируется submit
+function onSubmit(e:any) { // по клику генерируется submit
     e.preventDefault();
     e.stopPropagation();
     templateFormProfile.querySelectorAll('input').forEach((item:any) => {
@@ -194,4 +232,4 @@ document.getElementById('formProfile')?.addEventListener('click', (e) => {
             document.getElementById('errorUser').style.opacity = 1;
         }
     });
-});
+}

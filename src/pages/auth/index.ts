@@ -16,9 +16,7 @@ function render(temp:HTMLElement, arrBlock:any) {
 
 const form:HTMLElement = document.createElement('form');
 form.id = 'authForm';
-const links:HTMLElement = document.createElement('div');
 const templateForm:HTMLElement | any = document.getElementById('app')?.appendChild(form);
-const templateLinks:HTMLElement | any = document.getElementById('app')?.appendChild(links);
 
 const input = new Input({
   inputType: 'text',
@@ -26,8 +24,9 @@ const input = new Input({
   placeHolderText: 'логин',
   inputId: 'enterLogin',
   events: {
-    focus: (event:any) => {
-      console.log('!!!!', event);
+    blur: (e:any) => {
+      e.preventDefault();
+      onBlur(e);
     }
   }
 });
@@ -39,7 +38,13 @@ const password = new Input({
   inputType: 'password',
   inputName: 'password',
   placeHolderText: 'пароль',
-  inputId: 'enterPassword'
+  inputId: 'enterPassword',
+  events: {
+    blur: (e:any) => {
+      e.preventDefault();
+      onBlur(e);
+    },
+  }
 });
 const errorPassword = new Error({
   message: errorMsg.messages.password,
@@ -54,10 +59,14 @@ const title = new Title({
 });
 const button = new Button({
   class: 'btn',
-  type: 'button',
-  url: '/chating',
+  type: 'submit',
   label: 'Войти',
-  id: 'enterBtn'
+  id: 'enterBtn',
+  events: {
+    click: (e:any) => {
+      onSubmit(e);
+    },
+  }
 });
 
 const resultForm = [
@@ -65,12 +74,13 @@ const resultForm = [
   input,
   errorLogin,
   password,
-  errorPassword
+  errorPassword,
+  button,
+  link
 ];
-const resultLinks = [button, link];
+
 if (window.location.pathname === '/' || window.location.pathname === '/auth') {
   render(templateForm, resultForm);
-  render(templateLinks, resultLinks);
 }
 
 function validator(field:string, value:string) {
@@ -82,26 +92,18 @@ const currentFormAuth = {
   password: ''
 };
 
-templateForm.querySelectorAll('input').forEach((item:any) => {
-  item.addEventListener('blur', (e:any) => {//@ts-ignore
-    currentFormAuth.login = document.getElementById('enterLogin')?.value;//@ts-ignore
-    currentFormAuth.password = document.getElementById('enterPassword')?.value;
-    showError('login', 'errorLogin', e, validator);
-    showError('password', 'errorPassword', e, validator);
-    if (
-      window.location.pathname === '/'
-      || window.location.pathname === '/auth'
-    ) {
-      console.log('Текущие значения в форме: ', currentFormAuth);
-    }
-  });
-});
-templateForm.querySelectorAll('input').forEach((item:any) => {
-  item.removeEventListener('blur', () => { });
-});
+function onBlur(e:any) {
+  currentFormAuth.login = document.getElementById('enterLogin')?.value;//@ts-ignore
+  currentFormAuth.password = document.getElementById('enterPassword')?.value;
+  showError('login', 'errorLogin', e, validator);
+  showError('password', 'errorPassword', e, validator);
+  if (
+    window.location.pathname === '/' || window.location.pathname === '/auth') {
+    console.log('Текущие значения в форме: ', currentFormAuth);
+  }
+}
 
-document.getElementById('authForm')?.addEventListener('click', (e) => {
-  // по клику генерируется submit
+function onSubmit(e:any) { // по клику генерируется submit
   e.preventDefault();
   e.stopPropagation();
   templateForm.querySelectorAll('input').forEach((item:any) => {
@@ -112,4 +114,4 @@ document.getElementById('authForm')?.addEventListener('click', (e) => {
       document.getElementById('errorLogin').style.opacity = 1;
     }
   });
-});
+}

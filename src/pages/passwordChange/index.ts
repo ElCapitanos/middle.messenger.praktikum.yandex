@@ -18,8 +18,6 @@ function render(temp:HTMLElement, arrBlock:any) {
 const formPsw = document.createElement('form');
 formPsw.id = 'passwordForm';
 const templatePasswordForm:HTMLElement | any = document.getElementById('app')?.appendChild(formPsw);
-const passwordLinks:HTMLElement | any = document.createElement('div');
-const templatePasswordLinks:HTMLElement | any = document.getElementById('app')?.appendChild(passwordLinks);
 
 const ava = new Ava({
     class: 'ava'
@@ -28,19 +26,37 @@ const inputOldPsw = new Input({
     inputType: 'password',
     inputName: 'password',
     placeHolderText: 'старый\u00A0пароль',
-    inputId: 'password'
+    inputId: 'password',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+    }
 });
 const inputNewPsw = new Input({
     inputType: 'password',
     inputName: 'passwordCopy',
     placeHolderText: 'новый\u00A0пароль',
-    inputId: 'passwordCopy'
+    inputId: 'passwordCopy',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+    }
 });
 const inputNewPswCopy = new Input({
     inputType: 'password',
     inputName: 'passwordNewCopy',
     placeHolderText: 'новый\u00A0пароль\u00A0(еще\u00A0раз)',
-    inputId: 'passwordNewCopy'
+    inputId: 'passwordNewCopy',
+    events: {
+        blur: (e:any) => {
+          e.preventDefault();
+          onBlur(e);
+        },
+    }
 });
 const errorPassword = new Error({
     message: errorMsg.messages.password,
@@ -59,10 +75,14 @@ const title = new Title({
 });
 const buttonSave = new Button({
     class: 'btn',
-    type: 'button',
-    url: '/chating',
+    type: 'submit',
     label: 'Сохранить изменения',
-    id: 'saveBtn'
+    id: 'saveBtn',
+    events: {
+        click: (e:any) => {
+          onSubmit(e);
+        },
+    }
 });
 const buttonCancel = new Button({
     class: 'btn',
@@ -84,14 +104,14 @@ const resultForm:Array<any> = [
     inputNewPsw,
     errorPasswordCopy,
     inputNewPswCopy,
-    errorPasswordNewCopy
+    errorPasswordNewCopy,
+    buttonSave, 
+    buttonCancel, 
+    link
 ];
-
-const resultLinks:Array<any> = [buttonSave, buttonCancel, link];
 
 if (window.location.pathname === '/password-change') {
     render(templatePasswordForm, resultForm);
-    render(templatePasswordLinks, resultLinks);
 }
 
 function validator(field, value) {
@@ -110,8 +130,8 @@ const currentFormPasswordChange = {
     passwordCopy: '',
     passwordNewCopy: ''
 };
-templatePasswordForm.querySelectorAll('input').forEach((item) => {
-    item.addEventListener('blur', (e) => {
+
+    function onBlur(e:any) {
         currentFormPasswordChange.password = document.getElementById('password')?.value;
         currentFormPasswordChange.passwordCopy = document.getElementById('passwordCopy')?.value;
         currentFormPasswordChange.passwordNewCopy = document.getElementById('passwordNewCopy')?.value;
@@ -129,14 +149,14 @@ templatePasswordForm.querySelectorAll('input').forEach((item) => {
                 currentFormPasswordChange
             );
         }
-    });
-});
+    }
+
 templatePasswordForm.querySelectorAll('input').forEach((item) => {
     item.removeEventListener('blur', () => { });
 });
 
-document.getElementById('passwordForm').addEventListener('click', (e) => {
-    // по клику генерируется submit
+
+function onSubmit(e:any) { // по клику генерируется submit
     e.preventDefault();
     e.stopPropagation();
     templatePasswordForm.querySelectorAll('input').forEach((item) => {
@@ -153,4 +173,4 @@ document.getElementById('passwordForm').addEventListener('click', (e) => {
             document.getElementById('errorPasswordNewCopy').style.opacity = 1;
         }
     });
-});
+}
