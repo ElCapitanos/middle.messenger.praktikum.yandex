@@ -26,13 +26,11 @@ export default class Input extends Block {
       });
   }
 
-  addEvents() {
+  _addEvents() {
+    const { events = { } } = this.props;
     this._element?.querySelectorAll('input').forEach((item:any) => {
-      item.addEventListener('focus', (e:any) => {
-        e.preventDefault();
-        e.stopPropagation();
-        console.log('/////', e.target);
-      });
+      for (let e in events)
+      item.addEventListener(e, events[e]);
     });
   }
 }
