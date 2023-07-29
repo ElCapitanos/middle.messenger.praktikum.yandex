@@ -1,4 +1,5 @@
 import { Options } from '../helpers/constTypes';
+import { HTTPMethod } from '../helpers/constTypes'
 
 const METHODS = {
   GET: 'GET',
@@ -17,13 +18,13 @@ function queryStringify(data: Record<string, string | number>) {
 }
 
 class HTTPTransport {
-  get = (url: string, options: Options = {}) => this.request(url, { ...options, method: METHODS.GET }, options.timeout);
+  get:HTTPMethod = (url, options = {}) => this.request(url, { ...options, method: METHODS.GET }, options.timeout);
 
-  post = (url: string, options: Options = {}) => this.request(url, { ...options, method: METHODS.POST }, options.timeout);
+  post = (url: string, options = {}) => this.request(url, { ...options, method: METHODS.POST }, options.timeout);
 
-  put = (url: string, options: Options = {}) => this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
+  put = (url: string, options = {}) => this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
 
-  delete = (url: string, options: Options = {}) => this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
+  delete = (url: string, options = {}) => this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
 
   request = (url: string, options: Options = {}, timeout: number = 5000) => {
     const { headers = {}, method, data } = options;

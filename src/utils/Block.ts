@@ -28,9 +28,9 @@ export default class Block {
       tagName,
       props
     };
-
+//@ts-ignore
     this.props = this._makePropsProxy(props);
-
+//@ts-ignore
     this.eventBus = () => eventBus;
 
     this._registerEvents(eventBus);
@@ -39,7 +39,7 @@ export default class Block {
 
   _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));
+    eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));//@ts-ignore
     eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
     eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
   }
@@ -50,12 +50,12 @@ export default class Block {
   }
 
   init() {
-    this._createResources();
+    this._createResources();//@ts-ignore
     this.eventBus().emit(Block.EVENTS.FLOW_CDM);
   }
 
-  _componentDidMount() {
-    this.componentDidMount();
+  _componentDidMount() {//@ts-ignore
+    this.componentDidMount();//@ts-ignore
     this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
   }
 
@@ -77,7 +77,7 @@ export default class Block {
     if (!nextProps) {
       return;
     }
-
+//@ts-ignore
     Object.assign(this.props, nextProps);
   };
 
@@ -85,26 +85,26 @@ export default class Block {
     return this._element;
   }
 
-  _removeEvents() {
+  _addEvents() {//@ts-ignore
     const { events = {} } = this.props;
 
-    Object.keys(events).forEach((eventName) => {
-      this._element.removeEventListener(eventName, events[eventName]);
-    });
-  }
-
-  _addEvents() {
-    const { events = {} } = this.props;
-
-    Object.keys(events).forEach((eventName) => {
+    Object.keys(events).forEach((eventName) => {//@ts-ignore
       this._element.addEventListener(eventName, events[eventName]);
     });
   }
 
+  _removeEvents() {//@ts-ignore
+    const { events = {} } = this.props;
+
+    Object.keys(events).forEach((eventName) => {//@ts-ignore
+      this._element.removeEventListener(eventName, events[eventName]);
+    });
+  }
+  
   _render() {
     const block = this.render();
-    this._removeEvents();
-    this._element.innerHTML = '';
+    this._removeEvents();//@ts-ignore
+    this._element.innerHTML = '';//@ts-ignore
     this._element.innerHTML = block;
     this._addEvents();
   }
@@ -119,12 +119,12 @@ export default class Block {
     const self = this;
 
     return new Proxy(props, {
-      get(target, prop) {
+      get(target, prop) {//@ts-ignore
         const value = target[prop];
         return typeof value === 'function' ? value.bind(target) : value;
       },
-      set(target, prop, value) {
-        target[prop] = value;
+      set(target, prop, value) {//@ts-ignore
+        target[prop] = value;//@ts-ignore
         self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
         return true;
       },
@@ -138,11 +138,11 @@ export default class Block {
     return document.createElement(tagName);
   }
 
-  show() {
+  show() {//@ts-ignore
     this.getContent().style.display = 'block';
   }
 
-  hide() {
+  hide() {//@ts-ignore
     this.getContent().style.display = 'none';
   }
 }
