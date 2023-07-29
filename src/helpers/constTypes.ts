@@ -34,3 +34,4 @@ export type Options = {
   method?: any,
   timeout?: number;
 };
+export type HTTPMethod = (url: string, options?: Options) => Promise<unknown>
