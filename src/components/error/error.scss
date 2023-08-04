@@ -1,0 +1,9 @@
+.error {
+    display: block;
+    color: $red;
+    margin: -40px auto 40px;
+    font-size: 10px;
+    width: 310px;
+    opacity: 0;
+    transition: .4s linear;
+}

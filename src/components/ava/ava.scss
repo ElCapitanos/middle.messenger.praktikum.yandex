@@ -1,19 +1,18 @@
+@import "./../../style/var.scss";
 .ava {
     display: flex;
     width: 130px;
     height: 130px;
     border-radius: 65px;
     margin: 0 auto 50px;
-    background-image: url('../../../static/picts/persons/Homer.jpg');
-    background-size: contain;
-    background-repeat: no-repeat;
     cursor: pointer;
     transition: .4s linear;
+    border: solid 1px $grey1;
     &:hover > .ava__text {
         opacity: 1;
     }
     &:hover {
-        opacity: .9;
+        opacity: .8;
     }
 }
 .ava__text {
@@ -22,16 +21,14 @@
     margin: auto;
     opacity: 0;
     transition: .4s linear;
-    text-shadow: 1px 1px 10px #fff, 0 0 10px #fff, 0 0 10px #fff;
+    text-shadow: 1px 1px 10px $white, 0 0 10px $white, 0 0 10px $white;
 }
 
 .ava_small {
-    display: flex;
+    object-fit: cover;
     width: 70px;
     height: 70px;
     border-radius: 35px;
     margin: 0 auto 50px;
-    background-image: url('../../../static/picts/persons/Homer.jpg');
-    background-size: contain;
-    transition: .4s linear;
+    border: solid 1px $grey1;
 }

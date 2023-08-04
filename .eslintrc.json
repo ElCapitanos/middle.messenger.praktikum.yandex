@@ -1,0 +1,99 @@
+{
+    "extends": ["airbnb", "airbnb-typescript", "eslint:recommended", "plugin:react/recommended"],
+    "env": {
+        "browser": true,
+        "node": true,    
+        "es6": true,
+        "jest": true
+    },
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "ecmaFeatures": {
+            "jsx": true
+        },
+        "ecmaVersion": 12,
+        "sourceType": "module",
+        "project": "./tsconfig.json"
+    },
+    "plugins": [
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "no-console": "off",
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "devDependencies": true
+            }
+        ],
+        "import/extensions": [
+            "error",
+            "always",
+            {
+                "pattern": {
+                    "": "never",
+                    "jsx": "never",
+                    "tsx": "never",
+                    "ts": "never",
+                    "js": "never"
+                }
+            }
+        ],
+        "max-len": [
+            2,
+            500
+        ],
+        "indent": [
+            "off"
+        ],
+        "linebreak-style": [
+            0,
+            "error",
+            "windows"
+        ],
+        "comma-dangle": ["error", "never"],
+        "no-underscore-dangle": [
+            "error",
+            {
+                "allowAfterThis": true
+            }
+        ],
+        "class-methods-use-this": ["error", { "enforceForClassFields": false }],
+        "no-unused-vars": [
+            "error"
+        ],
+        "max-params": [
+            2,
+            7
+        ]
+    },
+    "settings": {
+        "import/no-extraneous-dependencies": [
+            "error",
+            {
+                "projectDependencies": false
+            }
+        ],
+        "no-unused-vars": [
+            "error"
+        ],
+        "prefer-arrow-callback": "error",
+        "arrow-parens": [
+            "error",
+            "always"
+        ],
+        "padded-blocks": [
+            "error",
+            "never"
+        ],
+        "eol-last": [
+            "error",
+            "never"
+        ],
+        "import/resolver": {
+            "typescript": {
+                "alwaysTryTypes": true
+            }
+        }
+    }
+}
