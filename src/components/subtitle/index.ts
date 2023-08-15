@@ -8,6 +8,6 @@ export default class Subtitle extends Block {
   }
 
   render() {//@ts-ignore
-    return subtitle({ text: this.props.text });
+    return this.compile(subtitle, { text: this.props.text });
   }
 }

@@ -10,7 +10,7 @@ export default class Input extends Block {
 
   render() {//@ts-ignore
     return this.props.inputType !== 'password'
-      ? input({//@ts-ignore
+      ? this.compile(input, {//@ts-ignore
         inputType: this.props.inputType,//@ts-ignore
         inputName: this.props.inputName,//@ts-ignore
         placeHolderText: this.props.placeHolderText,//@ts-ignore
@@ -18,7 +18,7 @@ export default class Input extends Block {
         events: this.props.events,//@ts-ignore
         class: this.props.class ? this.props.class : 'input'
       })
-      : password({//@ts-ignore
+      : this.compile(password, {//@ts-ignore
         inputType: this.props.inputType,//@ts-ignore
         inputName: this.props.inputName,//@ts-ignore
         placeHolderText: this.props.placeHolderText,//@ts-ignore
@@ -31,7 +31,7 @@ export default class Input extends Block {
   _addEvents() {//@ts-ignore
     const { events = { } } = this.props;//@ts-ignore
     this._element?.querySelectorAll('input').forEach((item:any) => {
-      for (let e in events)
+      for (let e in events)//@ts-ignore
       item.addEventListener(e, events[e]);
     });
   }
@@ -39,7 +39,7 @@ export default class Input extends Block {
   _removeEvents() {//@ts-ignore
     const { events = { } } = this.props;//@ts-ignore
     this._element?.querySelectorAll('input').forEach((item:any) => {
-      for (let e in events)
+      for (let e in events)//@ts-ignore
       item.removeEventListener(e, events[e]);
     });
   }

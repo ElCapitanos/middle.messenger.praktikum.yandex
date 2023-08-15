@@ -1,20 +1,29 @@
+import { v4 as uuid4 } from 'uuid';
 import EventBus from './EventBus';
 import { PropsForComponent } from '../helpers/constTypes';
 
-export default class Block {
+class Block {
   static EVENTS = {
     INIT: 'init',
-    FLOW_CDM: 'flow:component-did-mount',
-    FLOW_CDU: 'flow:component-did-update',
-    FLOW_RENDER: 'flow:render'
+    CDM: 'flow:component-did-mount',
+    CDU: 'flow:component-did-update',
+    RENDER: 'flow:render',
   };
+
+  id = uuid4();
+
+  props: PropsForComponent;
+
+  private eventBus: () => EventBus;
 
   private _element: HTMLElement | null = null;
 
   private _meta: {
-    tagName: string,
-    props: PropsForComponent
+    tagName: string;
+    props: PropsForComponent;
   };
+
+  protected children: Record<string, Block | Block[]>;
 
   /** JSDoc
      * @param {string} tagName
@@ -22,26 +31,25 @@ export default class Block {
      *
      * @returns {void}
      */
-  constructor(tagName: string = 'template', props: PropsForComponent = {}) {
+  constructor(tagName: string = 'div', propsWithChildren:PropsForComponent = {}) {
     const eventBus = new EventBus();
+    const { props, children } = this._getChildrenAndProps(propsWithChildren);
     this._meta = {
       tagName,
-      props
+      props,
     };
-//@ts-ignore
+    this.children = children;
     this.props = this._makePropsProxy(props);
-//@ts-ignore
     this.eventBus = () => eventBus;
-
     this._registerEvents(eventBus);
     eventBus.emit(Block.EVENTS.INIT);
   }
 
   _registerEvents(eventBus: EventBus) {
     eventBus.on(Block.EVENTS.INIT, this.init.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_CDM, this._componentDidMount.bind(this));//@ts-ignore
-    eventBus.on(Block.EVENTS.FLOW_CDU, this._componentDidUpdate.bind(this));
-    eventBus.on(Block.EVENTS.FLOW_RENDER, this._render.bind(this));
+    eventBus.on(Block.EVENTS.CDM, this._componentDidMount.bind(this));//@ts-ignore
+    eventBus.on(Block.EVENTS.CDU, this._componentDidUpdate.bind(this));
+    eventBus.on(Block.EVENTS.RENDER, this._render.bind(this));
   }
 
   _createResources() {
@@ -50,82 +58,86 @@ export default class Block {
   }
 
   init() {
-    this._createResources();//@ts-ignore
-    this.eventBus().emit(Block.EVENTS.FLOW_CDM);
+    this._createResources();
+    this.eventBus().emit(Block.EVENTS.RENDER);
   }
 
-  _componentDidMount() {//@ts-ignore
-    this.componentDidMount();//@ts-ignore
-    this.eventBus().emit(Block.EVENTS.FLOW_RENDER);
+  _componentDidMount() {
+    this.componentDidMount();
   }
 
-  componentDidMount(oldProps:PropsForComponent) { }
+  componentDidMount() {}
+
+  dispatchComponentDidMount() {
+    this.eventBus().emit(Block.EVENTS.CDM);
+  }
 
   _componentDidUpdate(oldProps:PropsForComponent, newProps:PropsForComponent) {
-    const response = this.componentDidUpdate(oldProps, newProps);
-    if (!response) {
-      return;
+    if (this.componentDidUpdate(oldProps, newProps)) {
+      this.eventBus().emit(Block.EVENTS.RENDER);
     }
-    this._render();
   }
 
   componentDidUpdate(oldProps:PropsForComponent, newProps:PropsForComponent) {
     return true;
   }
 
-  setProps = (nextProps:PropsForComponent) => {
+  setProps = (nextProps: object): void => {
     if (!nextProps) {
       return;
     }
-//@ts-ignore
+
     Object.assign(this.props, nextProps);
   };
+
+  getProps():PropsForComponent {
+    return this.props;
+  }
 
   get element() {
     return this._element;
   }
 
-  _addEvents() {//@ts-ignore
-    const { events = {} } = this.props;
-
-    Object.keys(events).forEach((eventName) => {//@ts-ignore
-      this._element.addEventListener(eventName, events[eventName]);
+  _addEvents() {
+    const { events = {} } = this.props as { events: Record<string, () => void> };
+    Object.keys(events).forEach((eventName) => {
+      this._element!.addEventListener(eventName, events[eventName]);
     });
   }
 
-  _removeEvents() {//@ts-ignore
-    const { events = {} } = this.props;
+  _removeEvents() {
+    const { events = {} } = this.props as { events: Record<string, () => void> };
 
-    Object.keys(events).forEach((eventName) => {//@ts-ignore
-      this._element.removeEventListener(eventName, events[eventName]);
+    Object.keys(events).forEach((eventName) => {
+      this._element!.removeEventListener(eventName, events[eventName]);
     });
   }
-  
+
   _render() {
     const block = this.render();
-    this._removeEvents();//@ts-ignore
-    this._element.innerHTML = '';//@ts-ignore
-    this._element.innerHTML = block;
+    this._removeEvents();
+    this._element!.innerHTML = '';//@ts-ignore
+    this._element!.append(block);
     this._addEvents();
   }
 
   render() { }
-
-  getContent() {
+  
+  getContent():HTMLElement | null {
     return this.element;
   }
 
   _makePropsProxy(props:PropsForComponent) {
     const self = this;
-
     return new Proxy(props, {
       get(target, prop) {//@ts-ignore
         const value = target[prop];
         return typeof value === 'function' ? value.bind(target) : value;
       },
-      set(target, prop, value) {//@ts-ignore
-        target[prop] = value;//@ts-ignore
-        self.eventBus().emit(Block.EVENTS.FLOW_CDU, { ...target }, target);
+      set(target, prop, value) {
+        const oldTarget = { ...target };//@ts-ignore
+        target[prop] = value;
+        self.eventBus().emit(Block.EVENTS.CDU, oldTarget, target);
         return true;
       },
       deleteProperty() {
@@ -134,15 +146,98 @@ export default class Block {
     });
   }
 
+  show() {
+    const content = this.getContent();
+
+    if (content) {
+      content.style.display = 'block';
+    } else {
+      throw new Error('Элемент не найден');
+    }
+  }
+
+  hide() {
+    const content = this.getContent();
+
+    if (content) {
+      content.style.display = 'none';
+    } else {
+      throw new Error('Элемент не найден');
+    }
+  }
+
   _createDocumentElement(tagName: string) {
-    return document.createElement(tagName);
+    const documentElement = document.createElement(tagName);//@ts-ignore
+    const attributes = this.props.attr;
+    if (attributes) {
+      Object.keys(attributes).forEach((key) => {
+        const value = attributes[key];
+        if (key === 'classes' && Array.isArray(value)) {
+          value.forEach((item) => {
+            documentElement.classList.add(item);
+          });
+        } else if (typeof value === 'string') {
+          documentElement.setAttribute(key, value);
+        }
+      });
+    }
+
+    return documentElement;
   }
 
-  show() {//@ts-ignore
-    this.getContent().style.display = 'block';
+  _getChildrenAndProps(childrenAndProps:PropsForComponent) {
+    const props:PropsForComponent = {};
+    const children: Record<string, Block | Block[]> = {};
+
+    Object.entries(childrenAndProps).forEach(([key, value]) => {
+      if (value instanceof Block || (Array.isArray(value) && value[0] instanceof Block)) {
+        children[key] = value;
+      } else {//@ts-ignore
+        props[key] = value;
+      }
+    });
+
+    return { props, children };
   }
 
-  hide() {//@ts-ignore
-    this.getContent().style.display = 'none';
+  compile(template: (context: any) => string, context: any) {
+    const contextAndPlugs = { ...context };
+    Object.entries(this.children).forEach(([name, component]) => {
+      if (Array.isArray(component)) {
+        const result: string[] = [];
+        component.forEach((item) => { result.push(`<div data-id="${item.id}"></div>`); });
+        contextAndPlugs[name] = result;
+      } else {
+        contextAndPlugs[name] = `<div data-id="${component.id}"></div>`;
+      }
+    });
+
+    const html = template(contextAndPlugs);
+    const temp: HTMLTemplateElement = document.createElement('template');
+    temp.innerHTML = html;
+
+    Object.entries(this.children).forEach(([, component]) => {
+      if (Array.isArray(component)) {
+        component.forEach((item) => {//@ts-ignore
+          Block.renderPlug(item, temp);
+        });
+      } else {//@ts-ignore
+        Block.renderPlug(component, temp);
+      }
+    });
+
+    return temp.content;
+  }
+
+  static renderPlug(component: Block, temp: HTMLTemplateElement) {
+    const plug = temp.content.querySelector(`[data-id="${component.id}"]`);
+
+    if (!plug) {
+      return;
+    }
+//@ts-ignore
+    plug.replaceWith(component.getContent());
   }
 }
+
+export default Block;

@@ -8,6 +8,6 @@ export default class Title extends Block {
   }
 
   render() {//@ts-ignore
-    return title({ text: this.props.text });
+    return this.compile(title, { text: this.props.text });
   }
 }

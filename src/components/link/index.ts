@@ -8,6 +8,6 @@ export default class Link extends Block {
   }
 
   render() {//@ts-ignore
-    return link({ url: this.props.url, title: this.props.title });
+    return this.compile(link, { url: this.props.url, title: this.props.title });
   }
 }

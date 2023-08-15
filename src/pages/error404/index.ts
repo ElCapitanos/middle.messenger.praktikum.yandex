@@ -1,25 +1,33 @@
 import Title from '../../components/title/index';
 import Link from '../../components/link/index';
+import Block from '../../utils/Block';
+import temp from './error404.hbs';
 
-function render(temp:HTMLElement, arrBlock:any) {
-    arrBlock.forEach((item:any) => {
-        temp.appendChild(item.getContent());
-    });
-    return temp;
-}
-
-const template:HTMLElement | any  = document.getElementById('app');
-
-const link = new Link({
+const Link404:any = new Link({
     url: '/chating',
     title: 'На главную'
 });
-const title = new Title({
+const Title404:any = new Title({
     text: 'Страница не найдена 404'
 });
 
-const result = [title, link];
+class Error404 extends Block {
+    constructor() {
+        super('div', {
+            attr: {
+                classes: []
+            },
+            Title404,
+            Link404
+        })
+    }
 
-if (window.location.pathname !== '/' && window.location.pathname !== '/auth' && window.location.pathname !== '/error500' && window.location.pathname !== '/profile' && window.location.pathname !== '/chating' && window.location.pathname !== '/password-change' && window.location.pathname !== '/registration') {
-    render(template, result);
+    render() {
+        return this.compile(temp, {
+            Title404: this.children.Title404,
+            Link404: this.children.Link404
+        })
+    }
 }
+
+export default Error404;

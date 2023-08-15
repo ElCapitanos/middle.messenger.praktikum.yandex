@@ -8,6 +8,6 @@ export default class Error extends Block {
   }
 
   render() {//@ts-ignore
-    return error({ message: this.props.message, errorId: this.props.errorId, errorStyle: this.props.errorStyle });
+    return this.compile(error, { message: this.props.message, errorId: this.props.errorId, errorStyle: this.props.errorStyle });
   }
 }

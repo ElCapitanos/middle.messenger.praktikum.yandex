@@ -1,28 +1,40 @@
 import Title from '../../components/title/index';
 import Link from '../../components/link/index';
 import Subtitle from '../../components/subtitle/index';
+import Block from '../../utils/Block';
+import temp from './error500.hbs';
 
-function render(temp:HTMLElement, arrBlock:any) {
-    arrBlock.forEach((item:any) => {
-        temp.appendChild(item.getContent());
-    });
-    return temp;
-}
 
-const template:HTMLElement | any = document.getElementById('app');
-
-const link = new Link({
+const Link500 = new Link({
     url: '/chating',
     title: 'На главную'
 });
-const title = new Title({
+const Title500 = new Title({
     text: 'Ошибка 500'
 });
-const subtitle = new Subtitle({
+const Subtitle500 = new Subtitle({
     text: 'Уже принимаем меры'
 });
-const result:Array<any> = [title, subtitle, link];
 
-if (window.location.pathname === '/error500') {
-    render(template, result);
+class Error500 extends Block {
+    constructor() {
+        super('div', {
+            attr: {
+                classes: []
+            },
+            Title500,
+            Subtitle500,
+            Link500
+        })
+    }
+
+    render() {
+        return this.compile(temp, {
+            Title500: this.children.Title500,
+            Subtitle500: this.children.Subtitle500,
+            Link500: this.children.Link500
+        })
+    }
 }
+
+export default Error500;
