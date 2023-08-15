@@ -6,19 +6,13 @@ import Error from '../../components/error/index';
 import errorMsg from '../../data/errorMsg';
 import validations from '../../helpers/validation';
 import showError from '../../helpers/showError';
+import Router from '../../utils/Router';
+import Block from '../../utils/Block';
+import temp from './auth.hbs';
 
-function render(temp:HTMLElement, arrBlock:any) {
-  arrBlock.forEach((item:any) => {
-    temp.appendChild(item.getContent());
-  });
-  return temp;
-}
+const router = new Router;
 
-const form:HTMLElement = document.createElement('form');
-form.id = 'authForm';
-const templateForm:HTMLElement | any = document.getElementById('app')?.appendChild(form);
-
-const input = new Input({
+const InputAuth = new Input({
   inputType: 'text',
   inputName: 'login',
   placeHolderText: 'логин',
@@ -30,11 +24,11 @@ const input = new Input({
     }
   }
 });
-const errorLogin = new Error({
+const ErrorLoginAuth = new Error({
   message: errorMsg.messages.login,
   errorId: 'errorLogin'
 });
-const password = new Input({
+const PasswordAuth = new Input({
   inputType: 'password',
   inputName: 'password',
   placeHolderText: 'пароль',
@@ -46,18 +40,22 @@ const password = new Input({
     },
   }
 });
-const errorPassword = new Error({
+const ErrorPasswordAuth = new Error({
   message: errorMsg.messages.password,
   errorId: 'errorPassword'
 });
-const link = new Link({
-  url: '/registration',
-  title: 'Зарегистрироваться'
+const LinkAuth = new Link({
+  title: 'Зарегистрироваться',
+  events: {
+    click: () => {
+      router.go('/psw');
+    },
+  }
 });
-const title = new Title({
+const TitleAuth = new Title({
   text: 'Вход'
 });
-const button = new Button({
+const ButtonAuth = new Button({
   class: 'btn',
   type: 'submit',
   label: 'Войти',
@@ -65,23 +63,10 @@ const button = new Button({
   events: {
     click: (e:any) => {
       onSubmit(e);
+      router.go('/404');
     },
   }
 });
-
-const resultForm = [
-  title,
-  input,
-  errorLogin,
-  password,
-  errorPassword,
-  button,
-  link
-];
-
-if (window.location.pathname === '/' || window.location.pathname === '/auth') {
-  render(templateForm, resultForm);
-}
 
 function validator(field:string, value:string) {
   return field === 'login' ? !validations.validations.login(value) : !validations.validations.password(value);
@@ -106,6 +91,7 @@ function onBlur(e:any) {//@ts-ignore
 function onSubmit(e:any) { // по клику генерируется submit
   e.preventDefault();
   e.stopPropagation();
+  const templateForm:HTMLElement | any = document?.getElementById('authForm');
   templateForm.querySelectorAll('input').forEach((item:any) => {
     if (validator(item.name, item.value) && item.name === 'password') {//@ts-ignore
       document.getElementById('errorPassword').style.opacity = 1;
@@ -115,3 +101,34 @@ function onSubmit(e:any) { // по клику генерируется submit
     }
   });
 }
+
+class Auth extends Block {
+  constructor() {
+      super('div', {//@ts-ignore
+          attr: {
+              classes: [],
+          },
+          TitleAuth,
+          InputAuth,
+          ErrorLoginAuth,
+          PasswordAuth,
+          ErrorPasswordAuth,
+          ButtonAuth, 
+          LinkAuth
+      })
+  }
+
+  render() {
+      return this.compile(temp, {
+        TitleAuth: this.children.TitleAuth,
+        InputAuth: this.children.InputAuth,
+        ErrorLoginAuth: this.children.ErrorLoginAuth,
+        PasswordAuth: this.children.PasswordAuth,
+        ErrorPasswordAuth: this.children.ErrorPasswordAuth,
+        ButtonAuth: this.children.ButtonAuth,
+        LinkAuth: this.children.LinkAuth
+      })
+  }
+}
+
+export default Auth;

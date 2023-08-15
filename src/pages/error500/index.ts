@@ -3,10 +3,15 @@ import Link from '../../components/link/index';
 import Subtitle from '../../components/subtitle/index';
 import Block from '../../utils/Block';
 import temp from './error500.hbs';
+import Router from '../../utils/Router';
 
-
+const router = new Router
 const Link500 = new Link({
-    url: '/chating',
+    events: {
+        click: () => {
+          router.go('/404');
+        },
+      },
     title: 'На главную'
 });
 const Title500 = new Title({
@@ -18,7 +23,7 @@ const Subtitle500 = new Subtitle({
 
 class Error500 extends Block {
     constructor() {
-        super('div', {
+        super('div', {//@ts-ignore
             attr: {
                 classes: []
             },

@@ -1,3 +1,6 @@
+import Block from './../utils/Block';
+
+export type Constructor = {(props:object):Block};
 export type StringObject = { [key:string]:string };
 export type PropsForComponent = {
   active?: boolean,

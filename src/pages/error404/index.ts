@@ -2,9 +2,15 @@ import Title from '../../components/title/index';
 import Link from '../../components/link/index';
 import Block from '../../utils/Block';
 import temp from './error404.hbs';
+import Router from './../../utils/Router';
 
+const router = new Router;
 const Link404:any = new Link({
-    url: '/chating',
+    events: {
+        click: () => {
+          router.go('/');
+        },
+      },
     title: 'На главную'
 });
 const Title404:any = new Title({
@@ -13,9 +19,9 @@ const Title404:any = new Title({
 
 class Error404 extends Block {
     constructor() {
-        super('div', {
+        super('div', {//@ts-ignore
             attr: {
-                classes: []
+                classes: [],
             },
             Title404,
             Link404

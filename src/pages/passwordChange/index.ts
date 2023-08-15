@@ -7,22 +7,16 @@ import Error from '../../components/error/index';
 import errorMsg from '../../data/errorMsg';
 import validations from '../../helpers/validation';
 import showError from '../../helpers/showError';
+import Router from '../../utils/Router';
+import Block from '../../utils/Block';
+import temp from './passwordChange.hbs';
 
-function render(temp:HTMLElement, arrBlock:any) {
-    arrBlock.forEach((item:any) => {
-        temp.appendChild(item.getContent());
-    });
-    return temp;
-}
+const router = new Router;
 
-const formPsw = document.createElement('form');
-formPsw.id = 'passwordForm';
-const templatePasswordForm:HTMLElement | any = document.getElementById('app')?.appendChild(formPsw);
-
-const ava = new Ava({
+const AvaPsw = new Ava({
     class: 'ava'
 });
-const inputOldPsw = new Input({
+const InputOldPsw = new Input({
     inputType: 'password',
     inputName: 'password',
     placeHolderText: 'старый\u00A0пароль',
@@ -34,7 +28,7 @@ const inputOldPsw = new Input({
         },
     }
 });
-const inputNewPsw = new Input({
+const InputNewPsw = new Input({
     inputType: 'password',
     inputName: 'passwordCopy',
     placeHolderText: 'новый\u00A0пароль',
@@ -46,7 +40,7 @@ const inputNewPsw = new Input({
         },
     }
 });
-const inputNewPswCopy = new Input({
+const InputNewPswCopy = new Input({
     inputType: 'password',
     inputName: 'passwordNewCopy',
     placeHolderText: 'новый\u00A0пароль\u00A0(еще\u00A0раз)',
@@ -58,22 +52,22 @@ const inputNewPswCopy = new Input({
         },
     }
 });
-const errorPassword = new Error({
+const ErrorPassword = new Error({
     message: errorMsg.messages.password,
     errorId: 'errorPassword'
 });
-const errorPasswordCopy = new Error({
+const ErrorPasswordCopy = new Error({
     message: errorMsg.messages.passwordCopy,
     errorId: 'errorPasswordCopy'
 });
-const errorPasswordNewCopy = new Error({
+const ErrorPasswordNewCopy = new Error({
     message: errorMsg.messages.passwordCopy,
     errorId: 'errorPasswordNewCopy'
 });
-const title = new Title({
+const TitlePsw = new Title({
     text: 'Смена пароля'
 });
-const buttonSave = new Button({
+const ButtonSave = new Button({
     class: 'btn',
     type: 'submit',
     label: 'Сохранить изменения',
@@ -81,38 +75,31 @@ const buttonSave = new Button({
     events: {
         click: (e:any) => {
           onSubmit(e);
+          router.go('/');
         },
     }
 });
-const buttonCancel = new Button({
+const ButtonCancel = new Button({
     class: 'btn',
     type: 'button',
-    url: '/',
     label: 'Отмена',
-    id: 'cancelBtn'
+    id: 'cancelBtn',
+    events: {
+        click: () => {
+          router.go('/');
+        },
+      },
 });
-const link = new Link({
-    url: '/',
+const LinkPsw = new Link({
+    events: {
+        click: () => {
+          router.go('/');
+        },
+      },
     title: 'Удалить аккаунт'
 });
 
-const resultForm:Array<any> = [
-    title,
-    ava,
-    inputOldPsw,
-    errorPassword,
-    inputNewPsw,
-    errorPasswordCopy,
-    inputNewPswCopy,
-    errorPasswordNewCopy,
-    buttonSave, 
-    buttonCancel, 
-    link
-];
-
-if (window.location.pathname === '/password-change') {
-    render(templatePasswordForm, resultForm);
-}
+const templatePasswordForm:HTMLElement | any = document?.getElementById('passwordForm');
 //@ts-ignore
 function validator(field, value) {
     if (field === 'password') {
@@ -131,27 +118,27 @@ const currentFormPasswordChange = {
     passwordNewCopy: ''
 };
 
-    function onBlur(e:any) {//@ts-ignore
-        currentFormPasswordChange.password = document.getElementById('password')?.value;//@ts-ignore
-        currentFormPasswordChange.passwordCopy = document.getElementById('passwordCopy')?.value;//@ts-ignore
-        currentFormPasswordChange.passwordNewCopy = document.getElementById('passwordNewCopy')?.value;
-        showError('password', 'errorPassword', e, validator);
-        showError('passwordCopy', 'errorPasswordCopy', e, validator);
-        showError(
-            'passwordNewCopy',
-            'errorPasswordNewCopy',
-            e,
-            validator
+function onBlur(e:any) {//@ts-ignore
+    currentFormPasswordChange.password = document.getElementById('password')?.value;//@ts-ignore
+    currentFormPasswordChange.passwordCopy = document.getElementById('passwordCopy')?.value;//@ts-ignore
+    currentFormPasswordChange.passwordNewCopy = document.getElementById('passwordNewCopy')?.value;
+    showError('password', 'errorPassword', e, validator);
+    showError('passwordCopy', 'errorPasswordCopy', e, validator);
+    showError(
+        'passwordNewCopy',
+        'errorPasswordNewCopy',
+        e,
+        validator
+    );
+    if (window.location.pathname === '/password-change') {
+        console.log(
+            'Текущие значения в форме: ',
+            currentFormPasswordChange
         );
-        if (window.location.pathname === '/password-change') {
-            console.log(
-                'Текущие значения в форме: ',
-                currentFormPasswordChange
-            );
-        }
     }
+}
 
-templatePasswordForm.querySelectorAll('input').forEach((item:any) => {
+document.querySelectorAll('input').forEach((item:any) => {
     item.removeEventListener('blur', () => { });
 });
 
@@ -174,3 +161,43 @@ function onSubmit(e:any) { // по клику генерируется submit
         }
     });
 }
+
+class PasswordChange extends Block {
+    constructor() {
+        super('div', {//@ts-ignore
+            attr: {
+                classes: [],
+            },
+            TitlePsw,
+            AvaPsw,
+            InputOldPsw,
+            ErrorPassword,
+            InputNewPsw,
+            ErrorPasswordCopy, 
+            InputNewPswCopy,
+            ErrorPasswordNewCopy,
+            ButtonSave,
+            ButtonCancel,
+            LinkPsw
+        })
+    }
+  
+    render() {
+        return this.compile(temp, {
+          TitlePsw: this.children.TitlePsw,
+          AvaPsw: this.children.AvaPsw,
+          InputOldPsw: this.children.InputOldPsw,
+          ErrorPassword: this.children.ErrorPassword,
+          InputNewPsw: this.children.InputNewPsw,
+          ButtonAuth: this.children.ButtonAuth,
+          ErrorPasswordCopy: this.children.ErrorPasswordCopy,
+          InputNewPswCopy: this.children.InputNewPswCopy,
+          ErrorPasswordNewCopy: this.children.ErrorPasswordNewCopy,
+          ButtonSave: this.children.ButtonSave,
+          ButtonCancel: this.children.ButtonCancel,
+          LinkPsw: this.children.LinkPsw,
+        })
+    }
+  }
+  
+  export default PasswordChange;
