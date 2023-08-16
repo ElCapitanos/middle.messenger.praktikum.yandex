@@ -15,7 +15,7 @@ export default class Card extends Block {
       amount: this.props.amount,//@ts-ignore
       text: this.props.text,//@ts-ignore
       queu: this.props.amount ? 'display:block;' : 'display:none;',//@ts-ignore
-      active: this.props.active ? 'background-color:rgba(0,0,0,.15);' : ''
+      active: this.props.active ? 'background-color:#cccccc;' : ''
     });
   }
 }

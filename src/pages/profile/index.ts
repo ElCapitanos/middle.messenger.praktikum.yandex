@@ -7,46 +7,41 @@ import Error from '../../components/error/index';
 import errorMsg from '../../data/errorMsg';
 import validations from '../../helpers/validation';
 import showError from '../../helpers/showError';
-import { StringObject } from '../../helpers/constTypes'
+import { StringObject } from '../../helpers/constTypes';
+import Block from '../../utils/Block';
+import Router from '../../utils/Router';
+import temp from './profile.hbs';
 
-function render(temp:HTMLElement, arrBlock:any) {
-    arrBlock.forEach((item:any) => {
-        temp.appendChild(item.getContent());
-    });
-    return temp;
-}
-const formProfile:HTMLElement | any = document.createElement('form');
-formProfile.id = 'formProfile';
-const templateFormProfile:HTMLElement | any = document.getElementById('app')?.appendChild(formProfile);
+const router = new Router;
 
-const ava = new Ava({
+const AvaProfile = new Ava({
     class: 'ava'
 });
-const errorName = new Error({
+const ErrorNameProfile = new Error({
     message: errorMsg.messages.name,
     errorId: 'errorName'
 });
-const errorSecondName = new Error({
+const ErrorSecondNameProfile = new Error({
     message: errorMsg.messages.name,
     errorId: 'errorSecondName'
 });
-const errorLogin = new Error({
+const ErrorLoginProfile = new Error({
     message: errorMsg.messages.login,
     errorId: 'errorLogin'
 });
-const errorPhone = new Error({
+const ErrorPhoneProfile = new Error({
     message: errorMsg.messages.phone,
     errorId: 'errorPhone'
 });
-const errorMail = new Error({
+const ErrorMailProfile = new Error({
     message: errorMsg.messages.mail,
     errorId: 'errorMail'
 });
-const errorUser = new Error({
+const ErrorUserProfile = new Error({
     message: errorMsg.messages.name,
     errorId: 'errorUser'
 });
-const inputName = new Input({
+const InputNameProfile = new Input({
     inputType: 'text',
     inputName: 'first_name',
     placeHolderText: 'сменить\u00A0имя',
@@ -58,7 +53,7 @@ const inputName = new Input({
         },
     }
 });
-const inputSecondName = new Input({
+const InputSecondNameProfile = new Input({
     inputType: 'text',
     inputName: 'second_name',
     placeHolderText: 'сменить\u00A0фамилию',
@@ -70,7 +65,7 @@ const inputSecondName = new Input({
         },
     }
 });
-const inputLogin = new Input({
+const InputLoginProfile = new Input({
     inputType: 'text',
     inputName: 'login',
     placeHolderText: 'сменить\u00A0логин',
@@ -82,7 +77,7 @@ const inputLogin = new Input({
         },
     }
 });
-const inputPhone = new Input({
+const InputPhoneProfile = new Input({
     inputType: 'tel',
     inputName: 'phone',
     placeHolderText: 'сменить\u00A0телефон',
@@ -94,7 +89,7 @@ const inputPhone = new Input({
         },
     }
 });
-const inputMail = new Input({
+const InputMailProfile = new Input({
     inputType: 'email',
     inputName: 'email',
     placeHolderText: 'сменить\u00A0e-mail',
@@ -106,7 +101,7 @@ const inputMail = new Input({
         },
     }
 });
-const inputUser = new Input({
+const InputUserProfile = new Input({
     inputType: 'text',
     inputName: 'display_name',
     placeHolderText: 'сменить\u00A0имя\u00A0в\u00A0чате',
@@ -118,47 +113,30 @@ const inputUser = new Input({
         },
     }
 });
-const title = new Title({
+const TitleProfile = new Title({
     text: 'Профиль'
 });
-const button = new Button({
+const ButtonProfile = new Button({
     class: 'btn',
     type: 'submit',
     label: 'Сохранить изменения',
     id: 'profileBtn',
     events: {
         click: (e:any) => {
-          onSubmit(e);
+            onSubmit(e);
+            router.go('/500');
         },
     }
 });
-const link = new Link({
-    url: '/',
+const LinkProfile = new Link({
+    events: {
+        click: () => {
+          router.go('/404');
+        },
+      },
     title: 'Удалить аккаунт'
 });
 
-const resultFormProfile:Array<any> = [
-    title,
-    ava,
-    inputName,
-    errorName,
-    inputSecondName,
-    errorSecondName,
-    inputLogin,
-    errorLogin,
-    inputPhone,
-    errorPhone,
-    inputMail,
-    errorMail,
-    inputUser,
-    errorUser,
-    button, 
-    link
-];
-
-if (window.location.pathname === '/profile') {
-    render(templateFormProfile, resultFormProfile);
-}
 function validator(field:string, value:string) {
     if (
         field === 'first_name'
@@ -202,13 +180,14 @@ const currentFormProfile:StringObject = {
         if (window.location.pathname === '/profile') { console.log('Текущие значения в форме: ', currentFormProfile); }
         }
 
-templateFormProfile.querySelectorAll('input').forEach((item:any) => {
+document.querySelectorAll('input').forEach((item:any) => {
     item.removeEventListener('blur', () => { });
 });
 
 function onSubmit(e:any) { // по клику генерируется submit
     e.preventDefault();
     e.stopPropagation();
+    const templateFormProfile:HTMLElement | any = document?.getElementById('formProfile');
     templateFormProfile.querySelectorAll('input').forEach((item:any) => {
         if ((validator(item.name, item.value) && item.name === 'first_name')) {//@ts-ignore
             document.getElementById('errorName').style.opacity = 1;
@@ -230,3 +209,52 @@ function onSubmit(e:any) { // по клику генерируется submit
         }
     });
 }
+
+class Profile extends Block {
+    constructor() {
+        super('div', {//@ts-ignore
+            attr: {
+                classes: [],
+            },
+            TitleProfile,
+            AvaProfile,
+            InputNameProfile,
+            ErrorNameProfile,
+            InputSecondNameProfile, 
+            ErrorSecondNameProfile, 
+            InputLoginProfile,
+            ErrorLoginProfile,
+            InputPhoneProfile,
+            ErrorPhoneProfile,
+            InputMailProfile,
+            ErrorMailProfile,
+            InputUserProfile,
+            ErrorUserProfile,
+            ButtonProfile,
+            LinkProfile
+        })
+    }
+  
+    render() {
+        return this.compile(temp, {
+          TitleProfile: this.children.TitleProfile,
+          AvaProfile: this.children.AvaProfile,
+          InputNameProfile: this.children.InputNameProfile,
+          ErrorNameProfile: this.children.ErrorNameProfile,
+          InputSecondNameProfile: this.children.InputSecondNameProfile,
+          ErrorSecondNameProfile: this.children.ErrorSecondNameProfile,
+          InputLoginProfile: this.children.InputLoginProfile,
+          ErrorLoginProfile: this.children.ErrorLoginProfile,
+          InputPhoneProfile: this.children.InputPhoneProfile,
+          ErrorPhoneProfile: this.children.ErrorPhoneProfile,
+          InputMailProfile: this.children.InputMailProfile,
+          ErrorMailProfile: this.children.ErrorMailProfile,
+          InputUserProfile: this.children.InputUserProfile,
+          ErrorUserProfile: this.children.ErrorUserProfile,
+          ButtonProfile: this.children.ButtonProfile,
+          LinkProfile: this.children.LinkProfile
+        })
+    }
+  }
+  
+  export default Profile;

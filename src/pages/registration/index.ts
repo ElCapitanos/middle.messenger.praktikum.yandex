@@ -6,21 +6,14 @@ import Error from '../../components/error/index';
 import errorMsg from '../../data/errorMsg';
 import validations from '../../helpers/validation';
 import showError from '../../helpers/showError';
-import { StringObject } from '../../helpers/constTypes'
+import { StringObject } from '../../helpers/constTypes';
+import Block from '../../utils/Block';
+import Router from '../../utils/Router';
+import temp from './registration.hbs';
 
-function render(temp:HTMLElement, arrBlock:any) {
-    arrBlock.forEach((item:any) => {
-        temp.appendChild(item.getContent());
-    });
-    return temp;
-}
+const router = new Router;
 
-const formReg:HTMLElement | any = document.createElement('form');
-formReg.id = 'formReg';
-
-const templateRegForm:HTMLElement | any = document.getElementById('app')?.appendChild(formReg);
-
-const inputName = new Input({
+const InputNameReg = new Input({
     inputType: 'text',
     inputName: 'first_name',
     placeHolderText: 'имя',
@@ -32,7 +25,7 @@ const inputName = new Input({
         },
       }
 });
-const inputSecondName = new Input({
+const InputSecondNameReg = new Input({
     inputType: 'text',
     inputName: 'second_name',
     placeHolderText: 'фамилия',
@@ -44,7 +37,7 @@ const inputSecondName = new Input({
         },
       }
 });
-const inputLogin = new Input({
+const InputLoginReg = new Input({
     inputType: 'text',
     inputName: 'login',
     placeHolderText: 'логин',
@@ -56,7 +49,7 @@ const inputLogin = new Input({
         },
       }
 });
-const inputPhone = new Input({
+const InputPhoneReg = new Input({
     inputType: 'tel',
     inputName: 'phone',
     placeHolderText: 'телефон',
@@ -68,7 +61,7 @@ const inputPhone = new Input({
         },
       }
 });
-const inputMail = new Input({
+const InputMailReg = new Input({
     inputType: 'email',
     inputName: 'email',
     placeHolderText: 'e-mail',
@@ -80,7 +73,7 @@ const inputMail = new Input({
         },
       }
 });
-const password = new Input({
+const PasswordReg = new Input({
     inputType: 'password',
     inputName: 'password',
     placeHolderText: 'пароль',
@@ -92,7 +85,7 @@ const password = new Input({
         },
       }
 });
-const passwordCopy = new Input({
+const PasswordCopyReg = new Input({
     inputType: 'password',
     inputName: 'passwordCopy',
     placeHolderText: 'пароль\u00A0(еще\u00A0раз)',
@@ -104,38 +97,38 @@ const passwordCopy = new Input({
         },
       }
 });
-const errorName = new Error({
+const ErrorNameReg = new Error({
     message: errorMsg.messages.name,
     errorId: 'errorName'
 });
-const errorSecondName = new Error({
+const ErrorSecondNameReg = new Error({
     message: errorMsg.messages.name,
     errorId: 'errorSecondName'
 });
-const errorLogin = new Error({
+const ErrorLoginReg = new Error({
     message: errorMsg.messages.login,
     errorId: 'errorLogin'
 });
-const errorPhone = new Error({
+const ErrorPhoneReg = new Error({
     message: errorMsg.messages.phone,
     errorId: 'errorPhone'
 });
-const errorMail = new Error({
+const ErrorMailReg = new Error({
     message: errorMsg.messages.mail,
     errorId: 'errorMail'
 });
-const errorPassword = new Error({
+const ErrorPasswordReg = new Error({
     message: errorMsg.messages.password,
     errorId: 'errorPassword'
 });
-const errorPasswordCopy = new Error({
+const ErrorPasswordCopyReg = new Error({
     message: errorMsg.messages.passwordCopy,
     errorId: 'errorPasswordCopy'
 });
-const title = new Title({
+const TitleReg = new Title({
     text: 'Регистрация'
 });
-const button = new Button({
+const ButtonReg = new Button({
     class: 'btn',
     type: 'submit',
     label: 'Зарегистрироваться',
@@ -143,19 +136,18 @@ const button = new Button({
     events: {
       click: (e:any) => {
         onSubmit(e);
+        router.go('/404');
       },
     }
 });
-const link = new Link({
-    url: '/chating',
+const LinkReg = new Link({
+    events: {
+        click: () => {
+          router.go('/psw');
+        },
+      },
     title: 'Войти'
 });
-
-const resultFormReg:Array<any> = [title, inputName, errorName, inputSecondName, errorSecondName, inputLogin, errorLogin, inputPhone, errorPhone, inputMail, errorMail, password, errorPassword, passwordCopy, errorPasswordCopy, button, link];
-
-if (window.location.pathname === '/registration') {
-    render(templateRegForm, resultFormReg);
-}
 
 function validator(field:string, value:string) {
     if (
@@ -208,13 +200,14 @@ function onBlur(e:any) {
         }
     }
 
-templateRegForm.querySelectorAll('input').forEach((item:any) => {
-    item.removeEventListener('blur', () => { });
-});
-
-function onSubmit(e:any) {// по клику генерируется submit
-    e.preventDefault();
-    e.stopPropagation();
+    document.querySelectorAll('input').forEach((item:any) => {
+        item.removeEventListener('blur', () => { });
+    });
+    
+    function onSubmit(e:any) {// по клику генерируется submit
+        e.preventDefault();
+        e.stopPropagation();
+    const templateRegForm:HTMLElement | any = document.getElementById('formReg');
     templateRegForm.querySelectorAll('input').forEach((item:any) => {
         if ((validator(item.name, item.value) && item.name === 'first_name')) {//@ts-ignore
             document.getElementById('errorName').style.opacity = 1;
@@ -239,3 +232,55 @@ function onSubmit(e:any) {// по клику генерируется submit
         }
 })
 }
+
+class Registration extends Block {
+    constructor() {
+        super('div', {//@ts-ignore
+            attr: {
+                classes: [],
+            },
+            TitleReg,
+            InputNameReg,
+            ErrorNameReg,
+            InputSecondNameReg,
+            ErrorSecondNameReg,
+            InputLoginReg,
+            ErrorLoginReg,
+            InputPhoneReg,
+            ErrorPhoneReg,
+            InputMailReg,
+            ErrorMailReg,
+            PasswordReg,
+            ErrorPasswordReg,
+            PasswordCopyReg,
+            ErrorPasswordCopyReg,
+            ButtonReg,
+            LinkReg
+        })
+    }
+  
+    render() {
+        return this.compile(temp, {
+          TitleReg: this.children.TitleReg,
+          InputNameReg: this.children.InputNameReg,
+          ErrorNameReg: this.children.ErrorNameReg,
+          InputSecondNameReg: this.children.InputSecondNameReg,
+          ErrorSecondNameReg: this.children.ErrorSecondNameReg,
+          InputLoginReg: this.children.InputLoginReg,
+          ErrorLoginReg: this.children.ErrorLoginReg,
+          InputPhoneReg: this.children.InputPhoneReg,
+          ErrorPhoneReg: this.children.ErrorPhoneReg,
+          InputMailReg: this.children.InputMailReg,
+          ErrorMailReg: this.children.ErrorMailReg,
+          PasswordReg: this.children.PasswordReg,
+          ErrorPasswordReg: this.children.ErrorPasswordReg,
+          PasswordCopyReg: this.children.PasswordCopyReg,
+          ErrorPasswordCopyReg: this.children.ErrorPasswordCopyReg,
+          ButtonReg: this.children.ButtonReg,
+          LinkReg: this.children.LinkReg
+        })
+    }
+  }
+  
+  export default Registration;
+  

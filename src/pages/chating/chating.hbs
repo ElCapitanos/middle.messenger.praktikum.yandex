@@ -1,25 +1,28 @@
 <div class="chat">
     <aside class="chat__list">
-        <a class="chat__link" href="/profile">Профиль&nbsp;&#10139;</a>
+        <div>{{{ LinkChat }}}</div>
         <div class="chat__search">
             <input type="text" class="chat__search-input" placeholder="Поиск...">
             <span class="chat__search-lense">&#128269;</span>
         </div>
         <div class="chat__cards">
-
+            {{{ ResultCards }}}
         </div>
     </aside>
     <main class="main">
         <header class="main__header">
-            <div class="main__ava"></div>
-            <span class="main__name"></span>
+            <div class="main__ava">{{{ AvatarChat }}}</div>
+            <span class="main__name"> {{{ SubtitleChat }}}</span>
             <span class="main__menu" title="Меню">&#9776;</span>
         </header>
-        <div class="main__chat" id="mainChat"></div>
+        <div class="main__chat" id="mainChat">
+            {{{ ErrorMessageChat }}}
+            {{{ MessageCards }}}
+        </div>
         <footer class="main__footer">
             <div class="main__footer-container">
                 <span class="main__add-file" title="Прикрепить файл">&#128206;</span>
-                <div class="main__input-container"></div>
+                <div class="main__input-container"> {{{ InputMessageChat }}}</div>
                 <span class="main__send" title="Отправить сообщение">&#10004;</span>
             </div>
         </footer>

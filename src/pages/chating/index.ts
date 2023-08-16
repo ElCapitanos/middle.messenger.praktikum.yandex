@@ -1,5 +1,5 @@
 import Ava from '../../components/ava/index';
-import chating from './chating.hbs';
+import temp from './chating.hbs';
 import Card from '../../components/chatCard/index';
 import users from '../../data/users';
 import Subtitle from '../../components/subtitle/index';
@@ -9,36 +9,15 @@ import showError from '../../helpers/showError';
 import validations from '../../helpers/validation';
 import Message from '../../components/message/index';
 import Input from '../../components/inputs/index';
+import Block from '../../utils/Block';
+import Router from '../../utils/Router';
+import Link from '../../components/link/index';
 
-function render(temp:HTMLElement, arrBlock:any) {
-    if (temp) {
-        arrBlock.forEach((item:any) => {
-            temp.appendChild(item.getContent());
-        });
-        return temp;
-    }
-    return null; // для EsLint )
-}
+const router = new Router;
 
-const errorMessage = new Error({
-    message: errorMsg.messages.message,
-    errorId: 'errorMessage',
-    errorStyle: 'position:absolute;bottom:20px;'
-});
+const ResultCards:Array<any> = [];
+const MessageCards:Array<any> = [];
 
-const root:HTMLElement | any = document.querySelector('#app');
-const result:any = chating();
-
-if (window.location.pathname === '/chating') { root.innerHTML = result; }
-
-const avatarTemplateHeader:HTMLElement | any = root?.querySelector('.main__ava');
-const nameTemplateHeader:HTMLElement | any = root?.querySelector('.main__name');
-const cardsTemplate:HTMLElement | any = root?.querySelector('.chat__cards');
-const messageTemplate:HTMLElement | any = root?.querySelector('.main__chat');
-const inputTemplate:HTMLElement | any = root?.querySelector('.main__input-container');
-
-const resultCards:Array<any> = [];
-const messageCards:Array<any> = [];
 let activeItemAva:string = '';
 let activeItemName:string = '';
 
@@ -53,14 +32,14 @@ users.currentUsers.forEach((item:any) => {
                     time: msg.time,
                     class: 'main__text_right'
                 });
-                messageCards.push(newMsg);
+                MessageCards.push(newMsg);
             } else {
                 const newMsg = new Message({
                     text: msg.else,
                     time: msg.time,
                     class: 'main__text_left'
                 });
-                messageCards.push(newMsg);
+                MessageCards.push(newMsg);
             }
         });
     }
@@ -72,16 +51,31 @@ users.currentUsers.forEach((item:any) => {
         ava: item.avaSrc,
         active: item.active
     });
-    resultCards.push(card);
+    ResultCards.push(card);
 });
-const avatar = new Ava({
+const profileStr:string = `Профиль\u00A0\u279B`
+const LinkChat = new Link({
+    title: profileStr,
+    class: 'chat__link',
+    events: {
+      click: () => {
+        router.go('/profile');
+      },
+    }
+});
+const AvatarChat = new Ava({
     class: 'ava_small',
     src: activeItemAva
 });
-const subtitle = new Subtitle({
+const ErrorMessageChat = new Error({
+    message: errorMsg.messages.message,
+    errorId: 'errorMessage',
+    errorStyle: 'position:absolute;bottom:20px;'
+});
+const SubtitleChat = new Subtitle({
     text: activeItemName
 });
-const inputMessage = new Input({
+const InputMessageChat = new Input({
     inputType: 'text',
     inputName: 'message',
     placeHolderText: 'введите\u00A0сообщение',
@@ -94,17 +88,6 @@ const inputMessage = new Input({
       }
     }
 })
-const resultName:Array<any> = [subtitle];
-const resultAvatar:Array<any> = [avatar];
-const errorText:Array<any> = [errorMessage];
-const inputMsg:Array<any> = [inputMessage];
-
-render(avatarTemplateHeader, resultAvatar);
-render(nameTemplateHeader, resultName);
-render(cardsTemplate, resultCards);
-render(messageTemplate, errorText);
-render(messageTemplate, messageCards);
-render(inputTemplate, inputMsg);
 
 function validator(field:string, value:string) {
     return field === 'message' ? !validations.validations.message(value) : null;
@@ -115,3 +98,32 @@ function onBlur(e:any) {
 }
 //@ts-ignore
 document.getElementById('mainChat') ? document.getElementById('mainChat').scrollTop = document.getElementById('mainChat')?.scrollHeight : null;
+class Chating extends Block {
+    constructor() {
+        super('div', {//@ts-ignore
+            attr: {
+                classes: [],
+            },
+            AvatarChat,
+            ErrorMessageChat,
+            SubtitleChat,
+            InputMessageChat,
+            MessageCards,
+            ResultCards,
+            LinkChat
+        })
+    }
+    render() {
+        return this.compile(temp, {
+          AvatarChat: this.children.AvatarChat,
+          ErrorMessageChat: this.children.ErrorMessageChat,
+          SubtitleChat: this.children.SubtitleChat,
+          InputMessageChat: this.children.InputMessageChat,
+          MessageCards: this.children.MessageCards,
+          ResultCards: this.children.ResultCards,
+          LinkChat: this.children.LinkChat
+        })
+    }
+  }
+  
+  export default Chating;

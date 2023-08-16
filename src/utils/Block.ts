@@ -212,9 +212,9 @@ class Block {
       }
     });
 
-    const html = template(contextAndPlugs);
-    const temp: HTMLTemplateElement = document.createElement('template');
-    temp.innerHTML = html;
+    const html:any = template(contextAndPlugs);
+    const temp:HTMLTemplateElement = document.createElement('template');
+    temp.innerHTML = (typeof html === 'string') ? html.split(',').join('') : html; // чтобы запятые при выводе из массива не отображались
 
     Object.entries(this.children).forEach(([, component]) => {
       if (Array.isArray(component)) {

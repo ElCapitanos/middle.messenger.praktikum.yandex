@@ -48,7 +48,7 @@ class Router {//@ts-ignore
   }
 
   go(pathname: string) {
-    this.history.pushState({}, '', `/#${pathname}`);
+    this.history.pushState({}, '', pathname);
     this._onRoute(pathname);
   }
 
