@@ -9,7 +9,7 @@ const router = new Router
 const Link500 = new Link({
     events: {
         click: () => {
-          router.go('/404');
+          router.go('/messenger');
         },
       },
     title: 'На главную'

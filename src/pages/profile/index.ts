@@ -124,17 +124,17 @@ const ButtonProfile = new Button({
     events: {
         click: (e:any) => {
             onSubmit(e);
-            router.go('/500');
+            router.go('/messenger');
         },
     }
 });
 const LinkProfile = new Link({
     events: {
         click: () => {
-          router.go('/404');
+          router.go('/');
         },
       },
-    title: 'Удалить аккаунт'
+    title: 'Выйти из системы'
 });
 
 function validator(field:string, value:string) {

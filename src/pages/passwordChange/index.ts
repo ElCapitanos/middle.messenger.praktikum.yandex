@@ -75,7 +75,7 @@ const ButtonSave = new Button({
     events: {
         click: (e:any) => {
           onSubmit(e);
-          router.go('/');
+          router.go('/messenger');
         },
     }
 });
@@ -96,10 +96,9 @@ const LinkPsw = new Link({
           router.go('/');
         },
       },
-    title: 'Удалить аккаунт'
+    title: 'Выйти из системы'
 });
 
-const templatePasswordForm:HTMLElement | any = document?.getElementById('passwordForm');
 //@ts-ignore
 function validator(field, value) {
     if (field === 'password') {
@@ -146,6 +145,7 @@ document.querySelectorAll('input').forEach((item:any) => {
 function onSubmit(e:any) { // по клику генерируется submit
     e.preventDefault();
     e.stopPropagation();
+    const templatePasswordForm:HTMLElement | any = document?.getElementById('passwordForm');
     templatePasswordForm.querySelectorAll('input').forEach((item:any) => {
         if (validator(item.name, item.value) && item.name === 'password') {//@ts-ignore
             document.getElementById('errorPassword').style.opacity = 1;

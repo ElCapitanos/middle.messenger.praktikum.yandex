@@ -11,12 +11,12 @@ const router:any = new Router('#app');
 
 window.addEventListener("DOMContentLoaded", () => {
   router.use("/", Auth);
-  router.use("/psw", PasswordChange);
+  router.use("/password-change", PasswordChange);
   router.use("/messenger", Chating);
-  router.use("/reg", Registration);
-  router.use("/profile", Profile);
-  router.use("/500", Error500);
+  router.use("/sign-up", Registration);
+  router.use("/settings", Profile);
   router.use("/404", Error404);
+  router.use("/500", Error500);
   router.start()
 })
   

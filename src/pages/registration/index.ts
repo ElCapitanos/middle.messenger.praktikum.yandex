@@ -136,14 +136,14 @@ const ButtonReg = new Button({
     events: {
       click: (e:any) => {
         onSubmit(e);
-        router.go('/404');
+        router.go('/messenger');
       },
     }
 });
 const LinkReg = new Link({
     events: {
         click: () => {
-          router.go('/psw');
+          router.go('/messenger');
         },
       },
     title: 'Войти'

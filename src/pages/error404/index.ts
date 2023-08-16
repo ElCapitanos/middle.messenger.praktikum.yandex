@@ -8,7 +8,7 @@ const router = new Router;
 const Link404:any = new Link({
     events: {
         click: () => {
-          router.go('/');
+          router.go('/messenger');
         },
       },
     title: 'На главную'

@@ -48,7 +48,7 @@ const LinkAuth = new Link({
   title: 'Зарегистрироваться',
   events: {
     click: () => {
-      router.go('/psw');
+      router.go('/sign-up');
     },
   }
 });
@@ -63,7 +63,7 @@ const ButtonAuth = new Button({
   events: {
     click: (e:any) => {
       onSubmit(e);
-      router.go('/404');
+      router.go('/messenger');
     },
   }
 });

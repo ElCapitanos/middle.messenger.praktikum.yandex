@@ -59,7 +59,7 @@ const LinkChat = new Link({
     class: 'chat__link',
     events: {
       click: () => {
-        router.go('/profile');
+        router.go('/settings');
       },
     }
 });
