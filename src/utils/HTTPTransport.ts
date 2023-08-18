@@ -1,53 +1,92 @@
-import { Options } from '../helpers/constTypes';
-import { HTTPMethod } from '../helpers/constTypes'
+import { Options, HTTPMethod } from '../helpers/constTypes';
+import queryString from '../utils/queryString';
+import API_URL from '../helpers/constAPI';
 
-const METHODS = {
-  GET: 'GET',
-  POST: 'POST',
-  PUT: 'PUT',
-  DELETE: 'DELETE'
-};
+enum METHODS {
+  GET = 'GET',
+  POST = 'POST',
+  PUT = 'PUT',
+  DELETE = 'DELETE',
+}
+class HTTPTransport {
+  endpoint: string;
 
-function queryStringify(data: Record<string, string | number>) {
-  if (typeof data !== 'object') {
-    throw new Error('data error');
+  constructor(endpoint: string) {
+    this.endpoint = endpoint;
   }
 
-  const keys = Object.keys(data);
-  return keys.reduce((result, key, index) => `${result}${key}=${data[key]}${index < keys.length - 1 ? '&' : ''}`, '?');
-}
+  get: HTTPMethod = (url, options = {}) => (
+    this.request(
+      this.getUrl(url),
+      {
+        ...options,
+        method: METHODS.GET,
+      },
+      options.timeout,
+    )
+  );
 
-class HTTPTransport {
-  get:HTTPMethod = (url, options = {}) => this.request(url, { ...options, method: METHODS.GET }, options.timeout);
+  post: HTTPMethod = (url, options = {}) => (
+    this.request(
+      this.getUrl(url),
+      {
+        ...options,
+        method: METHODS.POST,
+      },
+      options.timeout,
+    )
+  );
 
-  post = (url: string, options = {}) => this.request(url, { ...options, method: METHODS.POST }, options.timeout);
+  put: HTTPMethod = (url, options = {}) => (
+    this.request(
+      this.getUrl(url),
+      {
+        ...options,
+        method: METHODS.PUT,
+      },
+      options.timeout,
+    )
+  );
 
-  put = (url: string, options = {}) => this.request(url, { ...options, method: METHODS.PUT }, options.timeout);
+  delete: HTTPMethod = (url, options = {}) => (
+    this.request(
+      this.getUrl(url),
+      {
+        ...options,
+        method: METHODS.DELETE,
+      },
+      options.timeout,
+    )
+  );
 
-  delete = (url: string, options = {}) => this.request(url, { ...options, method: METHODS.DELETE }, options.timeout);
-
-  request = (url: string, options: Options = {}, timeout: number = 5000) => {
+  request = (
+    url: string,
+    options: Options,
+    timeout = 5000,
+  ) => {
     const { headers = {}, method, data } = options;
 
     return new Promise((resolve, reject) => {
       if (!method) {
-        reject('error');
+        reject(new Error('No method'));
         return;
       }
 
       const xhr = new XMLHttpRequest();
+      const isGet = method === METHODS.GET;
+
       xhr.open(
         method,
-        method === METHODS.GET && !!data
-          ? `${url}${queryStringify(data)}`
-          : url
+        isGet && !!data
+          ? `${url}${queryString(data)}`
+          : url,
       );
 
       Object.keys(headers).forEach((key) => {
         xhr.setRequestHeader(key, headers[key]);
       });
 
-      xhr.onload = function () {
+      xhr.onload = () => {
         resolve(xhr);
       };
 
@@ -56,12 +95,20 @@ class HTTPTransport {
 
       xhr.timeout = timeout;
       xhr.ontimeout = reject;
+      xhr.withCredentials = true;
 
-      if (method === METHODS.GET || !data) {
+      if (isGet || !data) {
         xhr.send();
       } else {
         xhr.send(data);
       }
     });
   };
+
+  private getUrl(url: string): string {
+    if (!url) return `${API_URL}/${this.endpoint}`;
+    return `${API_URL}/${this.endpoint}/${url}`;
+  }
 }
+
+export default HTTPTransport;

@@ -10,6 +10,7 @@ import { StringObject } from '../../helpers/constTypes';
 import Block from '../../utils/Block';
 import Router from '../../utils/Router';
 import temp from './registration.hbs';
+import AuthController from '../../controllers/authController';
 
 const router = new Router;
 
@@ -136,7 +137,7 @@ const ButtonReg = new Button({
     events: {
       click: (e:any) => {
         onSubmit(e);
-        router.go('/messenger');
+        // router.go('/messenger');
       },
     }
 });
@@ -174,13 +175,13 @@ const currentFormReg:StringObject = {
     first_name: '',
     second_name: '',
     login: '',
-    phone: '',
     email: '',
     password: '',
+    phone: '',
     passwordCopy: ''
 };
 
-function onBlur(e:any) {
+function onBlur(e:any) {//@ts-ignore
         currentFormReg.first_name = document.getElementById('regName')?.value;//@ts-ignore
         currentFormReg.second_name = document.getElementById('regSecondName')?.value;//@ts-ignore
         currentFormReg.login = document.getElementById('regLogin')?.value;//@ts-ignore
@@ -195,7 +196,7 @@ function onBlur(e:any) {
         showError('email', 'errorMail', e, validator);
         showError('password', 'errorPassword', e, validator);
         showError('passwordCopy', 'errorPasswordCopy', e, validator);
-        if (window.location.pathname === '/registration') {
+        if (window.location.pathname === '/sign-up') {
             console.log('Текущие значения в форме: ', currentFormReg);
         }
     }
@@ -204,33 +205,45 @@ function onBlur(e:any) {
         item.removeEventListener('blur', () => { });
     });
     
-    function onSubmit(e:any) {// по клику генерируется submit
-        e.preventDefault();
-        e.stopPropagation();
+function onSubmit(e:any) {// по клику генерируется submit
+    e.preventDefault();
+    e.stopPropagation();
+    let validErrorCounter:number = 0;
     const templateRegForm:HTMLElement | any = document.getElementById('formReg');
     templateRegForm.querySelectorAll('input').forEach((item:any) => {
         if ((validator(item.name, item.value) && item.name === 'first_name')) {//@ts-ignore
             document.getElementById('errorName').style.opacity = 1;
+            validErrorCounter++;
         }
         if ((validator(item.name, item.value) && item.name === 'second_name')) {//@ts-ignore
             document.getElementById('errorSecondName').style.opacity = 1;
+            validErrorCounter++;
         }
         if (validator(item.name, item.value) && item.name === 'login') {//@ts-ignore
             document.getElementById('errorLogin').style.opacity = 1;
+            validErrorCounter++;
         }
         if (validator(item.name, item.value) && item.name === 'phone') {//@ts-ignore
             document.getElementById('errorPhone').style.opacity = 1;
+            validErrorCounter++;
         }
         if (validator(item.name, item.value) && item.name === 'email') {//@ts-ignore
             document.getElementById('errorMail').style.opacity = 1;
+            validErrorCounter++;
         }
         if (validator(item.name, item.value) && item.name === 'password') {//@ts-ignore
             document.getElementById('errorPassword').style.opacity = 1;
+            validErrorCounter++;
         }
         if (validator(item.name, item.value) && item.name === 'passwordCopy') {//@ts-ignore
             document.getElementById('errorPasswordCopy').style.opacity = 1;
+            validErrorCounter++;
         }
 })
+    if(validErrorCounter === 0) {
+        delete currentFormReg.passwordCopy;
+        const auth:any = AuthController.signUp(JSON.stringify(currentFormReg));
+    }
 }
 
 class Registration extends Block {

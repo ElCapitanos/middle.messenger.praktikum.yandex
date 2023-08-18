@@ -18,6 +18,11 @@
     &:disabled {
         opacity: .6;
     }
+    &:disabled:hover {
+        opacity: .6;
+        color: $white;
+        background-color: $blue;
+    }
     &:hover {
         color: $blue;
         background-color: $white;

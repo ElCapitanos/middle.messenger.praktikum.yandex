@@ -14,7 +14,7 @@ class Button extends Block {
       url: this.props.url,//@ts-ignore
       btnType: this.props.type,//@ts-ignore
       id: this.props.id,//@ts-ignore
-      disabled: this.props.disabled
+      disabledBtn: this.props.disabledBtn ? this.props.disabledBtn : ''
     });
   }
 }

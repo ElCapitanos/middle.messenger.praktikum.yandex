@@ -7,9 +7,11 @@ import Profile from './pages/profile';
 import Error404 from './pages/error404';
 import Error500 from './pages/error500';
 
+import authController from './controllers/authController';
+
 const router:any = new Router('#app');
 
-window.addEventListener("DOMContentLoaded", () => {
+window.addEventListener("DOMContentLoaded", async () => {
   router.use("/", Auth);
   router.use("/password-change", PasswordChange);
   router.use("/messenger", Chating);
@@ -18,5 +20,18 @@ window.addEventListener("DOMContentLoaded", () => {
   router.use("/404", Error404);
   router.use("/500", Error500);
   router.start()
+
+
+//  let auth:any = await authController.signUp();
+
+//   if (auth) {
+//     router.start();
+//     router.go("404");
+
+//   } else {
+//     router.start();
+//     router.go("/");
+//   }
+
+
 })
-  
