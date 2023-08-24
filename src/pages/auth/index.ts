@@ -9,6 +9,7 @@ import showError from '../../helpers/showError';
 import Router from '../../utils/Router';
 import Block from '../../utils/Block';
 import temp from './auth.hbs';
+import AuthController from '../../controllers/authController';
 
 const router = new Router;
 
@@ -63,7 +64,7 @@ const ButtonAuth = new Button({
   events: {
     click: (e:any) => {
       onSubmit(e);
-      router.go('/messenger');
+    //   router.go('/messenger');
     },
   }
 });
@@ -92,14 +93,20 @@ function onSubmit(e:any) { // по клику генерируется submit
   e.preventDefault();
   e.stopPropagation();
   const templateForm:HTMLElement | any = document?.getElementById('authForm');
+  let validErrorCounter:number = 0;
   templateForm.querySelectorAll('input').forEach((item:any) => {
     if (validator(item.name, item.value) && item.name === 'password') {//@ts-ignore
       document.getElementById('errorPassword').style.opacity = 1;
+      validErrorCounter++;
     }
     if (validator(item.name, item.value) && item.name === 'login') {//@ts-ignore
       document.getElementById('errorLogin').style.opacity = 1;
+      validErrorCounter++;
     }
   });
+  if (validErrorCounter === 0) {
+    AuthController.signIn(JSON.stringify(currentFormAuth));
+  }
 }
 
 class Auth extends Block {

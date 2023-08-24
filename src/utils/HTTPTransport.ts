@@ -1,5 +1,5 @@
 import { Options, HTTPMethod } from '../helpers/constTypes';
-import queryString from '../utils/queryString';
+import queryString from './queryString';
 import API_URL from '../helpers/constAPI';
 
 enum METHODS {
@@ -20,9 +20,9 @@ class HTTPTransport {
       this.getUrl(url),
       {
         ...options,
-        method: METHODS.GET,
+        method: METHODS.GET
       },
-      options.timeout,
+      options.timeout
     )
   );
 
@@ -31,9 +31,9 @@ class HTTPTransport {
       this.getUrl(url),
       {
         ...options,
-        method: METHODS.POST,
+        method: METHODS.POST
       },
-      options.timeout,
+      options.timeout
     )
   );
 
@@ -53,16 +53,16 @@ class HTTPTransport {
       this.getUrl(url),
       {
         ...options,
-        method: METHODS.DELETE,
+        method: METHODS.DELETE
       },
-      options.timeout,
+      options.timeout
     )
   );
 
   request = (
     url: string,
     options: Options,
-    timeout = 5000,
+    timeout = 5000
   ) => {
     const { headers = {}, method, data } = options;
 
@@ -73,18 +73,16 @@ class HTTPTransport {
       }
 
       const xhr = new XMLHttpRequest();
+    //   xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
       const isGet = method === METHODS.GET;
 
       xhr.open(
         method,
         isGet && !!data
           ? `${url}${queryString(data)}`
-          : url,
+          : url
       );
-
-      Object.keys(headers).forEach((key) => {
-        xhr.setRequestHeader(key, headers[key]);
-      });
+      Object.keys(headers).length ? Object.keys(headers).forEach((key) => {xhr.setRequestHeader(key, headers[key])}) : xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
       xhr.onload = () => {
         resolve(xhr);
