@@ -1,8 +1,7 @@
 import Block from './Block';
 
-export default function renderApp(query: string, component: Block):any | null{
+export default function renderApp(query: string, component: Block):any | null {
   const root = document.querySelector(query);
-
   if (!root) {
     throw new Error('Элемент не найден');
   } else {
@@ -12,4 +11,4 @@ export default function renderApp(query: string, component: Block):any | null{
   }
   component.dispatchComponentDidMount();
   return root;
-};
+}

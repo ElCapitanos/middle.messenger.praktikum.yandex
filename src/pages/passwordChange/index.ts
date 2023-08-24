@@ -10,194 +10,197 @@ import showError from '../../helpers/showError';
 import Router from '../../utils/Router';
 import Block from '../../utils/Block';
 import temp from './passwordChange.hbs';
+import AuthController from '../../controllers/authController';
+import UserController from '../../controllers/userController';
 
-const router = new Router;
+const router = new Router();
 
 const AvaPsw = new Ava({
-    class: 'ava'
+  class: 'ava'
 });
 const InputOldPsw = new Input({
-    inputType: 'password',
-    inputName: 'password',
-    placeHolderText: 'старый\u00A0пароль',
-    inputId: 'password',
-    events: {
-        blur: (e:any) => {
-          e.preventDefault();
-          onBlur(e);
-        },
+  inputType: 'password',
+  inputName: 'password',
+  placeHolderText: 'старый\u00A0пароль',
+  inputId: 'password',
+  events: {
+    blur: (e:any) => {
+      e.preventDefault();
+      onBlur(e);
     }
+  }
 });
 const InputNewPsw = new Input({
-    inputType: 'password',
-    inputName: 'passwordCopy',
-    placeHolderText: 'новый\u00A0пароль',
-    inputId: 'passwordCopy',
-    events: {
-        blur: (e:any) => {
-          e.preventDefault();
-          onBlur(e);
-        },
+  inputType: 'password',
+  inputName: 'passwordCopy',
+  placeHolderText: 'новый\u00A0пароль',
+  inputId: 'passwordCopy',
+  events: {
+    blur: (e:any) => {
+      e.preventDefault();
+      onBlur(e);
     }
+  }
 });
 const InputNewPswCopy = new Input({
-    inputType: 'password',
-    inputName: 'passwordNewCopy',
-    placeHolderText: 'новый\u00A0пароль\u00A0(еще\u00A0раз)',
-    inputId: 'passwordNewCopy',
-    events: {
-        blur: (e:any) => {
-          e.preventDefault();
-          onBlur(e);
-        },
+  inputType: 'password',
+  inputName: 'passwordNewCopy',
+  placeHolderText: 'новый\u00A0пароль\u00A0(еще\u00A0раз)',
+  inputId: 'passwordNewCopy',
+  events: {
+    blur: (e:any) => {
+      e.preventDefault();
+      onBlur(e);
     }
+  }
 });
 const ErrorPassword = new Error({
-    message: errorMsg.messages.password,
-    errorId: 'errorPassword'
+  message: errorMsg.messages.password,
+  errorId: 'errorPassword'
 });
 const ErrorPasswordCopy = new Error({
-    message: errorMsg.messages.passwordCopy,
-    errorId: 'errorPasswordCopy'
+  message: errorMsg.messages.passwordCopy,
+  errorId: 'errorPasswordCopy'
 });
 const ErrorPasswordNewCopy = new Error({
-    message: errorMsg.messages.passwordCopy,
-    errorId: 'errorPasswordNewCopy'
+  message: errorMsg.messages.passwordCopy,
+  errorId: 'errorPasswordNewCopy'
 });
 const TitlePsw = new Title({
-    text: 'Смена пароля'
+  text: 'Смена пароля'
 });
 const ButtonSave = new Button({
-    class: 'btn',
-    type: 'submit',
-    label: 'Сохранить изменения',
-    id: 'saveBtn',
-    events: {
-        click: (e:any) => {
-          onSubmit(e);
-          router.go('/messenger');
-        },
+  class: 'btn',
+  type: 'submit',
+  label: 'Сохранить изменения',
+  id: 'saveBtn',
+  events: {
+    click: (e:any) => {
+      onSubmit(e);
+      router.go('/messenger');
     }
+  }
 });
 const ButtonCancel = new Button({
-    class: 'btn',
-    type: 'button',
-    label: 'Отмена',
-    id: 'cancelBtn',
-    events: {
-        click: () => {
-          router.go('/');
-        },
-      },
+  class: 'btn',
+  type: 'button',
+  label: 'Отмена',
+  id: 'cancelBtn',
+  events: {
+    click: () => {
+      router.back();
+    }
+  }
 });
 const LinkPsw = new Link({
-    events: {
-        click: () => {
-          router.go('/');
-        },
-      },
-    title: 'Выйти из системы'
+  events: {
+    click: () => {
+      logout();
+    }
+  },
+  title: 'Выйти из системы'
 });
 
 //@ts-ignore
 function validator(field, value) {
-    if (field === 'password') {
-        return !validations.validations.password(value);
-    } if (field === 'passwordCopy') {//@ts-ignore
-        return value !== document.getElementById('password').value;
-    } if (field === 'passwordNewCopy') {//@ts-ignore
-        return value !== document.getElementById('passwordCopy').value;
-    }
-    return null; // для EsLint )
+  if (field === 'password') {
+    return !validations.validations.password(value);
+  } if (field === 'passwordCopy') {//@ts-ignore
+    return value !== document.getElementById('password').value;
+  } if (field === 'passwordNewCopy') {//@ts-ignore
+    return value !== document.getElementById('passwordCopy').value;
+  }
+  return null; // для EsLint )
+}
+
+function logout() {
+  AuthController.logOut();
 }
 
 const currentFormPasswordChange = {
-    password: '',
-    passwordCopy: '',
-    passwordNewCopy: ''
+  oldPassword: '',
+  newPassword: '',
+  newPasswordCopy: ''
 };
 
 function onBlur(e:any) {//@ts-ignore
-    currentFormPasswordChange.password = document.getElementById('password')?.value;//@ts-ignore
-    currentFormPasswordChange.passwordCopy = document.getElementById('passwordCopy')?.value;//@ts-ignore
-    currentFormPasswordChange.passwordNewCopy = document.getElementById('passwordNewCopy')?.value;
-    showError('password', 'errorPassword', e, validator);
-    showError('passwordCopy', 'errorPasswordCopy', e, validator);
-    showError(
-        'passwordNewCopy',
-        'errorPasswordNewCopy',
-        e,
-        validator
-    );
-    if (window.location.pathname === '/password-change') {
-        console.log(
-            'Текущие значения в форме: ',
-            currentFormPasswordChange
-        );
-    }
+  currentFormPasswordChange.oldPassword = document.getElementById('password')?.value;//@ts-ignore
+  currentFormPasswordChange.newPassword = document.getElementById('passwordCopy')?.value;//@ts-ignore
+  currentFormPasswordChange.newPasswordCopy = document.getElementById('passwordNewCopy')?.value;
+  showError('password', 'errorPassword', e, validator);
+  showError('passwordCopy', 'errorPasswordCopy', e, validator);
+  showError('passwordNewCopy', 'errorPasswordNewCopy', e, validator);
+  if (window.location.pathname === '/password-change') {
+    console.log('Текущие значения в форме: ', currentFormPasswordChange);
+  }
 }
 
 document.querySelectorAll('input').forEach((item:any) => {
-    item.removeEventListener('blur', () => { });
+  item.removeEventListener('blur', () => { });
 });
 
-
 function onSubmit(e:any) { // по клику генерируется submit
-    e.preventDefault();
-    e.stopPropagation();
-    const templatePasswordForm:HTMLElement | any = document?.getElementById('passwordForm');
-    templatePasswordForm.querySelectorAll('input').forEach((item:any) => {
-        if (validator(item.name, item.value) && item.name === 'password') {//@ts-ignore
-            document.getElementById('errorPassword').style.opacity = 1;
-        }
-        if (validator(item.name, item.value) && item.name === 'passwordCopy') {//@ts-ignore
-            document.getElementById('errorPasswordCopy').style.opacity = 1;
-        }
-        if (
-            validator(item.name, item.value)
-            && item.name === 'passwordNewCopy'
-        ) {//@ts-ignore
-            document.getElementById('errorPasswordNewCopy').style.opacity = 1;
-        }
-    });
+  e.preventDefault();
+  e.stopPropagation();
+  const templatePasswordForm:HTMLElement | any = document?.getElementById('passwordForm');
+  let validErrorCounter:number = 0;
+  templatePasswordForm.querySelectorAll('input').forEach((item:any) => {
+    if (validator(item.name, item.value) && item.name === 'password') {//@ts-ignore
+      document.getElementById('errorPassword').style.opacity = 1;
+      validErrorCounter++;
+    }
+    if (validator(item.name, item.value) && item.name === 'passwordCopy') {//@ts-ignore
+      document.getElementById('errorPasswordCopy').style.opacity = 1;
+      validErrorCounter++;
+    }
+    if (
+      validator(item.name, item.value) && item.name === 'passwordNewCopy') {//@ts-ignore
+      document.getElementById('errorPasswordNewCopy').style.opacity = 1;
+      validErrorCounter++;
+    }
+  });
+  if (validErrorCounter === 0) {
+    delete currentFormPasswordChange.newPasswordCopy;
+    UserController.updatePassword(JSON.stringify(currentFormPasswordChange));
+  }
 }
 
 class PasswordChange extends Block {
-    constructor() {
-        super('div', {//@ts-ignore
-            attr: {
-                classes: [],
-            },
-            TitlePsw,
-            AvaPsw,
-            InputOldPsw,
-            ErrorPassword,
-            InputNewPsw,
-            ErrorPasswordCopy, 
-            InputNewPswCopy,
-            ErrorPasswordNewCopy,
-            ButtonSave,
-            ButtonCancel,
-            LinkPsw
-        })
-    }
-  
-    render() {
-        return this.compile(temp, {
-          TitlePsw: this.children.TitlePsw,
-          AvaPsw: this.children.AvaPsw,
-          InputOldPsw: this.children.InputOldPsw,
-          ErrorPassword: this.children.ErrorPassword,
-          InputNewPsw: this.children.InputNewPsw,
-          ButtonAuth: this.children.ButtonAuth,
-          ErrorPasswordCopy: this.children.ErrorPasswordCopy,
-          InputNewPswCopy: this.children.InputNewPswCopy,
-          ErrorPasswordNewCopy: this.children.ErrorPasswordNewCopy,
-          ButtonSave: this.children.ButtonSave,
-          ButtonCancel: this.children.ButtonCancel,
-          LinkPsw: this.children.LinkPsw,
-        })
-    }
+  constructor() {
+    super('div', {//@ts-ignore
+      attr: {
+        classes: []
+      },
+      TitlePsw,
+      AvaPsw,
+      InputOldPsw,
+      ErrorPassword,
+      InputNewPsw,
+      ErrorPasswordCopy,
+      InputNewPswCopy,
+      ErrorPasswordNewCopy,
+      ButtonSave,
+      ButtonCancel,
+      LinkPsw
+    })
   }
-  
-  export default PasswordChange;
+
+  render() {
+    return this.compile(temp, {
+      TitlePsw: this.children.TitlePsw,
+      AvaPsw: this.children.AvaPsw,
+      InputOldPsw: this.children.InputOldPsw,
+      ErrorPassword: this.children.ErrorPassword,
+      InputNewPsw: this.children.InputNewPsw,
+      ButtonAuth: this.children.ButtonAuth,
+      ErrorPasswordCopy: this.children.ErrorPasswordCopy,
+      InputNewPswCopy: this.children.InputNewPswCopy,
+      ErrorPasswordNewCopy: this.children.ErrorPasswordNewCopy,
+      ButtonSave: this.children.ButtonSave,
+      ButtonCancel: this.children.ButtonCancel,
+      LinkPsw: this.children.LinkPsw,
+    })
+  }
+}
+
+export default PasswordChange;

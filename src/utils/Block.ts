@@ -122,7 +122,7 @@ class Block {
   }
 
   render() { }
-  
+
   getContent():HTMLElement | null {
     return this.element;
   }

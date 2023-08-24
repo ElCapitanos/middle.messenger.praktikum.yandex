@@ -239,8 +239,8 @@ function onSubmit(e:any) {// по клику генерируется submit
       document.getElementById('errorPasswordCopy').style.opacity = 1;
       validErrorCounter++;
     }
-  })
-  if(validErrorCounter === 0) {
+  });
+  if (validErrorCounter === 0) {
     delete currentFormReg.passwordCopy;
     AuthController.signUp(JSON.stringify(currentFormReg));
   }

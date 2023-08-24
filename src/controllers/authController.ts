@@ -3,7 +3,7 @@ import AuthAPI from '../api/authApi';
 import Router from '../utils/Router';
 
 const router = new Router();
-export class AuthController {
+class AuthController {
   private api:any;
 
   constructor() {
@@ -22,21 +22,21 @@ export class AuthController {
   async signUp(data:any) {
     try {
       await this.api.signUp(data);
-      await this.fetchUser();
+      await this.getUser();
       router.go('/');
     } catch (e) {
       console.log('Error signUp');
     }
   }
 
-  async fetchUser() {
+  async getUser() {
     try {
       const user = await this.api.getUser();
       console.log('Записываем юзера в стор', user);
     //   store.set("user", user);
       return user;
     } catch (e) {
-      console.log('Error fetchUser');
+      console.log('Error getUser');
     }
   }
 

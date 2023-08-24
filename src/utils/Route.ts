@@ -11,23 +11,27 @@ class Route {
   private _props:object = {
     rootQuery: '#app',
   };
+
   constructor(pathname:string, Component:Constructor, props:object) {
     this._pathname = pathname;
     this._Component = Component;
     this._block = null;
     this._props = props;
   }
+
   navigate(pathname:string) {
     if (this.match(pathname)) {
       this._pathname = pathname;
       this.render();
     }
   }
+
   leave() {
     if (this._block) {//@ts-ignore
       clearApp(this._props.rootQuery);
     }
   }
+
   match(pathname:string) {
     return isEqual(pathname, this._pathname);
   }

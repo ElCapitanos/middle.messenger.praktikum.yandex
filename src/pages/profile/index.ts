@@ -12,6 +12,7 @@ import Block from '../../utils/Block';
 import Router from '../../utils/Router';
 import temp from './profile.hbs';
 import AuthController from '../../controllers/authController';
+import UserController from '../../controllers/userController';
 
 const router = new Router();
 
@@ -125,18 +126,26 @@ const ButtonProfile = new Button({
   events: {
     click: (e:any) => {
       onSubmit(e);
-      router.go('/messenger');
+    //   router.go('/messenger');
     },
   }
 });
 const LinkProfile = new Link({
   events: {
-  click: () => {
-    logout();
-    //   router.go('/');
+    click: () => {
+      logout();
+    }
   },
-},
   title: 'Выйти из системы'
+});
+
+const LinkPasswordChange = new Link({
+  events: {
+    click: () => {
+      router.go('/password-change');
+    }
+  },
+  title: 'Сменить пароль'
 });
 
 function validator(field:string, value:string) {
@@ -196,40 +205,50 @@ function onSubmit(e:any) { // по клику генерируется submit
   e.preventDefault();
   e.stopPropagation();
   const templateFormProfile:HTMLElement | any = document?.getElementById('formProfile');
+  let validErrorCounter:number = 0;
   templateFormProfile.querySelectorAll('input').forEach((item:any) => {
     if ((validator(item.name, item.value) && item.name === 'first_name')) {//@ts-ignore
       document.getElementById('errorName').style.opacity = 1;
+      validErrorCounter++;
     }
     if ((validator(item.name, item.value) && item.name === 'second_name')) {//@ts-ignore
       document.getElementById('errorSecondName').style.opacity = 1;
+      validErrorCounter++;
     }
     if (validator(item.name, item.value) && item.name === 'login') {//@ts-ignore
       document.getElementById('errorLogin').style.opacity = 1;
+      validErrorCounter++;
     }
     if (validator(item.name, item.value) && item.name === 'phone') {//@ts-ignore
       document.getElementById('errorPhone').style.opacity = 1;
+      validErrorCounter++;
     }
     if (validator(item.name, item.value) && item.name === 'email') {//@ts-ignore
       document.getElementById('errorMail').style.opacity = 1;
+      validErrorCounter++;
     }
     if (validator(item.name, item.value) && item.name === 'display_name') {//@ts-ignore
       document.getElementById('errorUser').style.opacity = 1;
+      validErrorCounter++;
     }
   });
+  if (validErrorCounter === 0) {
+    UserController.updateProfile(JSON.stringify(currentFormProfile));
+  }
 }
 
 class Profile extends Block {
   constructor() {
     super('div', {//@ts-ignore
       attr: {
-        classes: [],
+        classes: []
       },
       TitleProfile,
       AvaProfile,
       InputNameProfile,
       ErrorNameProfile,
-      InputSecondNameProfile, 
-      ErrorSecondNameProfile, 
+      InputSecondNameProfile,
+      ErrorSecondNameProfile,
       InputLoginProfile,
       ErrorLoginProfile,
       InputPhoneProfile,
@@ -239,7 +258,8 @@ class Profile extends Block {
       InputUserProfile,
       ErrorUserProfile,
       ButtonProfile,
-      LinkProfile
+      LinkProfile,
+      LinkPasswordChange
     })
   }
 
@@ -260,7 +280,8 @@ class Profile extends Block {
       InputUserProfile: this.children.InputUserProfile,
       ErrorUserProfile: this.children.ErrorUserProfile,
       ButtonProfile: this.children.ButtonProfile,
-      LinkProfile: this.children.LinkProfile
+      LinkProfile: this.children.LinkProfile,
+      LinkPasswordChange: this.children.LinkPasswordChange
     })
   }
 }
