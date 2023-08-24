@@ -3,7 +3,7 @@ import UserAPI from '../api/userApi';
 // import Router from '../utils/Router';
 
 // const router = new Router();
-export class UserController {
+class UserController {
   private api:any;
 
   constructor() {

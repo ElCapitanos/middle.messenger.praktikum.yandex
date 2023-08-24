@@ -1,4 +1,7 @@
 @import "./../../style/var.scss";
+.ava__img {
+    border-radius: 50%;
+}
 .ava {
     display: flex;
     width: 130px;
@@ -19,6 +22,8 @@
     position: relative;
     display: flex;
     margin: auto;
+    width: 100%;
+    right:75%;
     opacity: 0;
     transition: .4s linear;
     text-shadow: 1px 1px 10px $white, 0 0 10px $white, 0 0 10px $white;
