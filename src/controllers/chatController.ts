@@ -31,7 +31,7 @@ class ChatController {
       await this.api.addUsersToChat();
     //   store.set("user", user);
     } catch (e) {
-      console.log('Error getUser');
+      console.log('Error addUsersToChat');
     }
   }
 
@@ -39,7 +39,7 @@ class ChatController {
     try {
       await this.api.removeUsersFromChat();
     } catch (e) {
-      console.log('Error logOut');
+      console.log('Error removeUsersFromChat');
     }
   }
 }
