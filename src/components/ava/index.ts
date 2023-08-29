@@ -10,6 +10,7 @@ export default class Ava extends Block {
   render() {
     return this.compile(ava, {//@ts-ignore
       class: this.props.class,//@ts-ignore
+      textClass: this.props.textClass,
       src: this.props.src ? this.props.src : 'https://t4.ftcdn.net/jpg/04/08/24/43/360_F_408244382_Ex6k7k8XYzTbiXLNJgIL8gssebpLLBZQ.jpg',//@ts-ignore
       alt: this.props.alt
     });

@@ -32,7 +32,9 @@
     transition: .4s linear;
     text-shadow: 1px 1px 10px $white, 0 0 10px $white, 0 0 10px $white;
 }
-
+.ava__text_none {
+    display: none;
+}
 .ava_small {
     object-fit: cover;
     width: 70px;

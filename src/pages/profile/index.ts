@@ -18,6 +18,7 @@ const router = new Router();
 
 const AvaProfile = new Ava({
   class: 'ava',
+  textClass: 'ava__text',
   events: {
     change: (e:any) => {
       onChange(e);

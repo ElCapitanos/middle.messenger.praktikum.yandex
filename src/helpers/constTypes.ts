@@ -4,6 +4,7 @@ export type Constructor = {(props:object):Block};
 export type StringObject = { [key:string]:string };
 export type PropsForComponent = {
   active?: boolean,
+  textClass?: string,
   alt?: string,
   amount?: number,
   ava?: string,

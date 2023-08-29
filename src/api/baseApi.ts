@@ -1,6 +1,6 @@
 import Router from '../utils/Router';
 
-const router = new Router;
+const router = new Router();
 
 export default class BaseAPI {
   create() { throw new Error('Not implemented "create"'); }
@@ -18,7 +18,7 @@ export default class BaseAPI {
     }
     if (response.status === 404) {
       router.go('/404');
-    } 
+    }
     if (response.status >= 500) {
       router.go('/500');
     }
