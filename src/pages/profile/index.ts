@@ -17,7 +17,12 @@ import UserController from '../../controllers/userController';
 const router = new Router();
 
 const AvaProfile = new Ava({
-  class: 'ava'
+  class: 'ava',
+  events: {
+    change: (e:any) => {
+      onChange(e);
+    }
+  }
 });
 const ErrorNameProfile = new Error({
   message: errorMsg.messages.name,
@@ -171,7 +176,8 @@ const currentFormProfile:StringObject = {
   login: '',
   phone: '',
   email: '',
-  display_name: ''
+  display_name: '',
+  avatar: ''
 };
 
     //@ts-ignore
@@ -191,6 +197,10 @@ function onBlur(e:any) {
   if (window.location.pathname === '/profile') {
     console.log('Текущие значения в форме: ', currentFormProfile);
   }
+}
+
+function onChange(e:any) {
+  currentFormProfile.avatar = e.target.value.replaceAll(/\\/g, '/');
 }
 
 function logout() {
@@ -234,6 +244,12 @@ function onSubmit(e:any) { // по клику генерируется submit
   });
   if (validErrorCounter === 0) {
     UserController.updateProfile(JSON.stringify(currentFormProfile));
+    if (currentFormProfile.avatar) {
+      UserController.updateAva(JSON.stringify(currentFormProfile));
+    }
+  }
+  if (currentFormProfile.avatar) {
+    UserController.updateAva(JSON.stringify(currentFormProfile));
   }
 }
 
@@ -259,7 +275,7 @@ class Profile extends Block {
       ErrorUserProfile,
       ButtonProfile,
       LinkProfile,
-      LinkPasswordChange
+      LinkPasswordChange,
     })
   }
 
@@ -281,7 +297,7 @@ class Profile extends Block {
       ErrorUserProfile: this.children.ErrorUserProfile,
       ButtonProfile: this.children.ButtonProfile,
       LinkProfile: this.children.LinkProfile,
-      LinkPasswordChange: this.children.LinkPasswordChange
+      LinkPasswordChange: this.children.LinkPasswordChange,
     })
   }
 }
