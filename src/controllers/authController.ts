@@ -1,5 +1,5 @@
 import AuthAPI from '../api/authApi';
-// import store from "../utils/Store";
+import store from '../utils/store';
 import Router from '../utils/Router';
 
 const router = new Router();
@@ -15,7 +15,7 @@ class AuthController {
       await this.api.signIn(data);
       router.go('/messenger');
     } catch (e) {
-      console.log('Error signIn');
+      console.log('Error signIn', e);
     }
   }
 
@@ -23,20 +23,21 @@ class AuthController {
     try {
       await this.api.signUp(data);
       await this.getUser();
-      router.go('/');
+      router.go('/messenger');
     } catch (e) {
-      console.log('Error signUp');
+      console.log('Error signUp', e);
     }
   }
 
   async getUser() {
     try {
       const user = await this.api.getUser();
-      console.log('Записываем юзера в стор', user);
-    //   store.set("user", user);
-      return user;
+      store.set('user', user);
+      console.log('/*/*/*/*/*/', user);
+      console.log('/----------/', store);
+    //   return user;
     } catch (e) {
-      console.log('Error getUser');
+      console.log('Error getUser', e);
     }
   }
 
@@ -45,7 +46,7 @@ class AuthController {
       await this.api.logOut();
       router.go('/');
     } catch (e) {
-      console.log('Error logOut');
+      console.log('Error logOut', e);
     }
   }
 }
