@@ -1,5 +1,8 @@
 import Block from './../utils/Block';
 
+export type Indexed<T = unknown> = {
+  [key in string]: T;
+};
 export type Constructor = {(props:object):Block};
 export type StringObject = { [key:string]:string };
 export type PropsForComponent = {

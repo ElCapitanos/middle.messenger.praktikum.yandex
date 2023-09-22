@@ -10,8 +10,9 @@ import Router from '../../utils/Router';
 import Block from '../../utils/Block';
 import temp from './auth.hbs';
 import AuthController from '../../controllers/authController';
+import withUser from '../../utils/use_store';
 
-const router = new Router;
+const router = new Router();
 
 const InputAuth = new Input({
   inputType: 'text',
@@ -112,30 +113,30 @@ function onSubmit(e:any) { // по клику генерируется submit
 class Auth extends Block {
   constructor() {
       super('div', {//@ts-ignore
-          attr: {
-              classes: [],
-          },
-          TitleAuth,
-          InputAuth,
-          ErrorLoginAuth,
-          PasswordAuth,
-          ErrorPasswordAuth,
-          ButtonAuth, 
-          LinkAuth
+        attr: {
+        classes: []
+        },
+        TitleAuth,
+        InputAuth,
+        ErrorLoginAuth,
+        PasswordAuth,
+        ErrorPasswordAuth,
+        ButtonAuth, 
+        LinkAuth
       })
   }
 
   render() {
-      return this.compile(temp, {
-        TitleAuth: this.children.TitleAuth,
-        InputAuth: this.children.InputAuth,
-        ErrorLoginAuth: this.children.ErrorLoginAuth,
-        PasswordAuth: this.children.PasswordAuth,
-        ErrorPasswordAuth: this.children.ErrorPasswordAuth,
-        ButtonAuth: this.children.ButtonAuth,
-        LinkAuth: this.children.LinkAuth
-      })
+    return this.compile(temp, {
+    TitleAuth: this.children.TitleAuth,
+    InputAuth: this.children.InputAuth,
+    ErrorLoginAuth: this.children.ErrorLoginAuth,
+    PasswordAuth: this.children.PasswordAuth,
+    ErrorPasswordAuth: this.children.ErrorPasswordAuth,
+    ButtonAuth: this.children.ButtonAuth,
+    LinkAuth: this.children.LinkAuth
+    })
   }
 }
 
-export default Auth;
+export default withUser(Auth);

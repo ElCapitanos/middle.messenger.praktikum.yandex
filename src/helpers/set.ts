@@ -1,6 +1,4 @@
-type Indexed<T = unknown> = {
-  [key in string]: T;
-};
+import { Indexed } from './constTypes';
 
 function set(object: Indexed | unknown, path: string, value: unknown): Indexed | unknown {
   if (typeof path !== 'string') {
@@ -9,16 +7,16 @@ function set(object: Indexed | unknown, path: string, value: unknown): Indexed |
     if (typeof object != 'object') {
       return object
     } else {
-        const pathList:string[] = path.split('.');
-        const key:string | any = pathList.pop();
-        const pointer = pathList.reduce((accumulator:object | any, currentVal:string) => {
+       const pathList:string[] = path.split('.');
+       const key:string | any = pathList.pop();
+       const pointer = pathList.reduce((accumulator:object | any, currentVal:string) => {
         if (!accumulator[currentVal]) { 
-            accumulator[currentVal] = {}; 
+          accumulator[currentVal] = {}; 
         }
-        return accumulator[currentVal];}, object);
-        pointer[key] = value;
-        return object;
-        }
+       return accumulator[currentVal];}, object);
+       pointer[key] = value;
+       return object;
+      }
   }
 }
 
