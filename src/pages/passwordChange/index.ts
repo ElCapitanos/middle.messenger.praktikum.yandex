@@ -77,7 +77,6 @@ const ButtonSave = new Button({
   events: {
     click: (e:any) => {
       onSubmit(e);
-      router.go('/messenger');
     }
   }
 });

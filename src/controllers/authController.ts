@@ -12,8 +12,9 @@ class AuthController {
 
   async signIn(data:object) {
     try {
-      await this.api.signIn(data);
-      router.go('/messenger');
+      await this.api.signIn(data).then(result => {
+        result.response === 'OK' ? router.go('/messenger') : alert('Что-то пошло не так');
+      });
     } catch (e) {
       console.log('Error signIn', e);
     }
@@ -21,9 +22,10 @@ class AuthController {
 
   async signUp(data:any) {
     try {
-      await this.api.signUp(data);
+      await this.api.signUp(data).then(result => {//@ts-ignore
+        result.response === 'OK' ? router.go('/messenger') : alert('Что-то пошло не так');
+      });
       await this.getUser();
-      router.go('/messenger');
     } catch (e) {
       console.log('Error signUp', e);
     }
@@ -33,9 +35,7 @@ class AuthController {
     try {
       const user = await this.api.getUser();
       store.set('user', user);
-      console.log('/*/*/*/*/*/', user);
-      console.log('/----------/', store);
-    //   return user;
+      return user;
     } catch (e) {
       console.log('Error getUser', e);
     }
@@ -43,8 +43,9 @@ class AuthController {
 
   async logOut() {
     try {
-      await this.api.logOut();
-      router.go('/');
+      this.api.logOut().then(result => {
+        result.response === 'OK' ? router.go('/') : alert('Что-то пошло не так');
+      });
     } catch (e) {
       console.log('Error logOut', e);
     }

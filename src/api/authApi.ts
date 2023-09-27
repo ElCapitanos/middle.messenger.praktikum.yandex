@@ -1,6 +1,6 @@
 import HTTPTransport from '../utils/HTTPTransport';
 
-export class AuthAPI {
+class AuthAPI {
   protected httpTransport: HTTPTransport;
 
   constructor() {
