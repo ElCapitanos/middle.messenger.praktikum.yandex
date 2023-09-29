@@ -12,6 +12,7 @@ import Input from '../../components/inputs/index';
 import Block from '../../utils/Block';
 import Router from '../../utils/Router';
 import Link from '../../components/link/index';
+import chatController from '../../controllers/chatController';
 
 const router = new Router();
 
@@ -49,7 +50,7 @@ users.currentUsers.forEach((item:any) => {
     date: item.lastDate,
     amount: item.messageAmount,
     ava: item.avaSrc,
-    active: item.active
+    active: item.active,
   });
   ResultCards.push(card);
 });
@@ -61,6 +62,17 @@ const LinkChat = new Link({
     click: () => {
       router.go('/settings');
     },
+  }
+});
+
+const newChatLinkText: string = `Создать\u00A0\новый\u00A0\чат`
+const NewChatLink = new Link({
+  title: newChatLinkText,
+  class: 'chat__link',
+  events: {
+    click: (e) => {
+      createNewChat(e);
+    }
   }
 });
 const AvatarChat = new Ava({
@@ -94,6 +106,11 @@ function validator(field:string, value:string) {
   return field === 'message' ? !validations.validations.message(value) : null;
 }
 
+function createNewChat() {
+  const data:any = 'new chat';
+  chatController.createChat(data);
+//   chatController.getChatList(0);
+}
 function onBlur(e:any) {
   showError('message', 'errorMessage', e, validator);
 }
@@ -103,7 +120,7 @@ class Chating extends Block {
   constructor() {
     super('div', {//@ts-ignore
       attr: {
-        classes: [],
+        classes: []
       },
       AvatarChat,
       ErrorMessageChat,
@@ -111,9 +128,11 @@ class Chating extends Block {
       InputMessageChat,
       MessageCards,
       ResultCards,
-      LinkChat
-    })
+      LinkChat,
+      NewChatLink
+    });
   }
+
   render() {
     return this.compile(temp, {
       AvatarChat: this.children.AvatarChat,
@@ -122,9 +141,10 @@ class Chating extends Block {
       InputMessageChat: this.children.InputMessageChat,
       MessageCards: this.children.MessageCards,
       ResultCards: this.children.ResultCards,
-      LinkChat: this.children.LinkChat
+      LinkChat: this.children.LinkChat,
+      NewChatLink: this.children.NewChatLink,
     })
   }
-  }
+}
 
 export default Chating;

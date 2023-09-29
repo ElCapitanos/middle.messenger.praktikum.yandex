@@ -2,7 +2,6 @@ import Button from '../../components/button/index';
 import Title from '../../components/title/index';
 import Input from '../../components/inputs/index';
 import Link from '../../components/link/index';
-import Ava from '../../components/ava/index';
 import Error from '../../components/error/index';
 import errorMsg from '../../data/errorMsg';
 import validations from '../../helpers/validation';
@@ -12,12 +11,10 @@ import Block from '../../utils/Block';
 import temp from './passwordChange.hbs';
 import AuthController from '../../controllers/authController';
 import UserController from '../../controllers/userController';
+import { StringObject } from '../../helpers/constTypes';
 
 const router = new Router();
 
-const AvaPsw = new Ava({
-  class: 'ava'
-});
 const InputOldPsw = new Input({
   inputType: 'password',
   inputName: 'password',
@@ -32,9 +29,9 @@ const InputOldPsw = new Input({
 });
 const InputNewPsw = new Input({
   inputType: 'password',
-  inputName: 'passwordCopy',
+  inputName: 'newPassword',
   placeHolderText: 'новый\u00A0пароль',
-  inputId: 'passwordCopy',
+  inputId: 'newPassword',
   events: {
     blur: (e:any) => {
       e.preventDefault();
@@ -58,9 +55,9 @@ const ErrorPassword = new Error({
   message: errorMsg.messages.password,
   errorId: 'errorPassword'
 });
-const ErrorPasswordCopy = new Error({
-  message: errorMsg.messages.passwordCopy,
-  errorId: 'errorPasswordCopy'
+const ErrorNewPassword = new Error({
+  message: errorMsg.messages.newPassword,
+  errorId: 'errorNewPassword'
 });
 const ErrorPasswordNewCopy = new Error({
   message: errorMsg.messages.passwordCopy,
@@ -104,10 +101,10 @@ const LinkPsw = new Link({
 function validator(field, value) {
   if (field === 'password') {
     return !validations.validations.password(value);
-  } if (field === 'passwordCopy') {//@ts-ignore
-    return value !== document.getElementById('password').value;
+  } if (field === 'newPassword') {//@ts-ignore
+    return value !== document.getElementById('passwordNewCopy').value;
   } if (field === 'passwordNewCopy') {//@ts-ignore
-    return value !== document.getElementById('passwordCopy').value;
+    return value !== document.getElementById('newPassword').value;
   }
   return null; // для EsLint )
 }
@@ -116,7 +113,7 @@ function logout() {
   AuthController.logOut();
 }
 
-const currentFormPasswordChange = {
+const currentFormPasswordChange:StringObject = {
   oldPassword: '',
   newPassword: '',
   newPasswordCopy: ''
@@ -124,10 +121,10 @@ const currentFormPasswordChange = {
 
 function onBlur(e:any) {//@ts-ignore
   currentFormPasswordChange.oldPassword = document.getElementById('password')?.value;//@ts-ignore
-  currentFormPasswordChange.newPassword = document.getElementById('passwordCopy')?.value;//@ts-ignore
+  currentFormPasswordChange.newPassword = document.getElementById('newPassword')?.value;//@ts-ignore
   currentFormPasswordChange.newPasswordCopy = document.getElementById('passwordNewCopy')?.value;
   showError('password', 'errorPassword', e, validator);
-  showError('passwordCopy', 'errorPasswordCopy', e, validator);
+  showError('newPassword', 'ErrorNewPassword', e, validator);
   showError('passwordNewCopy', 'errorPasswordNewCopy', e, validator);
   if (window.location.pathname === '/password-change') {
     console.log('Текущие значения в форме: ', currentFormPasswordChange);
@@ -148,8 +145,8 @@ function onSubmit(e:any) { // по клику генерируется submit
       document.getElementById('errorPassword').style.opacity = 1;
       validErrorCounter++;
     }
-    if (validator(item.name, item.value) && item.name === 'passwordCopy') {//@ts-ignore
-      document.getElementById('errorPasswordCopy').style.opacity = 1;
+    if (validator(item.name, item.value) && item.name === 'newPassword') {//@ts-ignore
+      document.getElementById('errorNewPassword').style.opacity = 1;
       validErrorCounter++;
     }
     if (
@@ -171,11 +168,10 @@ class PasswordChange extends Block {
         classes: []
       },
       TitlePsw,
-      AvaPsw,
       InputOldPsw,
       ErrorPassword,
       InputNewPsw,
-      ErrorPasswordCopy,
+      ErrorNewPassword,
       InputNewPswCopy,
       ErrorPasswordNewCopy,
       ButtonSave,
@@ -187,7 +183,6 @@ class PasswordChange extends Block {
   render() {
     return this.compile(temp, {
       TitlePsw: this.children.TitlePsw,
-      AvaPsw: this.children.AvaPsw,
       InputOldPsw: this.children.InputOldPsw,
       ErrorPassword: this.children.ErrorPassword,
       InputNewPsw: this.children.InputNewPsw,

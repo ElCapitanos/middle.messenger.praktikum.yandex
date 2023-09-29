@@ -12,7 +12,7 @@ class AuthController {
 
   async signIn(data:object) {
     try {
-      await this.api.signIn(data).then(result => {
+      await this.api.signIn(data).then((result:any) => {
         result.response === 'OK' ? router.go('/messenger') : alert('Что-то пошло не так');
       });
     } catch (e) {
@@ -22,10 +22,10 @@ class AuthController {
 
   async signUp(data:any) {
     try {
-      await this.api.signUp(data).then(result => {//@ts-ignore
+      await this.api.signUp(data).then((result:any) => {
         result.response === 'OK' ? router.go('/messenger') : alert('Что-то пошло не так');
       });
-      await this.getUser();
+    //   await this.getUser();
     } catch (e) {
       console.log('Error signUp', e);
     }
@@ -43,7 +43,7 @@ class AuthController {
 
   async logOut() {
     try {
-      this.api.logOut().then(result => {
+      this.api.logOut().then((result:any) => {
         result.response === 'OK' ? router.go('/') : alert('Что-то пошло не так');
       });
     } catch (e) {

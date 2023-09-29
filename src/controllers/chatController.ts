@@ -14,7 +14,7 @@ class ChatController {
     try {
       await this.api.getChatList(data);
     } catch (e) {
-      console.log('Error getChatList');
+      console.log('Error getChatList', e);
     }
   }
 
@@ -22,7 +22,7 @@ class ChatController {
     try {
       await this.api.createChat(data);
     } catch (e) {
-      console.log('Error createChat');
+      console.log('Error createChat', e);
     }
   }
 
@@ -31,7 +31,7 @@ class ChatController {
       await this.api.addUsersToChat();
     //   store.set("user", user);
     } catch (e) {
-      console.log('Error addUsersToChat');
+      console.log('Error addUsersToChat', e);
     }
   }
 
@@ -39,7 +39,7 @@ class ChatController {
     try {
       await this.api.removeUsersFromChat();
     } catch (e) {
-      console.log('Error removeUsersFromChat');
+      console.log('Error removeUsersFromChat', e);
     }
   }
 }

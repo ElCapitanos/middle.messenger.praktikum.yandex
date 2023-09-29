@@ -132,7 +132,6 @@ const ButtonProfile = new Button({
   events: {
     click: (e:any) => {
       onSubmit(e);
-    //   router.go('/messenger');
     },
   }
 });
@@ -201,7 +200,10 @@ function onBlur(e:any) {
 }
 
 function onChange(e:any) {
-  currentFormProfile.avatar = e.target.value.replaceAll(/\\/g, '/');
+  const data:any = new FormData();
+  data.append('avatar', e.target.files[0]);
+  //   currentFormProfile.avatar = e.target.value.replaceAll(/\\/g, '/');
+  UserController.updateAva(data);
 }
 
 function logout() {
@@ -245,13 +247,13 @@ function onSubmit(e:any) { // по клику генерируется submit
   });
   if (validErrorCounter === 0) {
     UserController.updateProfile(JSON.stringify(currentFormProfile));
-    if (currentFormProfile.avatar) {
-      UserController.updateAva(JSON.stringify(currentFormProfile));
-    }
+    // if (currentFormProfile.avatar) {
+    //   UserController.updateAva(JSON.stringify(currentFormProfile));
+    // }
   }
-  if (currentFormProfile.avatar) {
-    UserController.updateAva(JSON.stringify(currentFormProfile));
-  }
+//   if (currentFormProfile.avatar) {
+//     UserController.updateAva(JSON.stringify(currentFormProfile));
+//   }
 }
 
 class Profile extends Block {
@@ -299,7 +301,7 @@ class Profile extends Block {
       ButtonProfile: this.children.ButtonProfile,
       LinkProfile: this.children.LinkProfile,
       LinkPasswordChange: this.children.LinkPasswordChange,
-    })
+    });
   }
 }
 

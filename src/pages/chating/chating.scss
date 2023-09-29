@@ -111,7 +111,8 @@
     padding: 16px;
     width: 100%;
     height: 100px;
-    border-bottom: solid 1px $grey2
+    border-bottom: solid 1px $grey2;
+    position: relative;
 }
 
 .main__ava {
@@ -209,4 +210,10 @@
     border-radius: 6px;
     background-color: $grey1;
     padding: 6px 0;
+}
+
+.chat__links-container{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
 }
