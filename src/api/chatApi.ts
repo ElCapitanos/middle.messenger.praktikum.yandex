@@ -1,4 +1,5 @@
 import HTTPTransport from '../utils/HTTPTransport';
+import { ChatCreateDataType } from '../helpers/constTypes';
 
 class ChatAPI {
   protected httpTransport: HTTPTransport;
@@ -11,8 +12,8 @@ class ChatAPI {
     return this.httpTransport.get('', { data });
   }
 
-  createChat(title:string): Promise<unknown> {
-    return this.httpTransport.post('', { data: { title } });
+  createChat(data:ChatCreateDataType): Promise<unknown> {
+    return this.httpTransport.post('', { data });
   }
 
   addUsersToChat(data: { users: number[]; chatId: number }): Promise<unknown> {

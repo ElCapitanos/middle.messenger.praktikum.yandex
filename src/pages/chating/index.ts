@@ -13,6 +13,7 @@ import Block from '../../utils/Block';
 import Router from '../../utils/Router';
 import Link from '../../components/link/index';
 import chatController from '../../controllers/chatController';
+import { ChatCreateDataType } from '../../helpers/constTypes';
 
 const router = new Router();
 
@@ -107,9 +108,9 @@ function validator(field:string, value:string) {
 }
 
 function createNewChat() {
-  const data:any = 'new chat';
-  chatController.createChat(data);
-//   chatController.getChatList(0);
+  const data:ChatCreateDataType = { title: 'new chat' };
+  chatController.createChat(JSON.stringify(data));
+  chatController.getChatList();
 }
 function onBlur(e:any) {
   showError('message', 'errorMessage', e, validator);

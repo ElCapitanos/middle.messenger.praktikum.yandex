@@ -23,7 +23,7 @@ class AuthController {
   async signUp(data:any) {
     try {
       await this.api.signUp(data).then((result:any) => {
-        result.response === 'OK' ? router.go('/messenger') : alert('Что-то пошло не так');
+        result.response.includes("id") ? router.go('/messenger') : alert('Что-то пошло не так');
       });
     //   await this.getUser();
     } catch (e) {

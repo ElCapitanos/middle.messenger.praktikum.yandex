@@ -42,3 +42,6 @@ export type Options = {
   timeout?: number;
 };
 export type HTTPMethod = (url: string, options?: Options) => Promise<unknown>
+export type ChatCreateDataType = {
+  title: string;
+};

@@ -1,4 +1,5 @@
 import ChatAPI from '../api/chatApi';
+import { ChatCreateDataType } from '../helpers/constTypes';
 // import store from "../utils/Store";
 // import Router from '../utils/Router';
 
@@ -18,7 +19,7 @@ class ChatController {
     }
   }
 
-  async createChat(data:any) {
+  async createChat(data:ChatCreateDataType) {
     try {
       await this.api.createChat(data);
     } catch (e) {
