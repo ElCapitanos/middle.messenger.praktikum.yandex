@@ -31,7 +31,7 @@
     transition: .4s linear;
     cursor: pointer;
     text-decoration: none;
-
+    user-select: none;
     &:hover {
         transform: scale(1.02);
     }
@@ -216,4 +216,79 @@
     display: flex;
     width: 100%;
     justify-content: space-between;
+}
+
+.main__link {
+    color: $grey808080;
+    display: flex;
+    border: solid 1px $grey808080;
+    padding: 4px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: .4s linear;
+    &:hover {
+        transform: scale(1.02);
+    }
+}
+
+.chat__new-title, .chat__users-mgmt-container {
+    display: none;
+    flex-direction: column;
+}
+
+.chat__input-name {
+    width: 300px !important;
+    height: 30px;
+    outline: none;
+    padding: 0 16px;
+    line-height: 16px;
+    font-size: 12px;
+    border-radius: 6px;
+    border: solid 1px $grey1;
+    width: 100%;
+    background-color: transparent;
+    margin-bottom: 20px;
+}
+
+.chat__create-btn {
+    width: 300px;
+    border: 1px $blue solid;
+    border-radius: 6px;
+    padding: 6px 0;
+    margin-bottom: 20px;
+    color: $blue;
+    cursor: pointer;
+    transition: .4s linear;
+    &:hover {
+        color: $white;
+        background-color: $blue;
+    }
+}
+
+.chat__users-mgmt {
+    display: flex;
+    border: solid 1px $grey1;
+    justify-content: center;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: .4s linear;
+    margin-bottom: 20px;
+    &:hover {
+        border-color: blue;
+    }
+}
+
+.chat__add-btn {
+    width: 150px;
+    display: block;
+    font-size: 10px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    border: solid 1px $grey1;
+    margin: -15px 0 20px auto;
+    cursor: pointer;
+    transition: .4s linear;
+    &:hover {
+        border-color: $blue;
+    }
 }

@@ -12,8 +12,12 @@ import Input from '../../components/inputs/index';
 import Block from '../../utils/Block';
 import Router from '../../utils/Router';
 import Link from '../../components/link/index';
+import Button from '../../components/button/index';
 import chatController from '../../controllers/chatController';
+import userController from '../../controllers/userController';
+import authController from '../../controllers/authController';
 import { ChatCreateDataType } from '../../helpers/constTypes';
+import chatList from '../../data/chats';
 
 const router = new Router();
 
@@ -55,7 +59,32 @@ users.currentUsers.forEach((item:any) => {
   });
   ResultCards.push(card);
 });
-const profileStr:string = `Профиль\u00A0\u279B`
+
+const CreateChatButton = new Button({
+  class: 'chat__create-btn',
+  type: 'button',
+  label: 'Создать новый чат',
+  id: 'createChatBtn',
+  events: {
+    click: () => {
+      createChat();
+    }
+  }
+});
+
+const BtnNeededUser = new Button({
+  class: 'chat__add-btn',
+  type: 'button',
+  label: 'Выбрать этого пользователя',
+  id: 'btnNeededUser',
+  events: {
+    click: () => {
+    //   addUser();
+    }
+  }
+});
+
+const profileStr:string = `Профиль\u00A0\u279B`;
 const LinkChat = new Link({
   title: profileStr,
   class: 'chat__link',
@@ -71,8 +100,18 @@ const NewChatLink = new Link({
   title: newChatLinkText,
   class: 'chat__link',
   events: {
-    click: (e) => {
-      createNewChat(e);
+    click: () => {
+      toggleHiddensElem(document.getElementById('titleForChat'));
+    }
+  }
+});
+const usersLinkText: string = `Управление\u00A0\пользователями`
+const UsersMgmtLink = new Link({
+  title: usersLinkText,
+  class: 'chat__link',
+  events: {
+    click: () => {
+      toggleHiddensElem(document.getElementById('usersMgmt'));
     }
   }
 });
@@ -103,15 +142,98 @@ const InputMessageChat = new Input({
   }
 })
 
+const InputNewChatName = new Input({
+  inputType: 'text',
+  inputName: 'chatName',
+  placeHolderText: 'введите\u00A0имя\u00A0чата',
+  inputId: 'enterChatName',
+  class: 'chat__input-name',
+  events: {
+    blur: (e:any) => {
+      e.preventDefault();
+      setChatName(e);
+    }
+  }
+})
+
+const InputNeededChat = new Input({
+  inputType: 'text',
+  inputName: 'neededChatName',
+  placeHolderText: 'введите\u00A0имя\u00A0нужного\u00A0чата',
+  inputId: 'enterNeededChatName',
+  class: 'chat__input-name',
+  events: {
+    blur: (e:any) => {
+      e.preventDefault();
+      setNeededChatName(e);
+    }
+  }
+})
+
+const InputNeededUser = new Input({
+  inputType: 'text',
+  inputName: 'neededUserName',
+  placeHolderText: 'введите\u00A0имя\u00A0пользователей\u00A0через\u00A0запятую',
+  inputId: 'enterNeededUserName',
+  class: 'chat__input-name',
+  events: {
+    blur: (e:any) => {
+      e.preventDefault();
+      setNeededUserName(e);
+    }
+  }
+})
+
 function validator(field:string, value:string) {
   return field === 'message' ? !validations.validations.message(value) : null;
 }
 
-function createNewChat() {
-  const data:ChatCreateDataType = { title: 'new chat' };
-  chatController.createChat(JSON.stringify(data));
-  chatController.getChatList();
+let newChatTitle:string = 'New Chat';
+
+function setChatName(e:any) {
+  newChatTitle = e.target.value.trim();
 }
+
+let chatToAdd:number = null;
+function setNeededChatName(e) {
+  chatController.getChatList(0, 0, '').then(() => {
+    chatList.forEach((item:any) => {
+      if (item.title.trim() === e.target.value.trim()) {
+        chatToAdd = item.id;
+        return;
+      }
+    });
+    chatToAdd === null ? alert('Чата с таким именем не найдено, проверьте правильность написания.') : alert('Теперь выберите одного или нескольких пользователей (по одному, при помощи кнопки "Выбрать этого пользователя") для добавления/ удаления из выбранного чата. По завершении нажмите соответсвующую кнопку');
+  });
+}
+
+const usersToMgmt:number[] = [];
+let userObj:object;
+function setNeededUserName(e) {
+//   let currentUsersArr:string[] = e.target.value.split(',');
+  userController.searchUser(JSON.stringify({login: 'Squiorrpoo'}))
+// authController.getUser()
+//   currentUsersArr.forEach((item) => {
+//     console.log(item.trim())
+//   })
+}
+function toggleHiddensElem(elem) {
+  elem.style.display === 'flex' ? elem.style.display = 'none' : elem.style.display = 'flex';
+}
+
+function createChat() {
+  const data:ChatCreateDataType = { title: newChatTitle };
+  chatController.createChat(JSON.stringify(data)).then((result:any) => {
+    chatController.getChatList(0, 0, '');
+  });
+  toggleHiddensElem(document.getElementById('titleForChat'));
+  document.getElementById('enterChatName').value = '';
+}
+
+function addUserToChat() {
+  chatController.getChatList()
+}
+
 function onBlur(e:any) {
   showError('message', 'errorMessage', e, validator);
 }
@@ -130,7 +252,13 @@ class Chating extends Block {
       MessageCards,
       ResultCards,
       LinkChat,
-      NewChatLink
+      NewChatLink,
+      InputNewChatName,
+      CreateChatButton,
+      UsersMgmtLink,
+      InputNeededChat,
+      InputNeededUser,
+      BtnNeededUser,
     });
   }
 
@@ -144,6 +272,12 @@ class Chating extends Block {
       ResultCards: this.children.ResultCards,
       LinkChat: this.children.LinkChat,
       NewChatLink: this.children.NewChatLink,
+      InputNewChatName: this.children.InputNewChatName,
+      CreateChatButton: this.children.CreateChatButton,
+      UsersMgmtLink: this.children.UsersMgmtLink,
+      InputNeededChat: this.children.InputNeededChat,
+      InputNeededUser: this.children.InputNeededUser,
+      BtnNeededUser: this.children.BtnNeededUser,
     })
   }
 }

@@ -1,8 +1,20 @@
 <div class="chat">
     <aside class="chat__list">
+        <div class="chat__users-mgmt">
+            {{{ UsersMgmtLink }}}
+        </div>
+        <div id="usersMgmt" class="chat__users-mgmt-container">
+            {{{ InputNeededChat }}}
+            {{{ InputNeededUser }}}
+            {{{ BtnNeededUser }}}
+        </div>
         <div class="chat__links-container">
             <div>{{{ NewChatLink }}}</div>
             <div>{{{ LinkChat }}}</div>
+        </div>
+        <div id="titleForChat" class="chat__new-title">
+            {{{ InputNewChatName }}}
+            {{{ CreateChatButton }}}
         </div>
         <div class="chat__search">
             <input type="text" class="chat__search-input" placeholder="Поиск...">

@@ -33,6 +33,16 @@ class UserController {
     }
   }
 
+  async searchUser(data:object) {
+    try {
+      await this.api.searchUser(data).then((result:any) => {
+        console.log('//////////////////////', result);
+      });
+    } catch (e) {
+      console.log('Error updateProfile', e);
+    }
+  }
+
   async updateAva(data:any) {
     try {
       await this.api.updateAva(data).then((result:any) => {

@@ -21,6 +21,10 @@ class UserAPI {
       headers: { 'Content-Type': 'multipart/form-data' }
     });
   }
+
+  searchUser(data:any): Promise<unknown> {
+    return this.httpTransport.post('search', { data });
+  }
 }
 
 export default new UserAPI();

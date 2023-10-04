@@ -1,5 +1,6 @@
 import ChatAPI from '../api/chatApi';
 import { ChatCreateDataType } from '../helpers/constTypes';
+import chatList from '../data/chats';
 // import store from "../utils/Store";
 // import Router from '../utils/Router';
 
@@ -13,7 +14,13 @@ class ChatController {
 
   async getChatList(data:object) {
     try {
-      await this.api.getChatList(data);
+      await this.api.getChatList(data).then((result:any) => {
+        if (chatList.length === 0) {
+          JSON.parse(result.response).forEach((item:any) => {
+            chatList.push(item);
+          });
+        }
+      });
     } catch (e) {
       console.log('Error getChatList', e);
     }
