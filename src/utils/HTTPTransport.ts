@@ -82,7 +82,6 @@ class HTTPTransport {
           ? `${url}${queryString(data)}`
           : url
       );
-      Object.keys(headers).length ? Object.keys(headers).forEach((key) => {xhr.setRequestHeader(key, headers[key])}) : xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
 
       xhr.onload = () => {
         resolve(xhr);
@@ -97,7 +96,10 @@ class HTTPTransport {
 
       if (isGet || !data) {
         xhr.send();
+      } else if (data instanceof FormData) {
+        xhr.send(data);
       } else {
+        Object.keys(headers).length ? Object.keys(headers).forEach((key:any) => { xhr.setRequestHeader(key, headers[key]) }) : xhr.setRequestHeader('Content-Type', 'application/json;charset=UTF-8');
         xhr.send(data);
       }
     });

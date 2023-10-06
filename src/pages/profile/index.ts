@@ -16,9 +16,12 @@ import UserController from '../../controllers/userController';
 
 const router = new Router();
 
+let currentAvaSrc:string;
+
 const AvaProfile = new Ava({
   class: 'ava',
   textClass: 'ava__text',
+  src: currentAvaSrc,
   events: {
     change: (e:any) => {
       onChange(e);
@@ -135,6 +138,7 @@ const ButtonProfile = new Button({
     },
   }
 });
+
 const LinkProfile = new Link({
   events: {
     click: () => {
@@ -142,6 +146,15 @@ const LinkProfile = new Link({
     }
   },
   title: 'Выйти из системы'
+});
+
+const LinkToMessenger = new Link({
+  events: {
+    click: () => {
+      router.go('/messenger');
+    }
+  },
+  title: 'Перейти на страницу чатов'
 });
 
 const LinkPasswordChange = new Link({
@@ -202,8 +215,9 @@ function onBlur(e:any) {
 function onChange(e:any) {
   const data:any = new FormData();
   data.append('avatar', e.target.files[0]);
-  //   currentFormProfile.avatar = e.target.value.replaceAll(/\\/g, '/');
-  UserController.updateAva(data);
+  UserController.updateAva(data).then(() => {
+    AuthController.getUser();
+  });
 }
 
 function logout() {
@@ -279,6 +293,7 @@ class Profile extends Block {
       ButtonProfile,
       LinkProfile,
       LinkPasswordChange,
+      LinkToMessenger
     })
   }
 
@@ -301,6 +316,7 @@ class Profile extends Block {
       ButtonProfile: this.children.ButtonProfile,
       LinkProfile: this.children.LinkProfile,
       LinkPasswordChange: this.children.LinkPasswordChange,
+      LinkToMessenger: this.children.LinkToMessenger
     });
   }
 }

@@ -271,10 +271,6 @@ function createChat() {
   document.getElementById('enterChatName').value = '';
 }
 
-function addUserToChat() {
-  chatController.getChatList()
-}
-
 function onBlur(e:any) {
   showError('message', 'errorMessage', e, validator);
 }

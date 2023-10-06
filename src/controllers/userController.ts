@@ -50,9 +50,8 @@ class UserController {
   async updateAva(data:any) {
     try {
       await this.api.updateAva(data).then((result:any) => {
-        console.log(result.response);
+        console.log(JSON.parse(result.response).avatar);
       });
-    //   alert('Аватар обновлён');
     } catch (e) {
       console.log('Error updateAva');
     }

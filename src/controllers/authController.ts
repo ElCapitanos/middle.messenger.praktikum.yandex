@@ -33,9 +33,11 @@ class AuthController {
 
   async getUser() {
     try {
-      const user = await this.api.getUser();
-      store.set('user', user);
-      return user;
+      await this.api.getUser().then((result:any) => {
+        console.log(JSON.parse('AuthController, result.response', result.response));
+      });
+    //   store.set('user', user);
+    //   return user;
     } catch (e) {
       console.log('Error getUser', e);
     }
