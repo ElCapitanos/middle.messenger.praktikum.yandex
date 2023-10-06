@@ -15,9 +15,9 @@ import Link from '../../components/link/index';
 import Button from '../../components/button/index';
 import chatController from '../../controllers/chatController';
 import userController from '../../controllers/userController';
-import authController from '../../controllers/authController';
 import { ChatCreateDataType } from '../../helpers/constTypes';
 import chatList from '../../data/chats';
+import userList from '../../data/userList';
 
 const router = new Router();
 
@@ -75,11 +75,33 @@ const CreateChatButton = new Button({
 const BtnNeededUser = new Button({
   class: 'chat__add-btn',
   type: 'button',
-  label: 'Выбрать этого пользователя',
+  label: 'Продолжить',
   id: 'btnNeededUser',
   events: {
     click: () => {
-    //   addUser();
+      toggleHiddensElem(document.getElementById('BtnsToMgmt'));
+    }
+  }
+});
+const BtnToRemove = new Button({
+  class: 'chat__add-btn',
+  type: 'button',
+  label: 'Удалить пользователя',
+  id: 'btnToRemoveUser',
+  events: {
+    click: () => {
+      usersChatMgmt('del');
+    }
+  }
+});
+const BtnToAdd = new Button({
+  class: 'chat__add-btn',
+  type: 'button',
+  label: 'Добавить пользователя',
+  id: 'btnToAddUser',
+  events: {
+    click: () => {
+      usersChatMgmt('add');
     }
   }
 });
@@ -194,30 +216,49 @@ function setChatName(e:any) {
   newChatTitle = e.target.value.trim();
 }
 
-let chatToAdd:number = null;
-function setNeededChatName(e) {
+let chatToAdd:number = 0;
+let chatToAddName:string = '';
+function setNeededChatName(e:any) {
+  chatToAdd = 0;
   chatController.getChatList(0, 0, '').then(() => {
     chatList.forEach((item:any) => {
-      if (item.title.trim() === e.target.value.trim()) {
+      if (item.title.trim().toLowerCase() === e.target.value.trim().toLowerCase()) {
         chatToAdd = item.id;
+        chatToAddName = item.title.trim();
         return;
       }
     });
-    chatToAdd === null ? alert('Чата с таким именем не найдено, проверьте правильность написания.') : alert('Теперь выберите одного или нескольких пользователей (по одному, при помощи кнопки "Выбрать этого пользователя") для добавления/ удаления из выбранного чата. По завершении нажмите соответсвующую кнопку');
+    let messageToAlert:string = 'Теперь введите в соотв. поле имена пользователей (через запятую), которых вы хотите добавить в чат "' + chatToAddName + '"';
+    chatToAdd === 0 ? alert('Чата с таким именем не найдено, проверьте правильность написания.') : alert(messageToAlert);
   });
 }
 
 const usersToMgmt:number[] = [];
-let userObj:object;
 function setNeededUserName(e) {
-//   let currentUsersArr:string[] = e.target.value.split(',');
-  userController.searchUser(JSON.stringify({login: 'Squiorrpoo'}))
-// authController.getUser()
-//   currentUsersArr.forEach((item) => {
-//     console.log(item.trim())
-//   })
+  let currentUsersArr:string[] = e.target.value.split(',');
+  currentUsersArr.forEach((item) => {
+    userController.searchUser(JSON.stringify({login: item.trim()})).then(() => {
+      if (userList[0].login === item) {
+        usersToMgmt.push(userList[0].id);
+      }
+    });
+  });
 }
-function toggleHiddensElem(elem) {
+
+function usersChatMgmt(action:string) {
+  if (!usersToMgmt.length || !chatToAdd) {
+    alert('Чат и (или) пользователи не найдены');
+  } else {
+    const data:object = { users: usersToMgmt, chatId: chatToAdd };
+    if (action === 'del') {
+      chatController.removeUsersFromChat(data);
+    } else {
+      chatController.addUsersToChat(data);
+    }
+  }
+}
+
+function toggleHiddensElem(elem:HTMLElement) {
   elem.style.display === 'flex' ? elem.style.display = 'none' : elem.style.display = 'flex';
 }
 
@@ -259,6 +300,8 @@ class Chating extends Block {
       InputNeededChat,
       InputNeededUser,
       BtnNeededUser,
+      BtnToRemove,
+      BtnToAdd
     });
   }
 
@@ -278,6 +321,8 @@ class Chating extends Block {
       InputNeededChat: this.children.InputNeededChat,
       InputNeededUser: this.children.InputNeededUser,
       BtnNeededUser: this.children.BtnNeededUser,
+      BtnToRemove: this.children.BtnToRemove,
+      BtnToAdd: this.children.BtnToAdd
     })
   }
 }

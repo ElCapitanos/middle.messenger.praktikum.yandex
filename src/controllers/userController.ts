@@ -1,5 +1,6 @@
 import UserAPI from '../api/userApi';
 import Router from '../utils/Router';
+import userList from '../data/userList';
 
 const router = new Router();
 class UserController {
@@ -36,7 +37,10 @@ class UserController {
   async searchUser(data:object) {
     try {
       await this.api.searchUser(data).then((result:any) => {
-        console.log('//////////////////////', result);
+        userList.length = 0;
+        JSON.parse(result.response).forEach((item:any) => {
+          userList.push(item);
+        });
       });
     } catch (e) {
       console.log('Error updateProfile', e);

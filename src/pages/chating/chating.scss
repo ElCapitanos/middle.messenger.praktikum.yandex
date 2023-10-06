@@ -236,6 +236,13 @@
     flex-direction: column;
 }
 
+.chat__users-mgmt-btns {
+    display: none;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .chat__input-name {
     width: 300px !important;
     height: 30px;
