@@ -32,17 +32,17 @@ class ChatController {
     }
   }
 
-  async addUsersToChat() {
+  async addUsersToChat(data:object) {
     try {
-      await this.api.addUsersToChat();
+      await this.api.addUsersToChat(data);
     } catch (e) {
       console.log('Error addUsersToChat', e);
     }
   }
 
-  async removeUsersFromChat() {
+  async removeUsersFromChat(data:object) {
     try {
-      await this.api.removeUsersFromChat();
+      await this.api.removeUsersFromChat(data);
     } catch (e) {
       console.log('Error removeUsersFromChat', e);
     }

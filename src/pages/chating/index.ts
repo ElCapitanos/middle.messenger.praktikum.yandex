@@ -251,9 +251,9 @@ function usersChatMgmt(action:string) {
   } else {
     const data:object = { users: usersToMgmt, chatId: chatToAdd };
     if (action === 'del') {
-      chatController.removeUsersFromChat(data);
+      chatController.removeUsersFromChat(JSON.stringify(data));
     } else {
-      chatController.addUsersToChat(data);
+      chatController.addUsersToChat(JSON.stringify(data));
     }
   }
 }
