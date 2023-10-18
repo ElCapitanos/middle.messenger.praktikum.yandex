@@ -1,10 +1,12 @@
 import UserAPI from '../api/userApi';
 import Router from '../utils/Router';
 import userList from '../data/userList';
+import { URL_FOR_AVA } from '../helpers/constAPI';
 
 const router = new Router();
 class UserController {
   private api:any;
+  public avaSrc:string = '';
 
   constructor() {
     this.api = UserAPI;
@@ -18,7 +20,6 @@ class UserController {
           alert('Пароль успешно изменен');
         } else { alert('Что-то пошло не так'); }
       });
-    //   alert('Пароль обновлён');
     } catch (e) {
       console.log('Error updatePassword ', e);
     }
@@ -50,7 +51,7 @@ class UserController {
   async updateAva(data:any) {
     try {
       await this.api.updateAva(data).then((result:any) => {
-        console.log(JSON.parse(result.response).avatar);
+        this.avaSrc = URL_FOR_AVA + JSON.parse(result.response).avatar;
       });
     } catch (e) {
       console.log('Error updateAva');

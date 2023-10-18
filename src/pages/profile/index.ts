@@ -16,7 +16,7 @@ import UserController from '../../controllers/userController';
 
 const router = new Router();
 
-let currentAvaSrc:string;
+let currentAvaSrc:string = '';
 
 const AvaProfile = new Ava({
   class: 'ava',
@@ -190,7 +190,7 @@ const currentFormProfile:StringObject = {
   phone: '',
   email: '',
   display_name: '',
-  avatar: ''
+  avatar: currentAvaSrc
 };
 
     //@ts-ignore
@@ -216,7 +216,9 @@ function onChange(e:any) {
   const data:any = new FormData();
   data.append('avatar', e.target.files[0]);
   UserController.updateAva(data).then(() => {
-    AuthController.getUser();
+    currentAvaSrc = UserController.avaSrc;
+    AvaProfile.setProps({src: currentAvaSrc});
+    currentFormProfile.avatar = currentAvaSrc;
   });
 }
 
@@ -261,13 +263,7 @@ function onSubmit(e:any) { // по клику генерируется submit
   });
   if (validErrorCounter === 0) {
     UserController.updateProfile(JSON.stringify(currentFormProfile));
-    // if (currentFormProfile.avatar) {
-    //   UserController.updateAva(JSON.stringify(currentFormProfile));
-    // }
   }
-//   if (currentFormProfile.avatar) {
-//     UserController.updateAva(JSON.stringify(currentFormProfile));
-//   }
 }
 
 class Profile extends Block {

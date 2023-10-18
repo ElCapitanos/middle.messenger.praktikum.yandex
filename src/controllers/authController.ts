@@ -1,5 +1,4 @@
 import AuthAPI from '../api/authApi';
-import store from '../utils/store';
 import Router from '../utils/Router';
 
 const router = new Router();
@@ -25,7 +24,6 @@ class AuthController {
       await this.api.signUp(data).then((result:any) => {
         result.response.includes("id") ? router.go('/messenger') : alert('Что-то пошло не так');
       });
-    //   await this.getUser();
     } catch (e) {
       console.log('Error signUp', e);
     }
@@ -34,10 +32,8 @@ class AuthController {
   async getUser() {
     try {
       await this.api.getUser().then((result:any) => {
-        console.log(JSON.parse('AuthController, result.response', result.response));
+        console.log(JSON.parse(result.response));
       });
-    //   store.set('user', user);
-    //   return user;
     } catch (e) {
       console.log('Error getUser', e);
     }
