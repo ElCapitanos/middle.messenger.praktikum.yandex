@@ -2,20 +2,20 @@
 import stringObject from '../helpers/constTypes';
 
 const currentUsers: { name: string, lastText: string, lastDate: string, messageAmount: number, avaSrc: string, active?: boolean, messages?: Array<stringObject> }[] = [
-  // {
-  //   name: "Д'Артаньян",
-  //   lastText: 'Каналья, тысяча чертей!',
-  //   lastDate: '20.02.2023',
-  //   messageAmount: 0,
-  //   avaSrc: 'https://bookmix.ru/notes/images/3/3/8/notes_1588703519.jpg'
-  // },
-  // {
-  //   name: 'Котики',
-  //   lastText: 'Мур-мур-мур, мяу-мяу',
-  //   lastDate: '20.02.2023',
-  //   messageAmount: 2,
-  //   avaSrc: 'https://memepedia.ru/wp-content/uploads/2017/04/%D0%BC%D0%B0%D0%BD%D1%83%D0%BB.jpg'
-  // },
+  {
+    name: "Д'Артаньян",
+    lastText: 'Каналья, тысяча чертей!',
+    lastDate: '20.02.2023',
+    messageAmount: 0,
+    avaSrc: 'https://bookmix.ru/notes/images/3/3/8/notes_1588703519.jpg'
+  },
+  {
+    name: 'Котики',
+    lastText: 'Мур-мур-мур, мяу-мяу',
+    lastDate: '20.02.2023',
+    messageAmount: 2,
+    avaSrc: 'https://memepedia.ru/wp-content/uploads/2017/04/%D0%BC%D0%B0%D0%BD%D1%83%D0%BB.jpg'
+  },
   {
     name: 'Гомер',
     lastText: 'М-м-м-м... пончики...',

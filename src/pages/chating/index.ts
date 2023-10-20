@@ -18,6 +18,9 @@ import userController from '../../controllers/userController';
 import { ChatCreateDataType } from '../../helpers/constTypes';
 import chatList from '../../data/chats';
 import userList from '../../data/userList';
+import isEqual from '../../utils/isEqual';
+import store from '../../utils/store';
+import withChats from '../../utils/useStore';
 
 const router = new Router();
 
@@ -26,39 +29,62 @@ const MessageCards:Array<any> = [];
 
 let activeItemAva:string = '';
 let activeItemName:string = '';
+let chats:Array<any> = [];
 
-users.currentUsers.forEach((item:any) => {
-  if (item.active) {
-    activeItemAva = item.avaSrc;
-    activeItemName = item.name;
-    item.messages?.forEach((msg:any) => {
-      if (msg.own) {
-        const newMsg = new Message({
-          text: msg.own,
-          time: msg.time,
-          class: 'main__text_right'
-        });
-        MessageCards.push(newMsg);
-      } else {
-        const newMsg = new Message({
-          text: msg.else,
-          time: msg.time,
-          class: 'main__text_left'
-        });
-        MessageCards.push(newMsg);
-      }
-    });
-  }
+
+chats.forEach((item:any) => {
   const card = new Card({
-    name: item.name,
-    text: item.lastText,
-    date: item.lastDate,
-    amount: item.messageAmount,
-    ava: item.avaSrc,
-    active: item.active,
+    name: item.title
   });
   ResultCards.push(card);
 });
+
+// chatController.getChatList(0, 0, '').then(() => {
+//   chats = store.getState().chats; // тут всё норм
+//   if (ResultCards.length !== chats.length) {
+//     ResultCards.length = 0;
+//     chats.forEach((item:any) => {
+//       const card = new Card({
+//       });
+//       card.setProps({ name: item.title });
+//       ResultCards.push(card);
+//     });
+//   }
+// });
+
+  // users.currentUsers.forEach((item:any) => {
+  //   if (item.active) {
+  //     activeItemAva = item.avaSrc;
+  //     activeItemName = item.name;
+  //     item.messages?.forEach((msg:any) => {
+  //       if (msg.own) {
+  //         const newMsg = new Message({
+  //           text: msg.own,
+  //           time: msg.time,
+  //           class: 'main__text_right'
+  //         });
+  //         MessageCards.push(newMsg);
+  //       } else {
+  //         const newMsg = new Message({
+  //           text: msg.else,
+  //           time: msg.time,
+  //           class: 'main__text_left'
+  //         });
+  //         MessageCards.push(newMsg);
+  //       }
+  //     });
+  //   }
+  //   const card = new Card({
+  //     name: item.name,
+  //     text: item.lastText,
+  //     date: item.lastDate,
+  //     amount: item.messageAmount,
+  //     ava: item.avaSrc,
+  //     active: item.active,
+  //   });
+  //   ResultCards.push(card);
+  // });
+
 
 const CreateChatButton = new Button({
   class: 'chat__create-btn',
@@ -264,9 +290,16 @@ function toggleHiddensElem(elem:HTMLElement) {
 
 function createChat() {
   const data:ChatCreateDataType = { title: newChatTitle };
-  chatController.createChat(JSON.stringify(data)).then((result:any) => {
-    chatController.getChatList(0, 0, '');
-  });
+
+//   chatController.createChat(JSON.stringify(data)).then(() => {
+    chatController.getChatList(0, 0, '').then(() => {
+      const chats:Array<any> = store.getState().chats;
+        chats.forEach((item) => {
+          item.setProps({name: item.title});
+          ResultCards.push(item)
+        })
+    })
+//   });
   toggleHiddensElem(document.getElementById('titleForChat'));
   document.getElementById('enterChatName').value = '';
 }
@@ -323,4 +356,4 @@ class Chating extends Block {
   }
 }
 
-export default Chating;
+export default withChats(Chating);
