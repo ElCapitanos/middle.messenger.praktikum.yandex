@@ -24,7 +24,7 @@ function useStore(mapStateToProps: (state:Indexed) => Indexed) {
   };
 }
 const withUser = useStore((state) => ({ user: state.user }));
-export const withChats = useStore((state) => ({ chats: state.chats }))
+export const withChats = useStore((state) => ({ ResultCards: state.chats }))
 
 export default withUser;
 

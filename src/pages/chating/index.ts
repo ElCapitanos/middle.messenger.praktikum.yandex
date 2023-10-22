@@ -1,13 +1,13 @@
 import Ava from '../../components/ava/index';
 import temp from './chating.hbs';
 import Card from '../../components/chatCard/index';
-import users from '../../data/users';
+// import users from '../../data/users';
 import Subtitle from '../../components/subtitle/index';
 import Error from '../../components/error/index';
 import errorMsg from '../../data/errorMsg';
 import showError from '../../helpers/showError';
 import validations from '../../helpers/validation';
-import Message from '../../components/message/index';
+// import Message from '../../components/message/index';
 import Input from '../../components/inputs/index';
 import Block from '../../utils/Block';
 import Router from '../../utils/Router';
@@ -16,15 +16,15 @@ import Button from '../../components/button/index';
 import chatController from '../../controllers/chatController';
 import userController from '../../controllers/userController';
 import { ChatCreateDataType } from '../../helpers/constTypes';
-import chatList from '../../data/chats';
 import userList from '../../data/userList';
-import isEqual from '../../utils/isEqual';
+// import isEqual from '../../utils/isEqual';
 import store from '../../utils/store';
-import withChats from '../../utils/useStore';
+import { withChats } from '../../utils/useStore';
+
 
 const router = new Router();
 
-const ResultCards:Array<any> = [];
+const ResultCards:Array<any> = [{title: 1}, {title: 2}];
 const MessageCards:Array<any> = [];
 
 let activeItemAva:string = '';
@@ -32,21 +32,22 @@ let activeItemName:string = '';
 let chats:Array<any> = [];
 
 
-chats.forEach((item:any) => {
-  const card = new Card({
-    name: item.title
-  });
-  ResultCards.push(card);
-});
+// chats.forEach((item:any) => {
+//   const card = new Card({
+//     name: item.title
+//   });
+//   ResultCards.push(card);
+// });
 
 // chatController.getChatList(0, 0, '').then(() => {
-//   chats = store.getState().chats; // тут всё норм
+//   chats = store.getState().chats;
 //   if (ResultCards.length !== chats.length) {
 //     ResultCards.length = 0;
 //     chats.forEach((item:any) => {
 //       const card = new Card({
+//         name: item.title
 //       });
-//       card.setProps({ name: item.title });
+//       // card.setProps({ name: item.title });
 //       ResultCards.push(card);
 //     });
 //   }
@@ -340,8 +341,8 @@ class Chating extends Block {
       ErrorMessageChat: this.children.ErrorMessageChat,
       SubtitleChat: this.children.SubtitleChat,
       InputMessageChat: this.children.InputMessageChat,
-      MessageCards: this.children.MessageCards,
-      ResultCards: this.children.ResultCards,
+      MessageCards: this.children.MessageCards,//@ts-ignore
+      ResultCards: this.props.ResultCards,
       LinkChat: this.children.LinkChat,
       NewChatLink: this.children.NewChatLink,
       InputNewChatName: this.children.InputNewChatName,
