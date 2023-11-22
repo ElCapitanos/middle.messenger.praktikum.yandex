@@ -24,7 +24,7 @@ import { withChats } from '../../utils/useStore';
 
 const router = new Router();
 
-const ResultCards:Array<any> = [{title: 1}, {title: 2}];
+const ResultCards:Array<any> = [];
 const MessageCards:Array<any> = [];
 
 let activeItemAva:string = '';
@@ -38,20 +38,22 @@ let chats:Array<any> = [];
 //   });
 //   ResultCards.push(card);
 // });
-
-// chatController.getChatList(0, 0, '').then(() => {
-//   chats = store.getState().chats;
-//   if (ResultCards.length !== chats.length) {
-//     ResultCards.length = 0;
-//     chats.forEach((item:any) => {
-//       const card = new Card({
-//         name: item.title
-//       });
-//       // card.setProps({ name: item.title });
-//       ResultCards.push(card);
-//     });
-//   }
-// });
+let NewChatCard;
+chatController.getChatList(0, 0, '').then(() => {
+  chats = store.getState().chats;
+  if (ResultCards.length !== chats.length) {
+    ResultCards.length = 0;
+    chats.forEach((item:any) => {
+        // console.log('///////', item)
+        NewChatCard = new Card({
+            name: item.title,
+          });
+    //   card.setProps({ name: item.title });
+      ResultCards.push(NewChatCard);
+    });
+    console.log('!!!!!', ResultCards)
+  }
+});
 
   // users.currentUsers.forEach((item:any) => {
   //   if (item.active) {
@@ -292,15 +294,16 @@ function toggleHiddensElem(elem:HTMLElement) {
 function createChat() {
   const data:ChatCreateDataType = { title: newChatTitle };
 
-//   chatController.createChat(JSON.stringify(data)).then(() => {
+  chatController.createChat(JSON.stringify(data)).then(() => {
     chatController.getChatList(0, 0, '').then(() => {
       const chats:Array<any> = store.getState().chats;
+      console.log('chats', chats)
         chats.forEach((item) => {
-          item.setProps({name: item.title});
-          ResultCards.push(item)
+        //   item.setProps({name: item.title});
+          ResultCards.push(item);
         })
     })
-//   });
+  });
   toggleHiddensElem(document.getElementById('titleForChat'));
   document.getElementById('enterChatName').value = '';
 }
@@ -331,7 +334,8 @@ class Chating extends Block {
       InputNeededUser,
       BtnNeededUser,
       BtnToRemove,
-      BtnToAdd
+      BtnToAdd,
+      NewChatCard,
     });
   }
 
@@ -352,7 +356,8 @@ class Chating extends Block {
       InputNeededUser: this.children.InputNeededUser,
       BtnNeededUser: this.children.BtnNeededUser,
       BtnToRemove: this.children.BtnToRemove,
-      BtnToAdd: this.children.BtnToAdd
+      BtnToAdd: this.children.BtnToAdd,
+      NewChatCard: this.children.NewChatCard,
     })
   }
 }

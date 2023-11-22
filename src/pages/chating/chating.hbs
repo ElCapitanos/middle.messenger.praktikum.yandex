@@ -25,10 +25,9 @@
             <span class="chat__search-lense">&#128269;</span>
         </div>
         <div class="chat__cards">
-            {{ ResultCards }}
-                {{!-- {{#each ResultCards}}
-                    {{{this}}}
-                {{/each}} --}}
+                {{#each ResultCards}}
+                    {{ this }}
+                {{/each}}
         </div>
     </aside>
     <main class="main">
