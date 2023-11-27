@@ -1,4 +1,5 @@
 import { v4 as uuid4 } from 'uuid';
+import Handlebars from 'handlebars';
 import EventBus from './EventBus';
 import { PropsForComponent } from '../helpers/constTypes';
 
@@ -23,7 +24,9 @@ class Block {
     props: PropsForComponent;
   };
 
-  protected children: Record<string, Block | Block[]>;
+  protected children: any;
+
+  protected list: any;
 
   /** JSDoc
      * @param {string} tagName
@@ -33,12 +36,13 @@ class Block {
      */
   constructor(tagName: string = 'div', propsWithChildren:PropsForComponent = {}) {
     const eventBus = new EventBus();
-    const { props, children } = this._getChildrenAndProps(propsWithChildren);
+    const { props, children, list } = this._getChildrenAndProps(propsWithChildren);
     this._meta = {
       tagName,
       props,
     };
-    this.children = children;
+    this.children = this._makePropsProxy(children);
+    this.list = this._makePropsProxy(list);
     this.props = this._makePropsProxy(props);
     this.eventBus = () => eventBus;
     this._registerEvents(eventBus);
@@ -87,7 +91,19 @@ class Block {
       return;
     }
 
-    Object.assign(this.props, nextProps);
+    const { props, children, list } = this._getChildrenAndProps(nextProps);
+
+    if (Object.values(children).length) {
+      Object.assign(this.children, children);
+    }
+
+    if (Object.values(list).length) {
+      Object.assign(this.list, list);
+    }
+
+    if (Object.values(props).length) {
+      Object.assign(this.props, props);
+    }
   };
 
   getProps():PropsForComponent {
@@ -188,55 +204,66 @@ class Block {
   _getChildrenAndProps(childrenAndProps:PropsForComponent) {
     const props:PropsForComponent = {};
     const children: Record<string, Block | Block[]> = {};
+    const list: any = {};
 
     Object.entries(childrenAndProps).forEach(([key, value]) => {
-      if (value instanceof Block || (Array.isArray(value) && value[0] instanceof Block)) {
+      if (value instanceof Block) {
         children[key] = value;
+      } else if (Array.isArray(value) && value[0] instanceof Block) {
+        list[key] = value;
       } else {//@ts-ignore
         props[key] = value;
       }
     });
 
-    return { props, children };
+    return { props, children, list };
   }
 
-  compile(template: (context: any) => string, context: any) {
-    const contextAndPlugs = { ...context };
-    Object.entries(this.children).forEach(([name, component]) => {
-      if (Array.isArray(component)) {
-        const result: string[] = [];
-        component.forEach((item) => { result.push(`<div data-id="${item.id}"></div>`); });
-        contextAndPlugs[name] = result;
-      } else {
-        contextAndPlugs[name] = `<div data-id="${component.id}"></div>`;
+  compile(template: (props: any) => string, props: any) {
+    if (typeof props === 'undefined') {
+      props = this._makePropsProxy;
+    }
+
+    const propsAndStubs = { ...props };
+
+    Object.entries(this.children).forEach(([name, child]) => {
+      propsAndStubs[name] = `<div data-id="${child.id}"></div>`;
+    });
+    Object.entries(this.list).forEach(([name, child]) => {
+      propsAndStubs[name] = `<div data-id="___l_${child}"></div>`;
+    });
+
+    const html:any = template(propsAndStubs);
+    const temp:HTMLTemplateElement = document.createElement('template');
+    temp.innerHTML = (typeof html === 'string') ? html.split(',').join('') : html; // чтобы запятые при выводе из массива не отображались
+    // temp.innerHTML = Handlebars.compile(template)(propsAndStubs);
+
+    Object.values(this.children).forEach((child) => {
+      const stub = temp.content.querySelector(`[data-id="${child._id}"]`);
+      if (stub) {
+        stub.replaceWith(child.getContent());
       }
     });
 
-    const html:any = template(contextAndPlugs);
-    const temp:HTMLTemplateElement = document.createElement('template');
-    temp.innerHTML = (typeof html === 'string') ? html.split(',').join('') : html; // чтобы запятые при выводе из массива не отображались
-
-    Object.entries(this.children).forEach(([, component]) => {
-      if (Array.isArray(component)) {
-        component.forEach((item) => {//@ts-ignore
-          Block.renderPlug(item, temp);
-        });
-      } else {//@ts-ignore
-        Block.renderPlug(component, temp);
+    Object.entries(this.list).forEach(([key, child]) => {
+      const stub = temp.content.querySelector(`[data-id="___l_${key}"]`);
+      if (!stub) {
+        return;
       }
+
+      const listContent = this._createDocumentElement('template');
+
+      child.forEach((item:any) => {
+        if (item instanceof Block) {
+          listContent.content.append(item.getContent());
+        } else {
+          listContent.content.append(`${item}`);
+        }
+      });
+      stub.replaceWith(listContent.content);
     });
 
     return temp.content;
-  }
-
-  static renderPlug(component: Block, temp: HTMLTemplateElement) {
-    const plug = temp.content.querySelector(`[data-id="${component.id}"]`);
-
-    if (!plug) {
-      return;
-    }
-//@ts-ignore
-    plug.replaceWith(component.getContent());
   }
 }
 

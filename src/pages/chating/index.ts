@@ -38,7 +38,7 @@ let chats:Array<any> = [];
 //   });
 //   ResultCards.push(card);
 // });
-let NewChatCard;
+let NewChatCard = new Card({});
 chatController.getChatList(0, 0, '').then(() => {
   chats = store.getState().chats;
   if (ResultCards.length !== chats.length) {
