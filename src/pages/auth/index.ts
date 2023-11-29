@@ -14,6 +14,8 @@ import withUser from '../../utils/useStore';
 
 const router = new Router();
 
+AuthController.getUser();
+
 const InputAuth = new Input({
   inputType: 'text',
   inputName: 'login',

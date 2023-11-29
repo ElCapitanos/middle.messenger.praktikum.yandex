@@ -12,7 +12,7 @@ class AuthController {
   async signIn(data:object) {
     try {
       await this.api.signIn(data).then((result:any) => {
-        result.response === 'OK' ? router.go('/messenger') : alert('Что-то пошло не так');
+        result.response === 'OK' ? router.go('/messenger') : alert('Что-то пошло не так' + result.response);
       });
     } catch (e) {
       console.log('Error signIn', e);
@@ -22,7 +22,7 @@ class AuthController {
   async signUp(data:any) {
     try {
       await this.api.signUp(data).then((result:any) => {
-        result.response.includes("id") ? router.go('/messenger') : alert('Что-то пошло не так');
+        result.response.includes("id") ? router.go('/messenger') : alert('Что-то пошло не так' + result.response);
       });
     } catch (e) {
       console.log('Error signUp', e);

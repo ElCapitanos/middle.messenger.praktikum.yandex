@@ -15,12 +15,12 @@ class ChatController {
   async getChatList(data:object) {
     try {
       await this.api.getChatList(data).then((result:any) => {
-        const chatList:Array<any> = []
-        // chatList.length = 0;
+        const chatList:Array<any> = [];
+        chatList.length = 0;
         JSON.parse(result.response).forEach((item:any) => {
           chatList.push(item);
         });
-        store.set('chats', chatList)
+        store.set('chats', chatList);
       });
     } catch (e) {
       console.log('Error getChatList', e);
