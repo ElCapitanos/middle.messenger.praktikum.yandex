@@ -2,7 +2,7 @@ import ChatAPI from '../api/chatApi';
 import { ChatCreateDataType } from '../helpers/constTypes';
 // import chatList from '../data/chats';
 // import Router from '../utils/Router';
-import store from '../utils/store'
+import store from '../utils/store';
 
 // const router = new Router();
 class ChatController {
@@ -17,10 +17,12 @@ class ChatController {
       await this.api.getChatList(data).then((result:any) => {
         const chatList:Array<any> = [];
         chatList.length = 0;
+        if (Array.isArray(JSON.parse(result.response))) {
         JSON.parse(result.response).forEach((item:any) => {
           chatList.push(item);
         });
         store.set('chats', chatList);
+      }
       });
     } catch (e) {
       console.log('Error getChatList', e);

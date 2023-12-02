@@ -9,27 +9,27 @@ export default class Input extends Block {
   }
 
   render() {
-    return this._props.inputType !== 'password'
+    return this.props.inputType !== 'password'
       ? this.compile(input, {//@ts-ignore
-        inputType: this._props.inputType,//@ts-ignore
-        inputName: this._props.inputName,//@ts-ignore
-        placeHolderText: this._props.placeHolderText,//@ts-ignore
-        inputId: this._props.inputId,//@ts-ignore
-        events: this._props.events,//@ts-ignore
-        class: this._props.class ? this._props.class : 'input'
+        inputType: this.props.inputType,//@ts-ignore
+        inputName: this.props.inputName,//@ts-ignore
+        placeHolderText: this.props.placeHolderText,//@ts-ignore
+        inputId: this.props.inputId,//@ts-ignore
+        events: this.props.events,//@ts-ignore
+        class: this.props.class ? this.props.class : 'input'
       })
       : this.compile(password, {//@ts-ignore
-        inputType: this._props.inputType,//@ts-ignore
-        inputName: this._props.inputName,//@ts-ignore
-        placeHolderText: this._props.placeHolderText,//@ts-ignore
-        inputId: this._props.inputId,//@ts-ignore
-        events: this._props.events,//@ts-ignore
-        class: this._props.class ? this._props.class : 'input'
+        inputType: this.props.inputType,//@ts-ignore
+        inputName: this.props.inputName,//@ts-ignore
+        placeHolderText: this.props.placeHolderText,//@ts-ignore
+        inputId: this.props.inputId,//@ts-ignore
+        events: this.props.events,//@ts-ignore
+        class: this.props.class ? this.props.class : 'input'
       });
   }
 
   _addEvents() {//@ts-ignore
-    const { events = { } } = this._props;//@ts-ignore
+    const { events = { } } = this.props;//@ts-ignore
     this._element?.querySelectorAll('input').forEach((item:any) => {
       for (let e in events)//@ts-ignore
       item.addEventListener(e, events[e]);
@@ -37,7 +37,7 @@ export default class Input extends Block {
   }
 
   _removeEvents() {//@ts-ignore
-    const { events = { } } = this._props;//@ts-ignore
+    const { events = { } } = this.props;//@ts-ignore
     this._element?.querySelectorAll('input').forEach((item:any) => {
       for (let e in events)//@ts-ignore
       item.removeEventListener(e, events[e]);

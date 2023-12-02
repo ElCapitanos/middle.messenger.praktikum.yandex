@@ -1,5 +1,6 @@
 import AuthAPI from '../api/authApi';
 import Router from '../utils/Router';
+import store from '../utils/store';
 
 const router = new Router();
 class AuthController {
@@ -32,7 +33,8 @@ class AuthController {
   async getUser() {
     try {
       await this.api.getUser().then((result:any) => {
-        console.log(JSON.parse(result.response));
+        store.set('currentUser', JSON.parse(result.response));
+        // console.log(JSON.parse(result.response));
       });
     } catch (e) {
       console.log('Error getUser', e);

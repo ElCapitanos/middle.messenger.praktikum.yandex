@@ -12,6 +12,9 @@ import temp from './passwordChange.hbs';
 import AuthController from '../../controllers/authController';
 import UserController from '../../controllers/userController';
 import { StringObject } from '../../helpers/constTypes';
+import toAuth from '../../helpers/toAuth';
+
+toAuth();
 
 const router = new Router();
 

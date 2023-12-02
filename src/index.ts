@@ -18,5 +18,4 @@ window.addEventListener('DOMContentLoaded', async () => {
   router.use('/404', Error404);
   router.use('/500', Error500);
   router.start();
-
 });

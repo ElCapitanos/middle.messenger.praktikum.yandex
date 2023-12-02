@@ -11,10 +11,12 @@ import Block from '../../utils/Block';
 import temp from './auth.hbs';
 import AuthController from '../../controllers/authController';
 import withUser from '../../utils/useStore';
+import toAuth from '../../helpers/toAuth';
+
+toAuth();
 
 const router = new Router();
 
-AuthController.getUser();
 
 const InputAuth = new Input({
   inputType: 'text',

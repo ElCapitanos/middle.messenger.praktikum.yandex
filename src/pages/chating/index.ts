@@ -20,7 +20,9 @@ import userList from '../../data/userList';
 // import isEqual from '../../utils/isEqual';
 import store from '../../utils/store';
 import { withChats } from '../../utils/useStore';
+import toAuth from '../../helpers/toAuth';
 
+toAuth();
 
 const router = new Router();
 
@@ -41,7 +43,7 @@ let chats:Array<any> = [];
 let NewChatCard = new Card({});
 chatController.getChatList(0, 0, '').then(() => {
   chats = store.getState().chats;
-  if (ResultCards.length !== chats.length) {
+  if (chats?.length && ResultCards.length !== chats.length) {
     ResultCards.length = 0;
     chats.forEach((item:any) => {
         // console.log('///////', item)
