@@ -1,10 +1,11 @@
 import AuthController from "../controllers/authController";
 import store from "../utils/store";
 import Router from "../utils/Router";
+import pages from '../data/pagesURL';
 
-const pages:Array<string> = ['/password-change', '/messenger', '/sign-up', '/settings', '/500']
+
 const router = new Router();
-const toAuth = () => {
+const correctRoute = () => {
     AuthController.getUser().then(() => {
         const path = window.location.pathname;//@ts-ignore
         const user = store.getState().currentUser;
@@ -14,4 +15,4 @@ const toAuth = () => {
       });
 }
 
-export default toAuth;
+export default correctRoute;

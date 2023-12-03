@@ -34,7 +34,6 @@ class AuthController {
     try {
       await this.api.getUser().then((result:any) => {
         store.set('currentUser', JSON.parse(result.response));
-        // console.log(JSON.parse(result.response));
       });
     } catch (e) {
       console.log('Error getUser', e);

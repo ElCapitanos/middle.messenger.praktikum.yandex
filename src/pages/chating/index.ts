@@ -20,9 +20,9 @@ import userList from '../../data/userList';
 // import isEqual from '../../utils/isEqual';
 import store from '../../utils/store';
 import { withChats } from '../../utils/useStore';
-import toAuth from '../../helpers/toAuth';
+import correctRoute from '../../helpers/correctRoute';
 
-toAuth();
+correctRoute();
 
 const router = new Router();
 
@@ -34,26 +34,18 @@ let activeItemName:string = '';
 let chats:Array<any> = [];
 
 
-// chats.forEach((item:any) => {
-//   const card = new Card({
-//     name: item.title
-//   });
-//   ResultCards.push(card);
-// });
 let NewChatCard = new Card({});
 chatController.getChatList(0, 0, '').then(() => {
   chats = store.getState().chats;
   if (chats?.length && ResultCards.length !== chats.length) {
     ResultCards.length = 0;
     chats.forEach((item:any) => {
-        // console.log('///////', item)
         NewChatCard = new Card({
             name: item.title,
+            text: item.created_by,
           });
-    //   card.setProps({ name: item.title });
       ResultCards.push(NewChatCard);
     });
-    console.log('!!!!!', ResultCards)
   }
 });
 
@@ -299,14 +291,14 @@ function createChat() {
   chatController.createChat(JSON.stringify(data)).then(() => {
     chatController.getChatList(0, 0, '').then(() => {
       const chats:Array<any> = store.getState().chats;
-      console.log('chats', chats)
+      // console.log('chats', chats)
         chats.forEach((item) => {
-        //   item.setProps({name: item.title});
+          item.setProps({name: item.title});
           ResultCards.push(item);
         })
     })
-  });
-  toggleHiddensElem(document.getElementById('titleForChat'));
+  });//@ts-ignore
+  toggleHiddensElem(document.getElementById('titleForChat'));//@ts-ignore
   document.getElementById('enterChatName').value = '';
 }
 
@@ -337,7 +329,7 @@ class Chating extends Block {
       BtnNeededUser,
       BtnToRemove,
       BtnToAdd,
-      NewChatCard,
+      // NewChatCard,
     });
   }
 
@@ -359,7 +351,7 @@ class Chating extends Block {
       BtnNeededUser: this.children.BtnNeededUser,
       BtnToRemove: this.children.BtnToRemove,
       BtnToAdd: this.children.BtnToAdd,
-      NewChatCard: this.children.NewChatCard,
+      // NewChatCard: this.children.NewChatCard,
     })
   }
 }

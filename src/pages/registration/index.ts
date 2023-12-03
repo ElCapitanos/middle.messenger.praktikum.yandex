@@ -11,9 +11,9 @@ import Block from '../../utils/Block';
 import Router from '../../utils/Router';
 import temp from './registration.hbs';
 import AuthController from '../../controllers/authController';
-import toAuth from '../../helpers/toAuth';
+import correctRoute from '../../helpers/correctRoute';
 
-toAuth();
+correctRoute();
 
 const router = new Router();
 
