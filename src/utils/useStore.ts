@@ -23,6 +23,7 @@ function useStore(mapStateToProps: (state:Indexed) => Indexed) {
     };
   };
 }
+
 const withUser = useStore((state) => ({ user: state.user }));
 export const withChats = useStore((state) => ({ ResultCards: state.chats }))
 

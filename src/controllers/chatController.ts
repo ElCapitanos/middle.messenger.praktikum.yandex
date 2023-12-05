@@ -3,6 +3,7 @@ import { ChatCreateDataType } from '../helpers/constTypes';
 // import chatList from '../data/chats';
 // import Router from '../utils/Router';
 import store from '../utils/store';
+import Card from '../components/chatCard/index';
 
 // const router = new Router();
 class ChatController {
@@ -19,7 +20,11 @@ class ChatController {
         chatList.length = 0;
         if (Array.isArray(JSON.parse(result.response))) {
         JSON.parse(result.response).forEach((item:any) => {
-          chatList.push(item);
+          let NewChatCard = new Card({
+            name: item.title,
+            text: item.created_by,
+          });
+          chatList.push(NewChatCard);
         });
         store.set('chats', chatList);
       }

@@ -190,7 +190,6 @@ class Block {
     const children: Record<string, Block | Block[]> = {};
 
     Object.entries(childrenAndProps).forEach(([key, value]) => {
-      console.log(childrenAndProps)
       if (value instanceof Block || (Array.isArray(value) && value[0] instanceof Block)) {
         children[key] = value;
       } else {//@ts-ignore

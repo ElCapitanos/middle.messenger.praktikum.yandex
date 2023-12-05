@@ -23,7 +23,6 @@ import { withChats } from '../../utils/useStore';
 import correctRoute from '../../helpers/correctRoute';
 
 correctRoute();
-
 const router = new Router();
 
 const ResultCards:Array<any> = [];
@@ -31,20 +30,20 @@ const MessageCards:Array<any> = [];
 
 let activeItemAva:string = '';
 let activeItemName:string = '';
-let chats:Array<any> = [];
+// let chats:Array<any> = [];
+// let NewChatCard = new Card({});
 
-
-let NewChatCard = new Card({});
 chatController.getChatList(0, 0, '').then(() => {
-  chats = store.getState().chats;
-  if (chats?.length && ResultCards.length !== chats.length) {
-    ResultCards.length = 0;
-    chats.forEach((item:any) => {
-        NewChatCard = new Card({
-            name: item.title,
-            text: item.created_by,
-          });
-      ResultCards.push(NewChatCard);
+    const chats:Array<any> = store.getState().chats;
+
+    if (chats?.length && ResultCards.length !== chats.length) {
+      ResultCards.length = 0;
+      chats.forEach((item:any) => {
+        // let NewChatCard = new Card({
+        //   name: item.title,
+        //   text: item.created_by,
+        // });
+        ResultCards.push(item);
     });
   }
 });
@@ -291,7 +290,6 @@ function createChat() {
   chatController.createChat(JSON.stringify(data)).then(() => {
     chatController.getChatList(0, 0, '').then(() => {
       const chats:Array<any> = store.getState().chats;
-      // console.log('chats', chats)
         chats.forEach((item) => {
           item.setProps({name: item.title});
           ResultCards.push(item);
@@ -307,6 +305,7 @@ function onBlur(e:any) {
 }
 //@ts-ignore
 document.getElementById('mainChat') ? document.getElementById('mainChat').scrollTop = document.getElementById('mainChat')?.scrollHeight : null;
+
 class Chating extends Block {
   constructor() {
     super('div', {//@ts-ignore
@@ -329,7 +328,6 @@ class Chating extends Block {
       BtnNeededUser,
       BtnToRemove,
       BtnToAdd,
-      // NewChatCard,
     });
   }
 
@@ -351,7 +349,6 @@ class Chating extends Block {
       BtnNeededUser: this.children.BtnNeededUser,
       BtnToRemove: this.children.BtnToRemove,
       BtnToAdd: this.children.BtnToAdd,
-      // NewChatCard: this.children.NewChatCard,
     })
   }
 }
