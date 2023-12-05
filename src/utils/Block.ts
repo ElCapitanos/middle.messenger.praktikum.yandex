@@ -190,22 +190,28 @@ class Block {
     const children: Record<string, Block | Block[]> = {};
 
     Object.entries(childrenAndProps).forEach(([key, value]) => {
-      if (value instanceof Block || (Array.isArray(value) && value[0] instanceof Block)) {
+      if (value instanceof Block) {
         children[key] = value;
-      } else {//@ts-ignore
+      } else if(Array.isArray(value)) {
+        children[key] = value;
+      }  else {//@ts-ignore
         props[key] = value;
       }
     });
     
     return { props, children };
   }
-
+  
   compile(template: (context: any) => string, context: any) {
     const contextAndPlugs = { ...context };
     Object.entries(this.children).forEach(([name, component]) => {
       if (Array.isArray(component)) {
+        console.log('/*/**/', component)
+        console.log('/////', component.length)
         const result: string[] = [];
-        component.forEach((item) => { result.push(`<div data-id="${item.id}"></div>`); });
+        component.forEach((item) => { 
+          result.push(`<div data-id="${item.id}"></div>`); 
+        });
         contextAndPlugs[name] = result;
       } else {
         contextAndPlugs[name] = `<div data-id="${component.id}"></div>`;
