@@ -13,7 +13,6 @@ class Block {
   id = uuid4();
 
   props: PropsForComponent;
-
   private eventBus: () => EventBus;
 
   private _element: HTMLElement | null = null;
@@ -204,14 +203,14 @@ class Block {
   
   compile(template: (context: any) => string, context: any) {
     const contextAndPlugs = { ...context };
+    const result: string[] = [];
     Object.entries(this.children).forEach(([name, component]) => {
       if (Array.isArray(component)) {
-        console.log('/*/**/', component)
-        console.log('/////', component.length)
-        const result: string[] = [];
-        component.forEach((item) => { 
-          result.push(`<div data-id="${item.id}"></div>`); 
-        });
+        setTimeout(() => {
+            component.forEach((item:any) => { 
+                result.push(`<div data-id="${item.id}"></div>`); 
+            });
+        }, 400)
         contextAndPlugs[name] = result;
       } else {
         contextAndPlugs[name] = `<div data-id="${component.id}"></div>`;
@@ -221,12 +220,14 @@ class Block {
     const html:any = template(contextAndPlugs);
     const temp:HTMLTemplateElement = document.createElement('template');
     temp.innerHTML = (typeof html === 'string') ? html.split(',').join('') : html; // чтобы запятые при выводе из массива не отображались
-
+   
     Object.entries(this.children).forEach(([, component]) => {
       if (Array.isArray(component)) {
-        component.forEach((item) => {//@ts-ignore
-          Block.renderPlug(item, temp);
-        });
+        setTimeout(() => { 
+          component.forEach((item) => {//@ts-ignore
+            Block.renderPlug(item, temp);
+          });
+        }, 400)
       } else {//@ts-ignore
         Block.renderPlug(component, temp);
       }
